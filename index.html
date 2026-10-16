@@ -4,31 +4,33 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#1769ff">
-<meta name="description" content="Study AI — aprende, pratica e acompanha o teu progresso gratuitamente.">
-<title>Study AI — Aprende ao teu ritmo</title>
+<meta name="theme-color" content="#2675e8">
+<meta name="description" content="Study AI — aprende, pratica e melhora as tuas notas gratuitamente.">
+<title>Study AI — Aprende melhor</title>
 
 <style>
 :root {
-  --blue: #1769ff;
-  --blue-dark: #0f53d8;
-  --pale: #eaf1ff;
-  --bg: #f5f8ff;
-  --ink: #17233b;
-  --muted: #65748b;
-  --line: #dce6f7;
+  --blue: #2675e8;
+  --dark-blue: #1858b8;
+  --pale-blue: #eaf2ff;
+  --background: #f4f7fc;
+  --text: #172b4d;
+  --muted: #61718c;
+  --border: #dbe5f3;
   --white: #ffffff;
 }
 
 * {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--ink);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--background);
+  color: var(--text);
+  min-height: 100vh;
 }
 
 button, input, select, textarea {
@@ -37,125 +39,118 @@ button, input, select, textarea {
 
 button {
   cursor: pointer;
-  transition: 0.2s;
 }
 
-button:focus-visible,
-input:focus-visible,
-select:focus-visible {
-  outline: 3px solid #9cbcff;
+.app {
+  min-height: 100vh;
 }
 
 .sidebar {
+  width: 240px;
   position: fixed;
   inset: 0 auto 0 0;
-  width: 235px;
-  background: white;
-  border-right: 1px solid var(--line);
-  padding: 20px 14px;
+  z-index: 20;
+  padding: 22px 14px;
+  background: var(--white);
+  border-right: 1px solid var(--border);
   display: flex;
   flex-direction: column;
-  z-index: 10;
 }
 
 .brand {
-  font-size: 24px;
-  font-weight: 900;
-  padding: 8px 10px 25px;
   display: flex;
-  gap: 10px;
   align-items: center;
+  gap: 10px;
+  padding: 8px 10px 28px;
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--dark-blue);
 }
 
-.mark {
+.brand-dot {
+  width: 15px;
+  height: 15px;
   background: var(--blue);
-  color: white;
-  border-radius: 12px;
-  padding: 8px 12px;
+  border-radius: 50%;
 }
 
 .nav {
   display: grid;
-  gap: 6px;
+  gap: 7px;
 }
 
 .nav button {
+  width: 100%;
   border: 0;
   background: transparent;
+  color: #435574;
   text-align: left;
-  color: #53627a;
-  padding: 13px;
-  border-radius: 11px;
-  font-weight: bold;
-}
-
-.nav button.active,
-.nav button:hover {
-  background: var(--pale);
-  color: var(--blue);
-}
-
-.free {
-  margin-top: auto;
-  background: var(--pale);
-  color: var(--blue);
-  padding: 12px;
-  text-align: center;
+  padding: 13px 14px;
   border-radius: 12px;
+  font-weight: 700;
+  transition: background .2s, color .2s;
+}
+
+.nav button:hover,
+.nav button.active {
+  background: var(--pale-blue);
+  color: var(--dark-blue);
+}
+
+.nav button.active {
+  border-left: 3px solid var(--blue);
+}
+
+.free-label {
+  margin-top: auto;
+  background: linear-gradient(135deg, var(--blue), var(--dark-blue));
+  color: white;
+  border-radius: 13px;
+  padding: 13px;
+  text-align: center;
   font-size: 12px;
-  font-weight: bold;
+  font-weight: 800;
 }
 
 .content {
-  margin-left: 235px;
-  padding: 25px;
+  margin-left: 240px;
+  padding: 28px;
   min-height: 100vh;
 }
 
-.top {
-  max-width: 1100px;
-  margin: 0 auto 25px;
+.topbar {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 12px;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+
+.topbar strong {
+  color: var(--dark-blue);
 }
 
 .page {
   display: none;
   max-width: 1100px;
-  margin: auto;
-  animation: appear 0.25s;
+  margin: 0 auto;
 }
 
 .page.active {
   display: block;
 }
 
-@keyframes appear {
-  from {
-    opacity: 0;
-    transform: translateY(6px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
 h1 {
-  font-size: clamp(28px, 3vw, 36px);
-  margin: 0 0 10px;
-  letter-spacing: -1px;
+  font-size: 32px;
+  margin-bottom: 10px;
 }
 
 h2 {
   font-size: 21px;
-  margin: 0 0 10px;
+  margin-bottom: 10px;
 }
 
 h3 {
-  margin: 0 0 8px;
+  margin-bottom: 8px;
 }
 
 .sub {
@@ -163,241 +158,274 @@ h3 {
   line-height: 1.6;
 }
 
-.hero, .box, .card {
-  background: white;
-  border: 1px solid var(--line);
+.hero,
+.box,
+.card {
+  background: var(--white);
+  border: 1px solid var(--border);
   border-radius: 18px;
-  box-shadow: 0 12px 30px #174b980b;
+  box-shadow: 0 5px 20px rgba(28, 67, 125, .045);
 }
 
 .hero {
-  padding: 35px;
-  margin-bottom: 20px;
-  background: linear-gradient(120deg, white, #edf4ff);
+  padding: 32px;
+  margin-bottom: 22px;
+  background: linear-gradient(135deg, var(--pale-blue), white);
+}
+
+.hero h1 {
+  color: var(--dark-blue);
+  font-size: 36px;
+}
+
+.hero p {
+  max-width: 600px;
 }
 
 .cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
 }
 
 .card {
-  padding: 19px;
-  transition: 0.2s;
-}
-
-.card.clickable {
+  padding: 21px;
   cursor: pointer;
+  transition: transform .2s, border-color .2s;
 }
 
-.card.clickable:hover {
+.card:hover {
   transform: translateY(-3px);
-  border-color: #a9c4ff;
+  border-color: var(--blue);
 }
 
 .card p {
   color: var(--muted);
   font-size: 14px;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
-.icon {
-  font-size: 28px;
-  margin-bottom: 10px;
-}
-
-.number {
+.card-icon {
   font-size: 30px;
-  font-weight: 900;
+  margin-bottom: 12px;
 }
 
 .btn {
   border: 0;
-  border-radius: 11px;
   background: var(--blue);
   color: white;
-  padding: 12px 17px;
-  font-weight: bold;
-  margin-top: 12px;
+  padding: 12px 18px;
+  border-radius: 11px;
+  font-weight: 800;
+  margin-top: 16px;
+  transition: background .2s;
 }
 
 .btn:hover {
-  background: var(--blue-dark);
+  background: var(--dark-blue);
 }
 
-.secondary {
-  background: var(--pale);
-  color: var(--blue);
-  border: 1px solid #d7e4ff;
+.btn.secondary {
+  color: var(--dark-blue);
+  background: var(--pale-blue);
+}
+
+.btn:disabled {
+  opacity: .5;
+  cursor: not-allowed;
 }
 
 .box {
-  padding: 20px;
-  margin: 15px 0;
+  padding: 23px;
+  margin-top: 20px;
 }
 
-.row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  flex-wrap: wrap;
+label {
+  display: block;
+  margin: 14px 0 7px;
+  font-weight: 700;
+  color: #344968;
 }
 
-.field {
-  display: grid;
-  gap: 7px;
-  margin: 12px 0;
-}
-
-.field label {
-  font-weight: bold;
-  font-size: 14px;
-}
-
-.field input,
-.field select,
-.field textarea {
+input,
+select,
+textarea {
+  display: block;
   width: 100%;
-  border: 1px solid var(--line);
-  border-radius: 11px;
-  background: white;
   padding: 12px;
-  color: var(--ink);
+  border: 1px solid #cbd8ec;
+  border-radius: 10px;
+  background: white;
+  color: var(--text);
 }
 
-.two {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
+textarea {
+  resize: vertical;
+  min-height: 100px;
 }
 
-.pill {
-  display: inline-block;
-  background: var(--pale);
-  color: var(--blue);
-  font-weight: bold;
-  font-size: 12px;
-  padding: 5px 10px;
-  border-radius: 99px;
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid #a9caff;
+  border-color: var(--blue);
 }
 
-.progress {
+.number {
+  font-size: 31px;
+  font-weight: 900;
+  margin-top: 8px;
+}
+
+.progress-track {
   height: 10px;
-  background: #e9eff9;
+  background: #e1eaf7;
   border-radius: 99px;
   overflow: hidden;
-  margin: 10px 0;
+  margin-top: 13px;
 }
 
-.progress span {
-  display: block;
+.progress-fill {
   height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, #1769ff, #65a1ff);
-  transition: width 0.3s;
+  width: 0;
+  background: linear-gradient(90deg, var(--blue), #65a5ff);
+  transition: width .3s;
 }
 
 .question {
-  font-size: 20px;
-  font-weight: bold;
-  margin: 18px 0;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.5;
+  margin: 20px 0;
 }
 
 .answers {
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
+  margin-top: 15px;
 }
 
 .answer {
-  padding: 13px;
-  border: 1px solid var(--line);
-  border-radius: 12px;
+  border: 1px solid #cbd8ec;
   background: white;
-  text-align: left;
-}
-
-.answer.correct {
-  background: #e9f9f0;
-  border-color: #21a366;
-}
-
-.answer.wrong {
-  background: #fff0f0;
-  border-color: #e05252;
-}
-
-.feedback {
-  margin-top: 15px;
+  color: var(--text);
+  border-radius: 11px;
   padding: 14px;
-  border-radius: 12px;
-  background: var(--pale);
+  text-align: left;
+  font-weight: 700;
 }
 
-.feedback.good {
-  background: #e9f9f0;
+.answer:hover {
+  border-color: var(--blue);
+  background: var(--pale-blue);
 }
 
-.feedback.bad {
-  background: #fff0f0;
-}
-
-.hidden {
-  display: none !important;
-}
-
-.chat-log {
-  display: grid;
-  gap: 12px;
-  max-height: 420px;
-  overflow-y: auto;
-}
-
-.bubble {
-  padding: 13px;
-  border-radius: 14px;
-  max-width: 90%;
-  white-space: pre-wrap;
-}
-
-.bubble.ai {
-  background: #f0f5ff;
-  justify-self: start;
-}
-
-.bubble.me {
-  background: var(--blue);
-  color: white;
-  justify-self: end;
-}
-
-.chat-form {
-  display: flex;
-  gap: 8px;
-  margin-top: 14px;
-}
-
-.chat-form input {
-  flex: 1;
-  min-width: 0;
+.result {
+  margin-top: 15px;
+  line-height: 1.7;
+  font-weight: 700;
+  overflow-wrap: anywhere;
 }
 
 .muted {
   color: var(--muted);
 }
 
-.footer {
-  margin: 30px 0 10px;
+.setting {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 17px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.setting:last-child {
+  border-bottom: 0;
+}
+
+.switch {
+  display: inline-flex;
+  position: relative;
+  width: 48px;
+  height: 26px;
+  margin: 0;
+  flex: 0 0 auto;
+}
+
+.switch input {
+  width: 0;
+  height: 0;
+  opacity: 0;
+}
+
+.switch span {
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  background: #cbd6e6;
+  cursor: pointer;
+}
+
+.switch span::before {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  left: 3px;
+  top: 3px;
+  background: white;
+  border-radius: 50%;
+  transition: transform .2s;
+}
+
+.switch input:checked + span {
+  background: var(--blue);
+}
+
+.switch input:checked + span::before {
+  transform: translateX(22px);
+}
+
+.music-box {
   text-align: center;
-  color: #8995a8;
+  padding: 35px 20px;
+}
+
+.music-circle {
+  display: grid;
+  place-items: center;
+  width: 110px;
+  height: 110px;
+  margin: 0 auto 20px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--blue), var(--dark-blue));
+  color: white;
+  font-size: 45px;
+}
+
+.mobile-menu {
+  display: none;
+  padding: 10px 13px;
+  border: 1px solid var(--border);
+  background: var(--pale-blue);
+  color: var(--dark-blue);
+  border-radius: 10px;
+}
+
+footer {
+  color: #75839a;
+  text-align: center;
+  padding: 35px 0 10px;
   font-size: 12px;
 }
 
 @media (max-width: 760px) {
   .sidebar {
     transform: translateX(-100%);
-    transition: transform 0.25s;
+    transition: transform .2s;
   }
 
   .sidebar.open {
@@ -406,1403 +434,665 @@ h3 {
 
   .content {
     margin-left: 0;
-    padding: 15px;
+    padding: 18px;
   }
 
-  .two {
+  .mobile-menu {
+    display: block;
+  }
+
+  .answers {
     grid-template-columns: 1fr;
+  }
+
+  h1 {
+    font-size: 27px;
   }
 
   .hero {
     padding: 23px;
+  }
+
+  .hero h1 {
+    font-size: 30px;
   }
 }
 </style>
 </head>
 
 <body>
+<div class="app">
 
 <aside class="sidebar" id="sidebar">
   <div class="brand">
-    <span class="mark">S</span>
+    <span class="brand-dot"></span>
     <span>Study AI</span>
   </div>
 
   <nav class="nav" aria-label="Menu principal">
-    <button class="active" data-page="home">⌂ &nbsp; Início</button>
-    <button data-page="study">▤ &nbsp; Estudar</button>
-    <button data-page="challenges">⚡ &nbsp; Desafios</button>
-    <button data-page="tutor">✦ &nbsp; Professor IA</button>
-    <button data-page="progress">▥ &nbsp; Progresso</button>
-    <button data-page="music">♫ &nbsp; Música</button>
-    <button data-page="settings">⚙ &nbsp; Definições</button>
+    <button class="active" data-page="home">🏠 Início</button>
+    <button data-page="progress">📊 Progresso</button>
+    <button data-page="study">📚 Estudar</button>
+    <button data-page="challenges">🎮 Desafios</button>
+    <button data-page="ai">🤖 Professor IA</button>
+    <button data-page="music">🎵 Música</button>
+    <button data-page="settings">⚙️ Definições</button>
   </nav>
 
-  <div class="free">100% GRATUITO · SEM PREMIUM</div>
+  <div class="free-label">🆓 100% GRATUITO</div>
 </aside>
 
 <main class="content">
 
-<header class="top">
-  <div>
-    <small id="greeting">Bem-vindo ao Study AI</small>
-    <div><strong>Aprende ao teu ritmo.</strong></div>
-  </div>
-  <span class="pill" id="gradePill">Aluno</span>
-</header>
-
-<section class="page active" id="page-home">
-  <div class="hero">
-    <span class="pill">O teu espaço de estudo</span>
-    <h1 id="heroTitle">Olá! Vamos aprender alguma coisa? 👋</h1>
-    <p class="sub">
-      Estuda com explicações simples, pratica com desafios
-      e acompanha a tua evolução. Tudo gratuito.
-    </p>
-    <button class="btn" data-goto="study">Começar a estudar →</button>
-    <button class="btn secondary" data-goto="tutor">Perguntar ao Professor IA</button>
+  <div class="topbar">
+    <button class="mobile-menu" onclick="toggleSidebar()" aria-label="Abrir menu">☰ Menu</button>
+    <strong>🔵 Study AI</strong>
   </div>
 
-  <div class="cards">
-    <div class="card">
-      <div class="icon">⭐</div>
-      <p>Pontos conquistados</p>
-      <div class="number" id="homePoints">0</div>
+  <section class="page active" id="home">
+    <div class="hero">
+      <h1 id="welcomeTitle">Olá! 👋</h1>
+      <p class="sub">
+        Bem-vindo ao Study AI. Aprende, pratica e acompanha o teu progresso,
+        tudo gratuitamente.
+      </p>
+      <button class="btn" onclick="showPage('study')">📚 Começar a estudar</button>
     </div>
-    <div class="card">
-      <div class="icon">🔥</div>
-      <p>Desafios concluídos</p>
-      <div class="number" id="homeDone">0</div>
-    </div>
-    <div class="card">
-      <div class="icon">⏱️</div>
-      <p>Minutos de estudo</p>
-      <div class="number" id="homeMinutes">0</div>
-    </div>
-    <div class="card">
-      <div class="icon">📈</div>
-      <p>Precisão nas respostas</p>
-      <div class="number" id="homeAccuracy">—</div>
-    </div>
-  </div>
 
-  <h2 style="margin-top:28px">Escolhe o que queres fazer</h2>
+    <h2>O que queres fazer hoje?</h2>
 
-  <div class="cards" style="margin-top:14px">
-    <div class="card clickable" data-goto="study">
-      <div class="icon">📚</div>
-      <h3>Estudar uma disciplina</h3>
-      <p>Escolhe uma matéria e treina com perguntas.</p>
-    </div>
-    <div class="card clickable" data-goto="challenges">
-      <div class="icon">🎯</div>
-      <h3>Desafio rápido</h3>
-      <p>Responde, aprende com os erros e ganha pontos.</p>
-    </div>
-    <div class="card clickable" data-goto="tutor">
-      <div class="icon">🤖</div>
-      <h3>Professor IA</h3>
-      <p>Pede uma explicação passo a passo.</p>
-    </div>
-    <div class="card clickable" data-goto="music">
-      <div class="icon">🎧</div>
-      <h3>Música para estudar</h3>
-      <p>Cria um ambiente sonoro sem sair da aplicação.</p>
-    </div>
-  </div>
-</section>
-
-<section class="page" id="page-study">
-  <h1>Estudar</h1>
-  <p class="sub">Escolhe uma disciplina e começa a praticar.</p>
-
-  <div class="box">
-    <div class="two">
-      <div class="field">
-        <label for="subjectSelect">Disciplina</label>
-        <select id="subjectSelect">
-          <option>Matemática</option>
-          <option>Português</option>
-          <option>Ciências Naturais</option>
-          <option>Físico-Química</option>
-          <option>História</option>
-          <option>Geografia</option>
-          <option>Inglês</option>
-          <option>Espanhol</option>
-          <option>Conhecimentos gerais</option>
-        </select>
+    <div class="cards">
+      <div class="card" onclick="showPage('study')">
+        <div class="card-icon">📚</div>
+        <h3>Estudar</h3>
+        <p>Escolhe uma disciplina e começa uma sessão de estudo.</p>
       </div>
 
-      <div class="field">
-        <label for="difficultySelect">Dificuldade</label>
-        <select id="difficultySelect">
-          <option value="easy">Fácil</option>
-          <option value="medium" selected>Média</option>
-          <option value="hard">Difícil</option>
-          <option value="mixed">Mista</option>
-        </select>
+      <div class="card" onclick="showPage('challenges')">
+        <div class="card-icon">🎮</div>
+        <h3>Desafios</h3>
+        <p>Responde a perguntas, testa os teus conhecimentos e ganha pontos.</p>
+      </div>
+
+      <div class="card" onclick="showPage('progress')">
+        <div class="card-icon">📊</div>
+        <h3>O teu progresso</h3>
+        <p>Consulta os pontos, as respostas certas e o tempo de estudo.</p>
+      </div>
+
+      <div class="card" onclick="showPage('ai')">
+        <div class="card-icon">🤖</div>
+        <h3>Professor IA</h3>
+        <p>Obtém ajuda para compreender matérias e exercícios.</p>
+      </div>
+
+      <div class="card" onclick="showPage('music')">
+        <div class="card-icon">🎵</div>
+        <h3>Música</h3>
+        <p>Experimenta um som ambiente enquanto estudas.</p>
+      </div>
+
+      <div class="card" onclick="showPage('settings')">
+        <div class="card-icon">⚙️</div>
+        <h3>Definições</h3>
+        <p>Personaliza o teu nome e as preferências da aplicação.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" id="progress">
+    <h1>📊 O teu progresso</h1>
+    <p class="sub">Acompanha a tua evolução nos estudos.</p>
+
+    <div class="cards">
+      <div class="card">
+        <p>Pontos totais</p>
+        <div class="number" id="totalPoints">0</div>
+      </div>
+      <div class="card">
+        <p>Respostas certas</p>
+        <div class="number" id="correctAnswers">0</div>
+      </div>
+      <div class="card">
+        <p>Tempo de estudo</p>
+        <div class="number" id="studyMinutes">0 min</div>
       </div>
     </div>
 
-    <div class="field">
-      <label for="topicInput">Tema (opcional)</label>
-      <input id="topicInput" placeholder="Ex.: frações, gramática, atmosfera...">
-    </div>
-
-    <button class="btn" id="startStudy">Começar sessão</button>
-  </div>
-
-  <div class="box hidden" id="quizBox">
-    <div class="row">
-      <span class="pill" id="quizSubject">Matemática</span>
-      <span id="quizCounter" class="muted">Pergunta 1</span>
-    </div>
-
-    <div class="progress">
-      <span id="quizProgress"></span>
-    </div>
-
-    <div class="question" id="questionText"></div>
-    <div class="answers" id="answerList"></div>
-    <div class="feedback hidden" id="feedback"></div>
-
-    <div class="row">
-      <button class="btn secondary" id="quitQuiz">Terminar sessão</button>
-      <button class="btn hidden" id="nextQuestion">Próxima pergunta →</button>
-    </div>
-  </div>
-
-  <div class="box" id="studyTip">
-    <h2>💡 Dica de estudo</h2>
-    <p class="sub">Estuda durante 20–25 minutos e faz uma pausa curta. Revê sempre os erros.</p>
-  </div>
-</section>
-
-<section class="page" id="page-challenges">
-  <h1>Desafios</h1>
-  <p class="sub">Pratica os teus conhecimentos e ganha pontos.</p>
-
-  <div class="cards" style="margin-top:18px">
-    <div class="card">
-      <div class="icon">⚡</div>
-      <h3>Desafio relâmpago</h3>
-      <p>5 perguntas variadas.</p>
-      <button class="btn" data-challenge="quick">Jogar agora</button>
-    </div>
-
-    <div class="card">
-      <div class="icon">🧮</div>
-      <h3>Mestre da Matemática</h3>
-      <p>Treina cálculo e raciocínio.</p>
-      <button class="btn" data-challenge="math">Começar</button>
-    </div>
-
-    <div class="card">
-      <div class="icon">📖</div>
-      <h3>Palavras e gramática</h3>
-      <p>Pratica Português.</p>
-      <button class="btn" data-challenge="portuguese">Começar</button>
-    </div>
-
-    <div class="card">
-      <div class="icon">🌍</div>
-      <h3>Explorador do mundo</h3>
-      <p>Ciências, História e Geografia.</p>
-      <button class="btn" data-challenge="world">Começar</button>
-    </div>
-  </div>
-
-  <div class="box">
-    <div class="row">
-      <h2>As tuas conquistas</h2>
-      <span class="pill" id="challengePoints">0 pontos</span>
-    </div>
-    <div class="cards" id="achievementList" style="margin-top:14px"></div>
-  </div>
-</section>
-
-<section class="page" id="page-tutor">
-  <h1>Professor IA</h1>
-  <p class="sub">Faz perguntas e recebe explicações escolares simples.</p>
-
-  <div class="box">
-    <div class="chat-log" id="chatLog">
-      <div class="bubble ai">
-        Olá! 👋 Sou o Professor IA do Study AI.
-        Diz-me a disciplina e o tema que queres aprender.
+    <div class="box">
+      <h2>Objetivo de estudo</h2>
+      <p class="sub">Objetivo: estudar 30 minutos.</p>
+      <div class="progress-track">
+        <div class="progress-fill" id="progressBar"></div>
       </div>
+      <p class="sub" id="progressText" style="margin-top:10px">
+        0% do objetivo concluído
+      </p>
     </div>
+  </section>
 
-    <form class="chat-form" id="chatForm">
-      <input
-        class="field-input"
-        id="chatInput"
-        autocomplete="off"
-        placeholder="Ex.: Explica-me as frações..."
-        aria-label="Pergunta ao Professor IA"
-        required
-      >
-      <button class="btn" type="submit">Enviar</button>
-    </form>
+  <section class="page" id="study">
+    <h1>📚 Estudar</h1>
+    <p class="sub">Escolhe a disciplina e prepara a tua sessão.</p>
 
-    <p class="muted" style="font-size:12px">
-      Esta versão usa explicações integradas no código. Não é uma ligação
-      a um modelo de IA online.
-    </p>
-  </div>
-
-  <div class="cards">
-    <div class="card clickable prompt"
-         data-prompt="Explica-me como resolver equações do primeiro grau.">
-      <h3>➗ Matemática</h3>
-      <p>Equações, frações e percentagens.</p>
-    </div>
-
-    <div class="card clickable prompt"
-         data-prompt="Explica-me as orações subordinadas adverbiais.">
-      <h3>✍️ Português</h3>
-      <p>Gramática e interpretação.</p>
-    </div>
-
-    <div class="card clickable prompt"
-         data-prompt="Explica a diferença entre transformação física e química.">
-      <h3>🧪 Ciências</h3>
-      <p>Conceitos com exemplos.</p>
-    </div>
-  </div>
-</section>
-
-<section class="page" id="page-progress">
-  <h1>O teu progresso</h1>
-  <p class="sub">Acompanha os teus resultados de estudo.</p>
-
-  <div class="cards" style="margin-top:18px">
-    <div class="card">
-      <p>Pontos totais</p>
-      <div class="number" id="progPoints">0</div>
-    </div>
-
-    <div class="card">
-      <p>Perguntas respondidas</p>
-      <div class="number" id="progAnswered">0</div>
-    </div>
-
-    <div class="card">
-      <p>Respostas certas</p>
-      <div class="number" id="progCorrect">0</div>
-    </div>
-
-    <div class="card">
-      <p>Minutos estudados</p>
-      <div class="number" id="progMinutes">0</div>
-    </div>
-  </div>
-
-  <div class="box">
-    <div class="row">
-      <h2>Precisão global</h2>
-      <strong id="accuracyLabel">Ainda sem dados</strong>
-    </div>
-    <div class="progress"><span id="accuracyBar"></span></div>
-    <p class="sub">Percentagem de respostas certas.</p>
-  </div>
-
-  <div class="box">
-    <h2>Histórico por disciplina</h2>
-    <div id="subjectStats"></div>
-  </div>
-
-  <div class="box">
-    <h2>Objetivo diário</h2>
-    <div class="field">
-      <label for="goalInput">Minutos de estudo</label>
-      <select id="goalInput">
-        <option value="10">10 minutos</option>
-        <option value="20" selected>20 minutos</option>
-        <option value="30">30 minutos</option>
-        <option value="45">45 minutos</option>
-        <option value="60">60 minutos</option>
+    <div class="box">
+      <label for="subject">Disciplina</label>
+      <select id="subject">
+        <option>Matemática</option>
+        <option>Português</option>
+        <option>Ciências Naturais</option>
+        <option>Físico-Química</option>
+        <option>História</option>
+        <option>Geografia</option>
+        <option>Inglês</option>
+        <option>Espanhol</option>
       </select>
-    </div>
-    <div class="progress"><span id="goalBar"></span></div>
-    <p id="goalText" class="muted"></p>
-  </div>
 
-  <button class="btn secondary" id="resetProgress">Repor progresso</button>
-</section>
-
-<section class="page" id="page-music">
-  <h1>Música para estudar</h1>
-  <p class="sub">
-    Cria sons ambiente diretamente no navegador, sem sair da aplicação.
-  </p>
-
-  <div class="cards" style="margin-top:18px">
-    <div class="card">
-      <div class="icon">🌧️</div>
-      <h3>Chuva suave</h3>
-      <p>Som ambiente para ajudar na concentração.</p>
-      <button class="btn" data-sound="rain">▶ Reproduzir</button>
-    </div>
-
-    <div class="card">
-      <div class="icon">🎧</div>
-      <h3>Ruído branco</h3>
-      <p>Som constante para reduzir distrações.</p>
-      <button class="btn" data-sound="white">▶ Reproduzir</button>
-    </div>
-
-    <div class="card">
-      <div class="icon">🌌</div>
-      <h3>Ambiente espacial</h3>
-      <p>Um tom suave para estudar tranquilamente.</p>
-      <button class="btn" data-sound="space">▶ Reproduzir</button>
-    </div>
-  </div>
-
-  <div class="box">
-    <h2 id="musicStatus">Som desligado</h2>
-    <div class="row" style="margin-top:15px">
-      <button class="btn" id="stopSound">■ Parar</button>
-      <label for="volume">Volume</label>
-      <input type="range" id="volume" min="0" max="100" value="22">
-      <span id="volumeValue">22%</span>
-    </div>
-  </div>
-</section>
-
-<section class="page" id="page-settings">
-  <h1>Definições</h1>
-  <p class="sub">Personaliza o Study AI.</p>
-
-  <div class="box">
-    <h2>Perfil de estudante</h2>
-
-    <div class="two">
-      <div class="field">
-        <label for="nameInput">Nome</label>
-        <input id="nameInput" placeholder="Como te chamas?">
-      </div>
-
-      <div class="field">
-        <label for="yearInput">Ano de escolaridade</label>
-        <select id="yearInput">
-          <option value="">Selecionar...</option>
-          <option>1.º ano</option>
-          <option>2.º ano</option>
-          <option>3.º ano</option>
-          <option>4.º ano</option>
-          <option>5.º ano</option>
-          <option>6.º ano</option>
-          <option>7.º ano</option>
-          <option>8.º ano</option>
-          <option>9.º ano</option>
-          <option>10.º ano</option>
-          <option>11.º ano</option>
-          <option>12.º ano</option>
-        </select>
-      </div>
-    </div>
-
-    <div class="field">
-      <label for="targetInput">Objetivo escolar</label>
-      <select id="targetInput">
-        <option>Melhorar gradualmente</option>
-        <option>Ter positiva</option>
-        <option>Ter 4 ou 5 / 16 a 20 valores</option>
-        <option>Preparar-me para um teste</option>
+      <label for="schoolYear">Ano de escolaridade</label>
+      <select id="schoolYear">
+        <option>5.º ano</option>
+        <option>6.º ano</option>
+        <option>7.º ano</option>
+        <option selected>8.º ano</option>
+        <option>9.º ano</option>
+        <option>10.º ano</option>
+        <option>11.º ano</option>
+        <option>12.º ano</option>
       </select>
+
+      <label for="targetGrade">Nota que queres alcançar</label>
+      <select id="targetGrade">
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4" selected>4</option>
+        <option value="5">5</option>
+        <option value="10">10 (escala de 0 a 20)</option>
+        <option value="14">14 (escala de 0 a 20)</option>
+        <option value="18">18 (escala de 0 a 20)</option>
+      </select>
+
+      <button class="btn" id="startStudyButton" onclick="startStudy()">
+        ▶ Começar sessão de 5 minutos
+      </button>
+
+      <div id="studyArea" style="margin-top:20px"></div>
     </div>
+  </section>
 
-    <button class="btn" id="saveProfile">Guardar perfil</button>
-  </div>
+  <section class="page" id="challenges">
+    <h1>🎮 Desafios</h1>
+    <p class="sub">Responde corretamente para ganhares pontos.</p>
 
-  <div class="box">
-    <h2>Idioma</h2>
-    <div class="field">
-      <label for="languageSelect">Idioma da aplicação</label>
-      <select id="languageSelect">
-        <option value="pt">Português (Portugal)</option>
+    <div class="box">
+      <p id="challengeCounter" class="sub">Pergunta 1</p>
+      <div id="challengeQuestion" class="question"></div>
+      <div id="challengeAnswers" class="answers"></div>
+      <div id="challengeResult" class="result" aria-live="polite"></div>
+      <button class="btn" id="nextChallenge" onclick="nextChallenge()" hidden>
+        Próxima pergunta →
+      </button>
+    </div>
+  </section>
+
+  <section class="page" id="ai">
+    <h1>🤖 Professor IA</h1>
+    <p class="sub">Escreve a tua dúvida para receberes ajuda nos estudos.</p>
+
+    <div class="box">
+      <label for="aiSubject">Disciplina</label>
+      <select id="aiSubject">
+        <option>Matemática</option>
+        <option>Português</option>
+        <option>Ciências Naturais</option>
+        <option>Físico-Química</option>
+        <option>História</option>
+        <option>Geografia</option>
+        <option>Inglês</option>
+        <option>Espanhol</option>
+      </select>
+
+      <label for="aiQuestion">A tua pergunta</label>
+      <textarea id="aiQuestion" placeholder="Ex.: Como se resolvem equações?"></textarea>
+
+      <button class="btn" onclick="askTutor()">Perguntar</button>
+      <div id="aiAnswer" class="result" aria-live="polite"></div>
+
+      <p class="sub" style="margin-top:15px">
+        Esta versão utiliza respostas básicas predefinidas. Ainda não está ligada
+        a um serviço de inteligência artificial em tempo real.
+      </p>
+    </div>
+  </section>
+
+  <section class="page" id="music">
+    <h1>🎵 Música para estudar</h1>
+    <p class="sub">Experimenta um som ambiente enquanto estudas.</p>
+
+    <div class="box music-box">
+      <div class="music-circle">🎧</div>
+      <h2>Som de concentração</h2>
+      <p class="sub">Um som simples gerado pelo navegador.</p>
+      <button class="btn" id="musicButton" onclick="toggleMusic()">
+        ▶ Reproduzir
+      </button>
+      <p id="musicStatus" class="result" aria-live="polite">
+        A música está parada.
+      </p>
+    </div>
+  </section>
+
+  <section class="page" id="settings">
+    <h1>⚙️ Definições</h1>
+    <p class="sub">Personaliza a tua aplicação.</p>
+
+    <div class="box">
+      <label for="userName">O teu nome</label>
+      <input id="userName" type="text" maxlength="40" placeholder="Escreve o teu nome">
+
+      <label for="appLanguage">Idioma</label>
+      <select id="appLanguage">
+        <option value="pt-PT">Português (Portugal)</option>
         <option value="en">English</option>
+        <option value="es">Español</option>
       </select>
+      <p class="sub" style="margin-top:8px">
+        O idioma selecionado fica guardado nas tuas preferências.
+      </p>
+
+      <div class="setting">
+        <div>
+          <strong>Notificações</strong>
+          <p class="sub">Preferências de notificações.</p>
+        </div>
+        <label class="switch">
+          <input id="notifications" type="checkbox">
+          <span></span>
+        </label>
+      </div>
+
+      <div class="setting">
+        <div>
+          <strong>Aplicação gratuita</strong>
+          <p class="sub">Todas as funcionalidades desta versão são gratuitas.</p>
+        </div>
+        <strong>🆓</strong>
+      </div>
+
+      <button class="btn" onclick="saveSettings()">Guardar alterações</button>
+      <div id="settingsMessage" class="result" aria-live="polite"></div>
     </div>
-    <button class="btn secondary" id="saveLanguage">Aplicar idioma</button>
-  </div>
+  </section>
 
-  <div class="box">
-    <h2>Dados e privacidade</h2>
-    <p class="sub">
-      O perfil e o progresso ficam guardados no armazenamento local
-      deste navegador.
-    </p>
-    <button class="btn secondary" id="exportData">Exportar os meus dados</button>
-  </div>
-</section>
-
-<div class="footer">
-  Study AI · Gratuito para todos · Aprende ao teu ritmo
-</div>
+  <footer>Study AI · Aprende ao teu ritmo · 100% gratuito</footer>
 </main>
-
-<div id="toast" role="status"></div>
+</div>
 
 <script>
-const $ = id => document.getElementById(id);
+"use strict";
 
-const initialState = {
-  name: "",
-  year: "",
-  target: "Melhorar gradualmente",
-  language: "pt",
-  points: 0,
-  answered: 0,
-  correct: 0,
-  minutes: 0,
-  done: 0,
-  subjects: {},
-  goal: 20
-};
+let points = Number(localStorage.getItem("studyPoints") || 0);
+let correct = Number(localStorage.getItem("studyCorrect") || 0);
+let minutes = Number(localStorage.getItem("studyMinutes") || 0);
 
-let state;
+let answered = false;
+let challengeIndex = 0;
+let studyInterval = null;
+let audioContext = null;
+let musicOscillator = null;
+let musicGain = null;
+let musicPlaying = false;
 
-try {
-  state = {
-    ...initialState,
-    ...JSON.parse(localStorage.getItem("studyAIState") || "{}")
-  };
-  state.subjects = state.subjects || {};
-} catch {
-  state = { ...initialState };
-}
+function showPage(pageId) {
+  const page = document.getElementById(pageId);
+  if (!page) return;
 
-function save() {
-  localStorage.setItem("studyAIState", JSON.stringify(state));
-  renderStats();
-}
-
-function toast(message) {
-  const element = $("toast");
-  element.textContent = message;
-  element.style.cssText =
-    "position:fixed;right:18px;bottom:18px;background:#17233b;color:white;padding:13px 17px;border-radius:12px;z-index:100;box-shadow:0 8px 25px #0002";
-
-  clearTimeout(window.studyToastTimer);
-
-  window.studyToastTimer = setTimeout(() => {
-    element.style.cssText = "";
-  }, 2500);
-}
-
-const pages = [
-  "home", "study", "challenges",
-  "tutor", "progress", "music", "settings"
-];
-
-function go(page) {
-  pages.forEach(name => {
-    $("page-" + name).classList.toggle("active", name === page);
+  document.querySelectorAll(".page").forEach(section => {
+    section.classList.toggle("active", section.id === pageId);
   });
 
   document.querySelectorAll(".nav button").forEach(button => {
-    button.classList.toggle("active", button.dataset.page === page);
+    button.classList.toggle("active", button.dataset.page === pageId);
   });
 
-  $("sidebar").classList.remove("open");
-
-  if (page === "progress") renderStats();
-
+  document.getElementById("sidebar").classList.remove("open");
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-document.querySelectorAll("[data-page]").forEach(button => {
-  button.addEventListener("click", () => go(button.dataset.page));
+document.querySelectorAll(".nav button").forEach(button => {
+  button.addEventListener("click", () => showPage(button.dataset.page));
 });
 
-document.querySelectorAll("[data-goto]").forEach(button => {
-  button.addEventListener("click", () => go(button.dataset.goto));
-});
-
-const menuButton = document.getElementById("menuBtn");
-
-if (menuButton) {
-  menuButton.addEventListener("click", () => {
-    $("sidebar").classList.toggle("open");
-  });
+function toggleSidebar() {
+  document.getElementById("sidebar").classList.toggle("open");
 }
 
-function updateGreeting() {
-  const name = state.name.trim();
-
-  $("greeting").textContent = name
-    ? `Olá, ${name}! Bom estudo.`
-    : "Bem-vindo ao Study AI";
-
-  $("heroTitle").textContent = name
-    ? `Olá, ${name}! Vamos aprender? 👋`
-    : "Olá! Vamos aprender alguma coisa? 👋";
-
-  $("gradePill").textContent = state.year || "Aluno";
-
-  $("nameInput").value = state.name;
-  $("yearInput").value = state.year;
-  $("targetInput").value = state.target;
-  $("languageSelect").value = state.language;
+function saveStats() {
+  localStorage.setItem("studyPoints", String(points));
+  localStorage.setItem("studyCorrect", String(correct));
+  localStorage.setItem("studyMinutes", String(minutes));
+  updateProgress();
 }
 
-function escapeHTML(value) {
-  return String(value).replace(/[&<>"']/g, character => ({
-    "&": "&amp;",
-    "<": "&lt;",
-    ">": "&gt;",
-    '"': "&quot;",
-    "'": "&#39;"
-  })[character]);
+function updateProgress() {
+  document.getElementById("totalPoints").textContent = points;
+  document.getElementById("correctAnswers").textContent = correct;
+  document.getElementById("studyMinutes").textContent = minutes + " min";
+
+  const percentage = Math.min(100, Math.round(minutes / 30 * 100));
+  document.getElementById("progressBar").style.width = percentage + "%";
+  document.getElementById("progressText").textContent =
+    percentage + "% do objetivo de 30 minutos concluído";
 }
 
-function renderStats() {
-  $("homePoints").textContent = state.points;
-  $("homeDone").textContent = state.done;
-  $("homeMinutes").textContent = state.minutes;
-
-  $("homeAccuracy").textContent = state.answered
-    ? Math.round(state.correct / state.answered * 100) + "%"
-    : "—";
-
-  $("progPoints").textContent = state.points;
-  $("progAnswered").textContent = state.answered;
-  $("progCorrect").textContent = state.correct;
-  $("progMinutes").textContent = state.minutes;
-
-  $("challengePoints").textContent = state.points + " pontos";
-
-  const accuracy = state.answered
-    ? Math.round(state.correct / state.answered * 100)
-    : 0;
-
-  $("accuracyLabel").textContent = state.answered
-    ? accuracy + "%"
-    : "Ainda sem dados";
-
-  $("accuracyBar").style.width = accuracy + "%";
-
-  const goal = Number(state.goal) || 20;
-
-  $("goalInput").value = String(goal);
-
-  const goalPercent = Math.min(
-    100,
-    Math.round(state.minutes / goal * 100)
-  );
-
-  $("goalBar").style.width = goalPercent + "%";
-
-  $("goalText").textContent =
-    `${state.minutes} de ${goal} minutos acumulados.`;
-
-  const stats = $("subjectStats");
-  stats.innerHTML = "";
-
-  const entries = Object.entries(state.subjects);
-
-  if (!entries.length) {
-    stats.textContent =
-      "Ainda não há resultados. Faz um desafio para começar.";
-  } else {
-    entries.forEach(([subject, result]) => {
-      const percent = result.answered
-        ? Math.round(result.correct / result.answered * 100)
-        : 0;
-
-      const block = document.createElement("div");
-      block.style.margin = "15px 0";
-
-      const label = document.createElement("div");
-      label.className = "row";
-
-      const title = document.createElement("strong");
-      title.textContent = subject;
-
-      const score = document.createElement("span");
-      score.textContent =
-        `${result.correct}/${result.answered} certas · ${percent}%`;
-
-      label.append(title, score);
-
-      const progress = document.createElement("div");
-      progress.className = "progress";
-
-      const bar = document.createElement("span");
-      bar.style.width = percent + "%";
-
-      progress.appendChild(bar);
-      block.append(label, progress);
-      stats.appendChild(block);
-    });
+function startStudy() {
+  if (studyInterval !== null) {
+    clearInterval(studyInterval);
+    studyInterval = null;
   }
 
-  const achievements = $("achievementList");
-  achievements.innerHTML = "";
+  const subject = document.getElementById("subject").value;
+  const year = document.getElementById("schoolYear").value;
+  const grade = document.getElementById("targetGrade").value;
+  const area = document.getElementById("studyArea");
 
-  const list = [
-    ["🌱", "Primeiros passos", state.answered >= 1],
-    ["🎯", "10 perguntas respondidas", state.answered >= 10],
-    ["⭐", "100 pontos", state.points >= 100],
-    ["🔥", "5 desafios concluídos", state.done >= 5]
-  ];
+  let seconds = 300;
 
-  list.forEach(([icon, title, unlocked]) => {
-    const card = document.createElement("div");
-    card.className = "card";
+  area.replaceChildren();
 
-    const symbol = document.createElement("div");
-    symbol.className = "icon";
-    symbol.textContent = icon;
+  const heading = document.createElement("h2");
+  heading.textContent = "Sessão de estudo";
 
-    const heading = document.createElement("h3");
-    heading.textContent = title;
+  const details = document.createElement("p");
+  details.className = "sub";
+  details.textContent =
+    "Disciplina: " + subject + " · Ano: " + year +
+    " · Nota pretendida: " + grade;
 
-    const description = document.createElement("p");
-    description.textContent = unlocked
-      ? "Conquista desbloqueada!"
-      : "Continua a estudar para desbloquear.";
+  const timer = document.createElement("div");
+  timer.className = "number";
+  timer.id = "studyTimer";
+  timer.textContent = "05:00";
 
-    card.append(symbol, heading, description);
-    achievements.appendChild(card);
-  });
+  const explanation = document.createElement("p");
+  explanation.className = "sub";
+  explanation.textContent =
+    "Estuda durante cinco minutos. A sessão só conta como concluída quando o tempo terminar.";
+
+  const stopButton = document.createElement("button");
+  stopButton.className = "btn secondary";
+  stopButton.textContent = "Terminar sessão";
+  stopButton.onclick = stopStudy;
+
+  area.append(heading, details, timer, explanation, stopButton);
+
+  document.getElementById("startStudyButton").disabled = true;
+
+  studyInterval = setInterval(() => {
+    seconds--;
+
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    timer.textContent =
+      String(mins).padStart(2, "0") + ":" +
+      String(secs).padStart(2, "0");
+
+    if (seconds <= 0) {
+      clearInterval(studyInterval);
+      studyInterval = null;
+
+      minutes += 5;
+      points += 10;
+      saveStats();
+
+      const result = document.createElement("p");
+      result.className = "result";
+      result.textContent = "🎉 Sessão concluída! Ganhaste 10 pontos.";
+      area.appendChild(result);
+
+      document.getElementById("startStudyButton").disabled = false;
+    }
+  }, 1000);
 }
 
-$("saveProfile").addEventListener("click", () => {
-  state.name = $("nameInput").value.trim();
-  state.year = $("yearInput").value;
-  state.target = $("targetInput").value;
-
-  save();
-  updateGreeting();
-  toast("Perfil guardado!");
-});
-
-$("goalInput").addEventListener("change", event => {
-  state.goal = Number(event.target.value);
-  save();
-});
-
-$("saveLanguage").addEventListener("click", () => {
-  state.language = $("languageSelect").value;
-  save();
-  applyLanguage();
-});
-
-const translations = {
-  pt: {
-    home: "⌂ &nbsp; Início",
-    study: "▤ &nbsp; Estudar",
-    challenges: "⚡ &nbsp; Desafios",
-    tutor: "✦ &nbsp; Professor IA",
-    progress: "▥ &nbsp; Progresso",
-    music: "♫ &nbsp; Música",
-    settings: "⚙ &nbsp; Definições"
-  },
-  en: {
-    home: "⌂ &nbsp; Home",
-    study: "▤ &nbsp; Study",
-    challenges: "⚡ &nbsp; Challenges",
-    tutor: "✦ &nbsp; AI Tutor",
-    progress: "▥ &nbsp; Progress",
-    music: "♫ &nbsp; Music",
-    settings: "⚙ &nbsp; Settings"
+function stopStudy() {
+  if (studyInterval !== null) {
+    clearInterval(studyInterval);
+    studyInterval = null;
   }
-};
 
-function applyLanguage() {
-  const english = state.language === "en";
+  document.getElementById("startStudyButton").disabled = false;
 
-  document.documentElement.lang = english ? "en" : "pt-PT";
-
-  document.querySelectorAll(".nav button").forEach(button => {
-    button.innerHTML = translations[state.language][button.dataset.page];
-  });
-
-  $("greeting").textContent = english
-    ? (state.name ? `Hello, ${state.name}!` : "Welcome to Study AI")
-    : (state.name ? `Olá, ${state.name}! Bom estudo.` : "Bem-vindo ao Study AI");
-
-  document.querySelector(".free").textContent = english
-    ? "100% FREE · NO PREMIUM"
-    : "100% GRATUITO · SEM PREMIUM";
-
-  document.querySelector(".top strong").textContent = english
-    ? "Learn at your own pace."
-    : "Aprende ao teu ritmo.";
-
-  $("heroTitle").textContent = english
-    ? "Hello! What shall we learn today? 👋"
-    : "Olá! Vamos aprender alguma coisa? 👋";
-
-  const heroDescription = document.querySelector(".hero .sub");
-
-  heroDescription.textContent = english
-    ? "Study with simple explanations, practise challenges and track your progress. Free to use."
-    : "Estuda com explicações simples, pratica com desafios e acompanha a tua evolução. Tudo gratuito.";
+  const area = document.getElementById("studyArea");
+  const result = document.createElement("p");
+  result.className = "result";
+  result.textContent =
+    "Sessão terminada. O tempo só é contabilizado quando completas os cinco minutos.";
+  area.appendChild(result);
 }
 
-const bank = [
+const challenges = [
   {
-    subject: "Matemática",
-    topic: "frações",
-    difficulty: "easy",
-    q: "Quanto é 1/2 + 1/4?",
-    a: ["2/6", "3/4", "1/6", "2/4"],
+    question: "Quanto é 8 × 7?",
+    answers: ["54", "56", "64", "48"],
     correct: 1,
-    ex: "Transforma 1/2 em 2/4. Depois: 2/4 + 1/4 = 3/4."
+    explanation: "8 × 7 = 56."
   },
   {
-    subject: "Matemática",
-    topic: "percentagens",
-    difficulty: "medium",
-    q: "Quanto é 25% de 80?",
-    a: ["10", "15", "20", "25"],
+    question: "Quanto é 25% de 200?",
+    answers: ["25", "40", "50", "75"],
     correct: 2,
-    ex: "25% é um quarto. Calcula 80 ÷ 4 = 20."
+    explanation: "25% de 200 = 25/100 × 200 = 50."
   },
   {
-    subject: "Matemática",
-    topic: "equações",
-    difficulty: "medium",
-    q: "Resolve: 3x + 2 = 14.",
-    a: ["x = 3", "x = 4", "x = 5", "x = 6"],
+    question: "Qual é o sujeito de «O João estuda»?",
+    answers: ["estuda", "O João", "não tem sujeito", "O"],
     correct: 1,
-    ex: "Subtrai 2: 3x = 12. Divide por 3: x = 4."
+    explanation: "O sujeito é «O João», porque é quem pratica a ação."
   },
   {
-    subject: "Matemática",
-    topic: "números inteiros",
-    difficulty: "easy",
-    q: "Qual destes números é inteiro?",
-    a: ["2,5", "−3", "1/2", "0,25"],
+    question: "Qual é o planeta mais próximo do Sol?",
+    answers: ["Terra", "Marte", "Mercúrio", "Vénus"],
+    correct: 2,
+    explanation: "Mercúrio é o planeta mais próximo do Sol."
+  },
+  {
+    question: "Qual é o resultado de 3²?",
+    answers: ["6", "9", "12", "5"],
     correct: 1,
-    ex: "−3 é um número inteiro. Os restantes não são inteiros."
-  },
-  {
-    subject: "Matemática",
-    topic: "potências",
-    difficulty: "medium",
-    q: "Quanto é 2³ × 2²?",
-    a: ["2⁵ = 32", "4⁵", "2⁶ = 64", "4⁶"],
-    correct: 0,
-    ex: "Com a mesma base, somam-se os expoentes: 2⁵ = 32."
-  },
-  {
-    subject: "Matemática",
-    topic: "áreas",
-    difficulty: "easy",
-    q: "Área de um retângulo de 8 cm por 3 cm?",
-    a: ["11 cm²", "22 cm²", "24 cm²", "48 cm²"],
-    correct: 2,
-    ex: "Área = comprimento × largura = 8 × 3 = 24 cm²."
-  },
-  {
-    subject: "Matemática",
-    topic: "descontos",
-    difficulty: "hard",
-    q: "Um artigo custa 60 €. Tem 15% de desconto. Qual é o preço final?",
-    a: ["45 €", "49 €", "51 €", "54 €"],
-    correct: 2,
-    ex: "15% de 60 € = 9 €. Então, 60 − 9 = 51 €."
-  },
-  {
-    subject: "Português",
-    topic: "orações subordinadas",
-    difficulty: "medium",
-    q: "Em «Fiquei em casa porque chovia», «porque chovia» é:",
-    a: ["Temporal", "Causal", "Concessiva", "Consecutiva"],
-    correct: 1,
-    ex: "A oração explica a causa de ter ficado em casa: chovia."
-  },
-  {
-    subject: "Português",
-    topic: "advérbios",
-    difficulty: "easy",
-    q: "Na frase «Ela correu rapidamente», «rapidamente» é:",
-    a: ["Adjetivo", "Nome", "Advérbio", "Determinante"],
-    correct: 2,
-    ex: "Indica o modo como correu. É um advérbio de modo."
-  },
-  {
-    subject: "Português",
-    topic: "orações subordinadas",
-    difficulty: "hard",
-    q: "Em «Embora estivesse cansado, continuou», a oração inicial é:",
-    a: ["Causal", "Temporal", "Concessiva", "Final"],
-    correct: 2,
-    ex: "«Embora» introduz uma ideia de concessão."
-  },
-  {
-    subject: "Ciências Naturais",
-    topic: "ecossistemas",
-    difficulty: "medium",
-    q: "Qual é um produtor num ecossistema?",
-    a: ["Lobo", "Cogumelo", "Relva", "Coelho"],
-    correct: 2,
-    ex: "As plantas produzem matéria orgânica através da fotossíntese."
-  },
-  {
-    subject: "Ciências Naturais",
-    topic: "células",
-    difficulty: "easy",
-    q: "Que estrutura contém a maior parte do ADN de uma célula eucariótica?",
-    a: ["Membrana", "Núcleo", "Citoplasma", "Parede celular"],
-    correct: 1,
-    ex: "O núcleo contém a maior parte do ADN da célula eucariótica."
-  },
-  {
-    subject: "Físico-Química",
-    topic: "transformações químicas",
-    difficulty: "medium",
-    q: "Qual pode ser um indício de transformação química?",
-    a: ["Cortar papel", "Formação de gás", "Derreter gelo", "Mudar de forma"],
-    correct: 1,
-    ex: "A formação de gás pode indicar que surgiram substâncias novas."
-  },
-  {
-    subject: "Físico-Química",
-    topic: "forças",
-    difficulty: "easy",
-    q: "Qual é a unidade SI da força?",
-    a: ["Joule", "Watt", "Newton", "Pascal"],
-    correct: 2,
-    ex: "A força mede-se em newtons, cujo símbolo é N."
-  },
-  {
-    subject: "História",
-    topic: "revolução francesa",
-    difficulty: "medium",
-    q: "Em que ano começou a Revolução Francesa?",
-    a: ["1492", "1640", "1789", "1914"],
-    correct: 2,
-    ex: "A Revolução Francesa começou em 1789."
-  },
-  {
-    subject: "Geografia",
-    topic: "atmosfera",
-    difficulty: "easy",
-    q: "Qual é o gás mais abundante na atmosfera terrestre?",
-    a: ["Oxigénio", "Azoto", "Dióxido de carbono", "Hidrogénio"],
-    correct: 1,
-    ex: "O azoto representa cerca de 78% da atmosfera terrestre."
-  },
-  {
-    subject: "Inglês",
-    topic: "vocabulary",
-    difficulty: "easy",
-    q: "What is the opposite of “hot”?",
-    a: ["Warm", "Cold", "Fast", "Tall"],
-    correct: 1,
-    ex: "“Cold” means frio. It is the opposite of “hot”."
-  },
-  {
-    subject: "Espanhol",
-    topic: "vocabulario",
-    difficulty: "easy",
-    q: "Como se diz «obrigado» em espanhol?",
-    a: ["Gracias", "Por favor", "Hola", "Adiós"],
-    correct: 0,
-    ex: "«Gracias» significa «obrigado/obrigada»."
-  },
-  {
-    subject: "Conhecimentos gerais",
-    topic: "planetas",
-    difficulty: "medium",
-    q: "Qual é o planeta conhecido como Planeta Vermelho?",
-    a: ["Vénus", "Júpiter", "Marte", "Saturno"],
-    correct: 2,
-    ex: "Marte tem uma aparência avermelhada devido aos óxidos de ferro."
-  },
-  {
-    subject: "Conhecimentos gerais",
-    topic: "média",
-    difficulty: "hard",
-    q: "Qual é a média de 6, 8 e 10?",
-    a: ["7", "8", "9", "24"],
-    correct: 1,
-    ex: "(6 + 8 + 10) ÷ 3 = 24 ÷ 3 = 8."
+    explanation: "3² = 3 × 3 = 9."
   }
 ];
 
-let session = [];
-let idx = 0;
-let sessionCorrect = 0;
-let answeredCurrent = false;
-let sessionStart = 0;
-let activeMode = "study";
+function loadChallenge() {
+  const question = challenges[challengeIndex];
 
-function buildSession(mode = "study") {
-  activeMode = mode;
+  document.getElementById("challengeCounter").textContent =
+    "Pergunta " + (challengeIndex + 1) + " de " + challenges.length;
 
-  let subject = $("subjectSelect").value;
+  document.getElementById("challengeQuestion").textContent = question.question;
+  document.getElementById("challengeResult").textContent = "";
+  document.getElementById("nextChallenge").hidden = true;
+  answered = false;
 
-  if (mode === "math") subject = "Matemática";
-  if (mode === "portuguese") subject = "Português";
+  const answersArea = document.getElementById("challengeAnswers");
+  answersArea.replaceChildren();
 
-  const difficulty = $("difficultySelect").value;
-  const topic = $("topicInput").value.trim().toLowerCase();
-
-  let pool = bank.filter(question => {
-    const correctSubject =
-      mode === "world"
-        ? ["Ciências Naturais", "Físico-Química", "História", "Geografia"]
-            .includes(question.subject)
-        : mode === "quick"
-          ? true
-          : question.subject === subject;
-
-    const correctDifficulty =
-      mode !== "study" ||
-      difficulty === "mixed" ||
-      question.difficulty === difficulty;
-
-    const correctTopic =
-      !topic ||
-      question.topic.includes(topic) ||
-      question.q.toLowerCase().includes(topic);
-
-    return correctSubject && correctDifficulty && correctTopic;
-  });
-
-  if (pool.length < 3) {
-    pool = bank.filter(question => {
-      if (mode === "world") {
-        return ["Ciências Naturais", "Físico-Química", "História", "Geografia"]
-          .includes(question.subject);
-      }
-
-      return mode === "quick" || question.subject === subject;
-    });
-  }
-
-  if (!pool.length) pool = bank;
-
-  pool = [...pool].sort(() => Math.random() - 0.5);
-
-  const count = mode === "quick" ? 5 : Math.min(10, pool.length);
-
-  session = Array.from(
-    { length: count },
-    (_, i) => pool[i % pool.length]
-  );
-
-  idx = 0;
-  sessionCorrect = 0;
-  sessionStart = Date.now();
-
-  $("quizBox").classList.remove("hidden");
-  $("studyTip").classList.remove("hidden");
-
-  go("study");
-  showQuestion();
-
-  $("quizBox").scrollIntoView({
-    behavior: "smooth",
-    block: "start"
-  });
-}
-
-$("startStudy").addEventListener("click", () => buildSession("study"));
-
-document.querySelectorAll("[data-challenge]").forEach(button => {
-  button.addEventListener("click", () => {
-    buildSession(button.dataset.challenge);
-  });
-});
-
-function showQuestion() {
-  answeredCurrent = false;
-
-  const question = session[idx];
-
-  $("quizSubject").textContent = question.subject;
-  $("quizCounter").textContent =
-    `Pergunta ${idx + 1} de ${session.length}`;
-
-  $("quizProgress").style.width =
-    (idx / session.length * 100) + "%";
-
-  $("questionText").textContent = question.q;
-  $("answerList").innerHTML = "";
-
-  $("feedback").className = "feedback hidden";
-  $("nextQuestion").classList.add("hidden");
-
-  question.a.forEach((answer, i) => {
+  question.answers.forEach((answer, index) => {
     const button = document.createElement("button");
-
     button.className = "answer";
-    button.textContent =
-      String.fromCharCode(65 + i) + ") " + answer;
-
-    button.addEventListener("click", () => answerQuestion(i));
-
-    $("answerList").appendChild(button);
+    button.textContent = answer;
+    button.addEventListener("click", () => answerChallenge(index));
+    answersArea.appendChild(button);
   });
 }
 
-function answerQuestion(choice) {
-  if (answeredCurrent) return;
+function answerChallenge(index) {
+  if (answered) return;
+  answered = true;
 
-  answeredCurrent = true;
+  const question = challenges[challengeIndex];
+  const result = document.getElementById("challengeResult");
 
-  const question = session[idx];
-  const correct = choice === question.correct;
-
-  state.answered++;
-
-  if (correct) {
-    state.correct++;
-    state.points += 10;
-    sessionCorrect++;
-  }
-
-  if (!state.subjects[question.subject]) {
-    state.subjects[question.subject] = {
-      answered: 0,
-      correct: 0
-    };
-  }
-
-  state.subjects[question.subject].answered++;
-
-  if (correct) {
-    state.subjects[question.subject].correct++;
-  }
-
-  document.querySelectorAll(".answer").forEach((button, i) => {
-    button.disabled = true;
-
-    if (i === question.correct) {
-      button.classList.add("correct");
-    }
-
-    if (i === choice && !correct) {
-      button.classList.add("wrong");
-    }
-  });
-
-  const feedback = $("feedback");
-
-  feedback.className = "feedback " + (correct ? "good" : "bad");
-
-  const heading = document.createElement("strong");
-  heading.textContent = correct
-    ? "Muito bem! +10 pontos 🎉"
-    : "Ainda não é desta. Vamos aprender!";
-
-  const explanation = document.createElement("p");
-  explanation.textContent = question.ex;
-
-  feedback.replaceChildren(heading, explanation);
-
-  $("nextQuestion").classList.remove("hidden");
-
-  $("nextQuestion").textContent =
-    idx === session.length - 1
-      ? "Ver resultado"
-      : "Próxima pergunta →";
-
-  save();
-}
-
-$("nextQuestion").addEventListener("click", () => {
-  if (idx < session.length - 1) {
-    idx++;
-    showQuestion();
+  if (index === question.correct) {
+    result.textContent = "✅ Correto! " + question.explanation;
+    points += 10;
+    correct++;
+    saveStats();
   } else {
-    finishSession();
-  }
-});
-
-function finishSession() {
-  const elapsed = Math.max(
-    1,
-    Math.round((Date.now() - sessionStart) / 60000)
-  );
-
-  state.minutes += elapsed;
-  state.done++;
-
-  save();
-
-  $("quizBox").classList.add("hidden");
-
-  const tip = $("studyTip");
-  tip.innerHTML = "";
-
-  const heading = document.createElement("h2");
-  heading.textContent = "🏁 Sessão concluída!";
-
-  const paragraph = document.createElement("p");
-  paragraph.className = "sub";
-  paragraph.textContent =
-    `Acertaste ${sessionCorrect} de ${session.length} perguntas. ` +
-    `Ganhaste ${sessionCorrect * 10} pontos nesta sessão.`;
-
-  const again = document.createElement("button");
-  again.className = "btn";
-  again.textContent = "Fazer outra sessão";
-  again.addEventListener("click", () => buildSession("study"));
-
-  const results = document.createElement("button");
-  results.className = "btn secondary";
-  results.textContent = "Ver progresso";
-  results.addEventListener("click", () => go("progress"));
-
-  tip.replaceChildren(heading, paragraph, again, results);
-
-  toast("Sessão concluída!");
-}
-
-$("quitQuiz").addEventListener("click", () => {
-  if (confirm("Queres terminar esta sessão?")) {
-    $("quizBox").classList.add("hidden");
-  }
-});
-
-$("resetProgress").addEventListener("click", () => {
-  if (!confirm("Queres apagar todos os pontos e resultados?")) return;
-
-  state.points = 0;
-  state.answered = 0;
-  state.correct = 0;
-  state.minutes = 0;
-  state.done = 0;
-  state.subjects = {};
-
-  save();
-  toast("Progresso reposto.");
-});
-
-function addBubble(message, who) {
-  const bubble = document.createElement("div");
-  bubble.className = "bubble " + who;
-  bubble.textContent = message;
-
-  $("chatLog").appendChild(bubble);
-  $("chatLog").scrollTop = $("chatLog").scrollHeight;
-}
-
-function tutorAnswer(raw) {
-  const text = raw.toLowerCase();
-
-  if (/fraç|fraction/.test(text)) {
-    return "Vamos por partes!\n\nUma fração representa partes de um todo. O número de cima é o numerador e o de baixo é o denominador.\n\nExemplo: 1/2 + 1/4. Transformamos 1/2 em 2/4. Depois: 2/4 + 1/4 = 3/4.\n\nAgora tenta: quanto é 1/3 + 1/3?";
+    result.textContent = "❌ Ainda não! " + question.explanation;
   }
 
-  if (/equação|equacao|equation|primeiro grau/.test(text)) {
-    return "Vamos resolver passo a passo.\n\nExemplo: 2x + 4 = 12\n1. Subtrai 4 aos dois membros: 2x = 8.\n2. Divide os dois membros por 2: x = 4.\n\nAgora tenta resolver: 3x + 2 = 11.";
-  }
-
-  if (/percent|desconto/.test(text)) {
-    return "Uma percentagem é uma parte de 100.\n\nExemplo: 20% de 50 = 20/100 × 50 = 10.\n\nNum desconto, subtrai o desconto ao preço inicial.\n\nTenta: quanto é 10% de 70?";
-  }
-
-  if (/subordinad|conjunç|conjunc|causal|temporal|concessiv/.test(text)) {
-    return "Uma oração subordinada depende de outra oração.\n\n«Porque» costuma introduzir causa; «quando» pode indicar tempo; «embora» indica concessão; «para que» indica finalidade.\n\nExemplo: «Fiquei em casa porque chovia» — a chuva é a causa.\n\nAgora identifica a relação: «Embora estivesse cansada, continuou a estudar».";
-  }
-
-  if (/transformação química|transformacao quimica|reação química|reacao quimica/.test(text)) {
-    return "Numa transformação química formam-se substâncias novas. A formação de gás, uma mudança de cor ou uma alteração de energia podem ser indícios.\n\nNuma transformação física, a substância mantém-se, como o gelo a derreter.\n\nA formação de ferrugem é um exemplo de transformação química.";
-  }
-
-  if (/atmosfera|azoto|oxigénio|oxigenio/.test(text)) {
-    return "A atmosfera é a camada de gases que envolve a Terra. É composta sobretudo por azoto (cerca de 78%) e oxigénio (cerca de 21%), além de outros gases.";
-  }
-
-  if (/história|historia|revolução|revolucao/.test(text)) {
-    return "Para estudar História, organiza a resposta em três partes:\n1. Contexto: o que acontecia antes.\n2. Acontecimentos principais.\n3. Consequências.\n\nUma linha do tempo ajuda a memorizar datas e acontecimentos.";
-  }
-
-  if (/estudar|teste|concentração|concentracao/.test(text)) {
-    return "Plano rápido de estudo:\n1. Escolhe um tema pequeno.\n2. Lê a matéria durante 5–10 minutos.\n3. Explica-a por palavras tuas.\n4. Resolve perguntas sem consultar as respostas.\n5. Revê os erros.\n\nQual é a disciplina do teu próximo teste?";
-  }
-
-  if (/olá|ola|hello|bom dia|boa tarde/.test(text)) {
-    return "Olá! 👋 Diz-me a disciplina e o tema que estás a estudar. Vou tentar explicar de forma simples, com exemplos e passos.";
-  }
-
-  return "Posso ajudar-te a estudar! Diz-me a disciplina e o tema, por exemplo «Matemática: equações» ou «Português: orações subordinadas».\n\nNota: esta versão usa respostas educativas integradas no código. Não está ligada a um serviço de IA online.";
-}
-
-$("chatForm").addEventListener("submit", event => {
-  event.preventDefault();
-
-  const value = $("chatInput").value.trim();
-  if (!value) return;
-
-  addBubble(value, "me");
-  $("chatInput").value = "";
-
-  setTimeout(() => addBubble(tutorAnswer(value), "ai"), 180);
-});
-
-document.querySelectorAll(".prompt").forEach(card => {
-  card.addEventListener("click", () => {
-    $("chatInput").value = card.dataset.prompt;
-    go("tutor");
-    $("chatInput").focus();
-  });
-});
-
-let audioContext = null;
-let sourceNode = null;
-let gainNode = null;
-let oscillators = [];
-
-function stopAudio() {
-  try {
-    if (sourceNode) {
-      sourceNode.stop();
-      sourceNode.disconnect();
-    }
-  } catch {}
-
-  sourceNode = null;
-
-  oscillators.forEach(oscillator => {
-    try {
-      oscillator.stop();
-      oscillator.disconnect();
-    } catch {}
+  document.querySelectorAll("#challengeAnswers button").forEach(button => {
+    button.disabled = true;
   });
 
-  oscillators = [];
-
-  if (gainNode) gainNode.disconnect();
-  gainNode = null;
-
-  $("musicStatus").textContent = "Som desligado";
-
-  document.querySelectorAll("[data-sound]").forEach(button => {
-    button.textContent = "▶ Reproduzir";
-  });
+  document.getElementById("nextChallenge").hidden = false;
 }
 
-function playSound(type) {
-  stopAudio();
+function nextChallenge() {
+  challengeIndex = (challengeIndex + 1) % challenges.length;
+  loadChallenge();
+}
 
-  const AudioContextClass =
-    window.AudioContext || window.webkitAudioContext;
+function askTutor() {
+  const subject = document.getElementById("aiSubject").value;
+  const question = document.getElementById("aiQuestion").value.trim();
+  const answer = document.getElementById("aiAnswer");
 
-  if (!AudioContextClass) {
-    toast("Este navegador não suporta áudio.");
+  if (!question) {
+    answer.textContent = "Escreve primeiro a tua pergunta.";
     return;
   }
 
-  audioContext = audioContext || new AudioContextClass();
-  audioContext.resume();
+  const q = question.toLowerCase();
+  let explanation;
 
-  gainNode = audioContext.createGain();
-  gainNode.gain.value = Number($("volume").value) / 100 * 0.18;
-  gainNode.connect(audioContext.destination);
+  if (subject === "Matemática") {
+    explanation =
+      "Identifica os dados do exercício e o que precisas de descobrir. " +
+      "Depois, escolhe a operação ou fórmula adequada e verifica o resultado.";
 
-  if (type === "space") {
-    const oscillator = audioContext.createOscillator();
-    oscillator.type = "sine";
-    oscillator.frequency.value = 110;
-
-    const lfo = audioContext.createOscillator();
-    const modulation = audioContext.createGain();
-
-    lfo.frequency.value = 0.12;
-    modulation.gain.value = 20;
-
-    lfo.connect(modulation);
-    modulation.connect(oscillator.frequency);
-    oscillator.connect(gainNode);
-
-    oscillator.start();
-    lfo.start();
-
-    oscillators = [oscillator, lfo];
-  } else {
-    const length = audioContext.sampleRate * 2;
-    const buffer = audioContext.createBuffer(
-      1,
-      length,
-      audioContext.sampleRate
-    );
-
-    const data = buffer.getChannelData(0);
-
-    for (let i = 0; i < length; i++) {
-      data[i] = (Math.random() * 2 - 1) *
-        (type === "rain" ? 0.45 : 0.7);
+    if (q.includes("percent")) {
+      explanation =
+        "Para calcular uma percentagem, multiplica o valor pela percentagem " +
+        "e divide por 100. Exemplo: 25% de 200 = 25 × 200 ÷ 100 = 50.";
+    } else if (q.includes("equação")) {
+      explanation =
+        "Numa equação, tenta deixar a incógnita sozinha. " +
+        "Faz a mesma operação nos dois membros para manter a igualdade.";
+    } else if (q.includes("fração") || q.includes("fracção")) {
+      explanation =
+        "Numa fração, o numerador fica em cima e o denominador em baixo. " +
+        "Para somar frações com o mesmo denominador, soma os numeradores " +
+        "e mantém o denominador.";
     }
-
-    sourceNode = audioContext.createBufferSource();
-    sourceNode.buffer = buffer;
-    sourceNode.loop = true;
-
-    const filter = audioContext.createBiquadFilter();
-    filter.type = type === "rain" ? "lowpass" : "highpass";
-    filter.frequency.value = type === "rain" ? 900 : 1200;
-
-    sourceNode.connect(filter);
-    filter.connect(gainNode);
-    sourceNode.start();
+  } else if (subject === "Português") {
+    explanation =
+      "Lê a frase com atenção, identifica o verbo e observa a função " +
+      "de cada elemento. Para analisar orações, procura também a conjunção.";
+  } else if (subject === "Ciências Naturais") {
+    explanation =
+      "Identifica o conceito principal, define-o com palavras simples " +
+      "e relaciona-o com um exemplo do dia a dia.";
+  } else if (subject === "Físico-Química") {
+    explanation =
+      "Identifica os dados e as unidades. Escreve a fórmula, substitui " +
+      "os valores e apresenta o resultado com a unidade correta.";
+  } else if (subject === "História") {
+    explanation =
+      "Organiza a resposta por ordem cronológica e distingue as causas, " +
+      "os acontecimentos principais e as consequências.";
+  } else if (subject === "Geografia") {
+    explanation =
+      "Localiza o fenómeno, descreve as suas características e explica " +
+      "as causas e consequências usando exemplos.";
+  } else {
+    explanation =
+      "Identifica as palavras-chave, procura o seu significado " +
+      "e constrói uma resposta curta com um exemplo.";
   }
 
-  $("musicStatus").textContent =
-    type === "rain" ? "A tocar: chuva suave" :
-    type === "white" ? "A tocar: ruído branco" :
-    "A tocar: ambiente espacial";
-
-  document.querySelectorAll("[data-sound]").forEach(button => {
-    button.textContent = button.dataset.sound === type
-      ? "⏸ A tocar"
-      : "▶ Reproduzir";
-  });
+  answer.textContent =
+    "Ajuda em " + subject + ": " + explanation +
+    " Para uma resposta mais específica, escreve também o enunciado completo.";
 }
 
-document.querySelectorAll("[data-sound]").forEach(button => {
-  button.addEventListener("click", () => {
-    if (button.textContent.includes("A tocar")) {
-      stopAudio();
-    } else {
-      playSound(button.dataset.sound);
-    }
-  });
-});
+async function toggleMusic() {
+  const button = document.getElementById("musicButton");
+  const status = document.getElementById("musicStatus");
 
-$("stopSound").addEventListener("click", stopAudio);
-
-$("volume").addEventListener("input", event => {
-  const volume = Number(event.target.value);
-
-  $("volumeValue").textContent = volume + "%";
-
-  if (gainNode) {
-    gainNode.gain.value = volume / 100 * 0.18;
+  if (musicPlaying) {
+    if (audioContext) await audioContext.suspend();
+    musicPlaying = false;
+    button.textContent = "▶ Reproduzir";
+    status.textContent = "O som está parado.";
+    return;
   }
-});
 
-$("exportData").addEventListener("click", () => {
-  const blob = new Blob(
-    [JSON.stringify(state, null, 2)],
-    { type: "application/json" }
-  );
+  try {
+    if (!audioContext) {
+      const AudioContextClass =
+        window.AudioContext || window.webkitAudioContext;
 
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
+      if (!AudioContextClass) {
+        status.textContent = "O teu navegador não suporta áudio gerado.";
+        return;
+      }
 
-  link.href = url;
-  link.download = "study-ai-dados.json";
-  link.click();
+      audioContext = new AudioContextClass();
+      musicOscillator = audioContext.createOscillator();
+      musicGain = audioContext.createGain();
 
-  URL.revokeObjectURL(url);
-  toast("Exportação preparada.");
-});
+      musicOscillator.type = "sine";
+      musicOscillator.frequency.value = 220;
+      musicGain.gain.value = 0.025;
 
-updateGreeting();
-renderStats();
-applyLanguage();
+      musicOscillator.connect(musicGain);
+      musicGain.connect(audioContext.destination);
+      musicOscillator.start();
+    }
+
+    await audioContext.resume();
+    musicPlaying = true;
+    button.textContent = "⏸ Parar";
+    status.textContent = "A reproduzir som ambiente.";
+  } catch (error) {
+    status.textContent = "Não foi possível iniciar o som neste navegador.";
+  }
+}
+
+function saveSettings() {
+  const name = document.getElementById("userName").value.trim();
+  const language = document.getElementById("appLanguage").value;
+  const notifications = document.getElementById("notifications").checked;
+
+  localStorage.setItem("studyName", name);
+  localStorage.setItem("studyLanguage", language);
+  localStorage.setItem("studyNotifications", String(notifications));
+
+  document.getElementById("welcomeTitle").textContent =
+    name ? "Olá, " + name + "! 👋" : "Olá! 👋";
+
+  document.getElementById("settingsMessage").textContent =
+    "Definições guardadas neste navegador.";
+}
+
+function loadSettings() {
+  const name = localStorage.getItem("studyName") || "";
+  document.getElementById("userName").value = name;
+  document.getElementById("appLanguage").value =
+    localStorage.getItem("studyLanguage") || "pt-PT";
+  document.getElementById("notifications").checked =
+    localStorage.getItem("studyNotifications") === "true";
+
+  document.getElementById("welcomeTitle").textContent =
+    name ? "Olá, " + name + "! 👋" : "Olá! 👋";
+}
+
+loadChallenge();
+updateProgress();
+loadSettings();
 </script>
 </body>
 </html>
+
