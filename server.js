@@ -7,7 +7,11 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json({ limit: "1mb" }));
 
 app.get("/", (req, res) => {
-  res.json({ message: "Study AI Professor API is running." });
+  res.json({
+    name: "Study AI",
+    status: "online",
+    endpoints: ["/api/health", "/api/videos"]
+  });
 });
 
 app.get("/api/health", (req, res) => {
@@ -15,14 +19,15 @@ app.get("/api/health", (req, res) => {
 });
 
 app.get("/api/videos", async (req, res) => {
-  const query = String(req.query.q || "aulas escolares Portugal")
-    .slice(0, 150);
+  const query = String(req.query.q || "aulas escolares Portugal").slice(0, 150);
 
   const instances = [
     "https://invidious.nerdvpn.de",
     "https://inv.nadeko.net",
     "https://invidious.privacyredirect.com"
   ];
+
+  const errors = [];
 
   for (const instance of instances) {
     try {
@@ -31,13 +36,21 @@ app.get("/api/videos", async (req, res) => {
       url.searchParams.set("type", "video");
 
       const response = await fetch(url, {
-        signal: AbortSignal.timeout(7000),
+        signal: AbortSignal.timeout(8000),
         headers: { Accept: "application/json" }
       });
 
-      if (!response.ok) continue;
+      if (!response.ok) {
+        errors.push(`${instance}: HTTP ${response.status}`);
+        continue;
+      }
 
       const data = await response.json();
+
+      if (!Array.isArray(data)) {
+        errors.push(`${instance}: resposta inválida`);
+        continue;
+      }
 
       const videos = data
         .filter(item => item.type === "video" && item.videoId)
@@ -46,22 +59,25 @@ app.get("/api/videos", async (req, res) => {
           id: item.videoId,
           title: item.title || "Vídeo educativo",
           description: item.description || "",
-          thumbnail: item.videoThumbnails?.find(
-            image => image.quality === "medium"
-          )?.url || "",
+          thumbnail:
+            item.videoThumbnails?.find(image => image.quality === "medium")?.url ||
+            item.videoThumbnails?.[0]?.url ||
+            "",
           url: `https://www.youtube.com/watch?v=${item.videoId}`,
           embedUrl: `https://www.youtube.com/embed/${item.videoId}`,
           channel: item.author || ""
         }));
 
-      return res.json({ videos });
+      return res.json({ videos, query });
     } catch (error) {
-      console.error(`Instância indisponível: ${instance}`);
+      errors.push(`${instance}: ${error.message}`);
     }
   }
 
-  res.status(502).json({
-    error: "A pesquisa pública de vídeos está temporariamente indisponível.",
+  console.error("Todas as pesquisas de vídeos falharam:", errors);
+
+  return res.status(502).json({
+    error: "As fontes públicas de vídeos estão indisponíveis. Tenta novamente mais tarde.",
     videos: []
   });
 });
