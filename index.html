@@ -2359,11 +2359,19 @@ document.getElementById("chatForm").addEventListener("submit", async event => {
     const response = await fetch(data.backend + "/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        message,
-        year: data.year,
-        language: data.language
-      }),
+
+body: JSON.stringify({
+  messages: [
+    {
+      role: "user",
+      content: message
+    }
+  ],
+  year: data.year,
+  language: data.language
+}),
+signal: AbortSignal.timeout(60000)
+
       signal: AbortSignal.timeout(60000)
     });
 
