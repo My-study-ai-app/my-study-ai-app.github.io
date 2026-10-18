@@ -2360,17 +2360,21 @@ document.getElementById("chatForm").addEventListener("submit", async event => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
 
-body: JSON.stringify({
-  messages: [
-    {
-      role: "user",
-      content: message
-    }
-  ],
-  year: data.year,
-  language: data.language
-}),
-signal: AbortSignal.timeout(60000)
+      const response = await fetch(data.backend + "/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: [
+            {
+              role: "user",
+              content: message
+            }
+          ],
+          year: data.year,
+          language: data.language
+        }),
+        signal: AbortSignal.timeout(60000)
+      });
 
     if (!response.ok) throw new Error("Erro HTTP " + response.status);
 
