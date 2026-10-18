@@ -5,1706 +5,673 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#2563eb">
-<meta name="description" content="Study AI — aprende ao teu ritmo.">
-<title>Study AI</title>
-
+<title>Study AI — Aprende ao teu ritmo</title>
 <style>
 :root {
   --blue: #2563eb;
   --blue-dark: #1d4ed8;
-  --pale: #eff6ff;
-  --background: #f7f9fc;
-  --white: #ffffff;
+  --blue-light: #eff6ff;
+  --bg: #f5f8ff;
+  --surface: #ffffff;
   --text: #172033;
-  --muted: #64748b;
-  --border: #e2e8f0;
-  --radius: 16px;
+  --muted: #68758b;
+  --border: #e3eaf5;
+  --green: #15803d;
+  --red: #dc2626;
+  --radius: 18px;
 }
-
-* {
-  box-sizing: border-box;
-}
-
+* { box-sizing: border-box; }
 body {
   margin: 0;
-  background: var(--background);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, Arial, sans-serif;
+  background: var(--bg);
   color: var(--text);
-  font-family: system-ui, -apple-system, "Segoe UI",
-    sans-serif;
-  font-size: 15px;
-  line-height: 1.5;
 }
-
-button, input, textarea, select {
-  font: inherit;
-}
-
-button {
-  cursor: pointer;
-}
-
-button:focus-visible,
-input:focus-visible,
-textarea:focus-visible,
-select:focus-visible {
-  outline: 3px solid #93c5fd;
-  outline-offset: 2px;
-}
-
-.app {
-  min-height: 100vh;
-}
-
-/* MENU LATERAL */
-
+button, input, select, textarea { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+button { cursor: pointer; }
+button:disabled { opacity: .55; cursor: not-allowed; }
+a { color: var(--blue); }
+.app { min-height: 100vh; }
 .sidebar {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 245px;
-  padding: 22px 14px;
-  background: var(--white);
+  position: fixed; inset: 0 auto 0 0; width: 245px;
+  padding: 24px 16px; background: white;
   border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; z-index: 10;
   overflow-y: auto;
-  z-index: 20;
 }
-
 .brand {
-  display: flex;
-  align-items: center;
-  gap: 11px;
-  padding: 4px 9px 25px;
-  font-size: 21px;
-  font-weight: 800;
+  display: flex; align-items: center; gap: 11px;
+  font-size: 21px; font-weight: 850; margin: 0 8px 30px;
 }
-
-.logo {
-  width: 39px;
-  height: 39px;
-  display: grid;
-  place-items: center;
-  border-radius: 13px;
-  color: white;
-  background: linear-gradient(135deg, #60a5fa, #1d4ed8);
-  font-size: 22px;
+.brand-icon {
+  display: grid; place-items: center; width: 40px; height: 40px;
+  border-radius: 13px; color: white; background: var(--blue);
 }
-
 .nav-label {
-  padding: 13px 10px 7px;
-  color: #94a3b8;
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 1px;
-  text-transform: uppercase;
+  margin: 18px 10px 8px; font-size: 11px; font-weight: 800;
+  color: #8b97aa; letter-spacing: 1px; text-transform: uppercase;
 }
-
-.nav {
-  display: grid;
-  gap: 4px;
+.nav-btn {
+  width: 100%; border: 0; background: transparent; color: #5a667b;
+  display: flex; align-items: center; gap: 12px;
+  text-align: left; padding: 12px; border-radius: 12px;
+  margin: 2px 0; font-weight: 650;
 }
-
-.nav button {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  width: 100%;
-  padding: 11px 12px;
-  border: 0;
-  border-radius: 11px;
-  background: transparent;
-  color: #475569;
-  text-align: left;
-  font-weight: 600;
-  transition: background .2s, color .2s;
+.nav-btn:hover, .nav-btn.active { background: var(--blue-light); color: var(--blue); }
+.nav-icon { width: 23px; text-align: center; font-size: 18px; }
+.sidebar-bottom {
+  margin-top: auto; padding: 15px 12px 0; color: var(--muted);
+  font-size: 12px; line-height: 1.6;
 }
-
-.nav button:hover {
-  background: #f1f5f9;
-  color: var(--blue);
+.free-label {
+  background: var(--blue-light); color: var(--blue);
+  border-radius: 20px; padding: 5px 9px; display: inline-block;
+  font-weight: 750; margin-bottom: 7px;
 }
-
-.nav button.active {
-  background: var(--pale);
-  color: var(--blue);
-}
-
-.nav .icon {
-  width: 23px;
-  text-align: center;
-  font-size: 18px;
-}
-
-.side-bottom {
-  margin-top: 28px;
-  padding: 13px;
-  border: 1px solid var(--border);
-  border-radius: 13px;
-  background: #f8fafc;
-  color: var(--muted);
-  font-size: 12px;
-}
-
-.side-bottom strong {
-  display: block;
-  margin-bottom: 4px;
-  color: var(--text);
-}
-
-/* ÁREA PRINCIPAL */
-
-.main {
-  min-height: 100vh;
-  margin-left: 245px;
-}
-
+.main { margin-left: 245px; min-height: 100vh; }
 .topbar {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 70px;
-  padding: 12px 30px;
+  height: 76px; background: rgba(255,255,255,.92);
   border-bottom: 1px solid var(--border);
-  background: #ffffffed;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 30px; position: sticky; top: 0; z-index: 5;
   backdrop-filter: blur(12px);
 }
-
-.top-title {
-  font-size: 17px;
-  font-weight: 750;
-}
-
-.top-right {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
+.topbar h1 { font-size: 20px; margin: 0; }
+.top-right { display: flex; align-items: center; gap: 12px; }
 .avatar {
-  display: grid;
-  place-items: center;
-  width: 37px;
-  height: 37px;
-  border-radius: 50%;
-  background: #dbeafe;
-  color: var(--blue-dark);
+  display: grid; place-items: center; width: 38px; height: 38px;
+  background: var(--blue-light); color: var(--blue); border-radius: 50%;
   font-weight: 800;
 }
-
-.mobile-menu {
-  display: none;
-  padding: 8px 11px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  background: white;
+.menu-toggle {
+  display: none; border: 1px solid var(--border); background: white;
+  border-radius: 10px; padding: 8px 11px;
 }
-
-.content {
-  max-width: 1250px;
-  margin: auto;
-  padding: 30px;
-}
-
-.page {
-  display: none;
-  animation: appear .2s ease;
-}
-
-.page.active {
-  display: block;
-}
-
-@keyframes appear {
-  from {
-    opacity: 0;
-    transform: translateY(5px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-h1 {
-  margin: 0 0 10px;
-  font-size: clamp(27px, 3vw, 36px);
-  line-height: 1.2;
-  letter-spacing: -1px;
-}
-
-h2 {
-  margin: 0 0 15px;
-  font-size: 21px;
-}
-
-h3 {
-  margin: 0 0 8px;
-  font-size: 16px;
-}
-
-p {
-  margin-top: 0;
-}
-
-.muted {
-  color: var(--muted);
-}
-
-.small {
-  font-size: 12px;
-}
-
-/* BOTÕES E CARTÕES */
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 7px;
-  padding: 10px 15px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  background: white;
-  color: var(--text);
-  font-weight: 700;
-  transition: .2s;
-}
-
-.btn:hover {
-  transform: translateY(-1px);
-}
-
-.btn.primary {
-  border-color: var(--blue);
-  background: var(--blue);
-  color: white;
-}
-
-.btn.primary:hover {
-  background: var(--blue-dark);
-}
-
-.btn.soft {
-  border-color: #dbeafe;
-  background: var(--pale);
-  color: var(--blue);
-}
-
-.btn:disabled {
-  opacity: .55;
-  cursor: not-allowed;
-  transform: none;
-}
-
-.card {
-  min-width: 0;
-  padding: 20px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: white;
-  box-shadow: 0 5px 22px #0f172a08;
-}
-
-.grid {
-  display: grid;
-  gap: 16px;
-}
-
-.stats {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  margin-bottom: 28px;
-}
-
-.cards {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
-.stat {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.stat-icon,
-.feature-icon {
-  display: grid;
-  place-items: center;
-  flex-shrink: 0;
-  width: 44px;
-  height: 44px;
-  border-radius: 13px;
-  background: var(--pale);
-  font-size: 21px;
-}
-
-.stat-value {
-  font-size: 24px;
-  font-weight: 800;
-}
-
-.stat-label {
-  color: var(--muted);
-  font-size: 12px;
-}
-
-.section-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  margin: 27px 0 14px;
-}
-
-.section-head h2 {
-  margin: 0;
-}
-
-.feature-card {
-  display: flex;
-  align-items: flex-start;
-  gap: 13px;
-  cursor: pointer;
-  transition: .2s;
-}
-
-.feature-card:hover {
-  border-color: #bfdbfe;
-  transform: translateY(-2px);
-}
-
-.feature-card p {
-  margin: 0;
-  color: var(--muted);
-  font-size: 13px;
-}
-
+.content { max-width: 1250px; margin: auto; padding: 30px; }
+.page { display: none; }
+.page.active { display: block; animation: appear .18s ease-out; }
+@keyframes appear { from { opacity: .55; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+h2 { margin: 0 0 12px; font-size: 25px; letter-spacing: -.5px; }
+h3 { margin: 0 0 10px; font-size: 17px; }
+p { line-height: 1.6; }
+.muted { color: var(--muted); }
+.small { font-size: 13px; }
 .hero {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  margin-bottom: 25px;
-  padding: 30px;
-  border: 1px solid #dbeafe;
-  border-radius: 22px;
+  border-radius: 24px; padding: 34px;
   background: linear-gradient(120deg, #eaf2ff, #f7faff);
+  border: 1px solid #dce8ff; margin-bottom: 25px;
 }
-
-.hero p {
-  max-width: 570px;
-  color: #52627b;
+.hero h2 { font-size: clamp(27px, 4vw, 39px); max-width: 650px; }
+.hero p { color: #53647f; max-width: 650px; }
+.btn {
+  border: 1px solid var(--border); background: white; color: var(--text);
+  border-radius: 11px; padding: 10px 15px; font-weight: 700;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  text-decoration: none; transition: .15s;
 }
-
-.hero-art {
-  padding: 0 20px;
-  font-size: 78px;
+.btn:hover { border-color: #a9c4fb; transform: translateY(-1px); }
+.btn.primary { background: var(--blue); color: white; border-color: var(--blue); }
+.btn.primary:hover { background: var(--blue-dark); }
+.btn.soft { color: var(--blue); background: var(--blue-light); border-color: transparent; }
+.btn.danger { color: var(--red); }
+.btn-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.grid { display: grid; gap: 18px; }
+.grid-2 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+.grid-3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
+.grid-4 { grid-template-columns: repeat(4, minmax(0,1fr)); }
+.card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 21px; min-width: 0;
 }
-
-.pill {
-  display: inline-flex;
-  padding: 4px 9px;
-  border-radius: 99px;
-  background: #f1f5f9;
-  color: #475569;
-  font-size: 11px;
-  font-weight: 750;
+.card p { margin: 7px 0; }
+.card-icon {
+  width: 44px; height: 44px; border-radius: 14px;
+  display: grid; place-items: center; background: var(--blue-light);
+  color: var(--blue); font-size: 22px; margin-bottom: 15px;
 }
-
-.row {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 10px;
+.stat-number { font-size: 29px; font-weight: 850; margin: 7px 0; }
+.section-heading {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; margin: 27px 0 15px;
 }
-
-.stack {
-  display: grid;
-  gap: 13px;
+.section-heading h2 { font-size: 20px; margin: 0; }
+.field { display: flex; flex-direction: column; gap: 7px; margin-bottom: 15px; }
+.field label { font-size: 13px; color: #536078; font-weight: 750; }
+.field input, .field select, .field textarea,
+.chat-input, .search-input {
+  width: 100%; padding: 12px 13px; border: 1px solid #d9e2f0;
+  background: white; color: var(--text); border-radius: 11px; outline: none;
 }
-
-/* FORMULÁRIOS */
-
-.field {
-  display: grid;
-  gap: 6px;
+.field input:focus, .field select:focus, .field textarea:focus,
+.chat-input:focus, .search-input:focus {
+  border-color: var(--blue); box-shadow: 0 0 0 3px #2563eb18;
 }
-
-.field label {
-  color: #334155;
-  font-size: 13px;
-  font-weight: 700;
-}
-
-.field input,
-.field textarea,
-.field select {
-  width: 100%;
-  padding: 11px 12px;
-  border: 1px solid #cbd5e1;
-  border-radius: 10px;
-  background: white;
-  color: var(--text);
-}
-
-.field textarea {
-  min-height: 100px;
-  resize: vertical;
-}
-
-.form-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 15px;
-}
-
-.notice {
-  padding: 12px 14px;
-  border: 1px solid #dbeafe;
-  border-radius: 11px;
-  background: #eff6ff;
-  color: #1e40af;
-  font-size: 13px;
-}
-
-.notice.error {
-  border-color: #fecaca;
-  background: #fef2f2;
-  color: #991b1b;
-}
-
-.notice.success {
-  border-color: #a7f3d0;
-  background: #ecfdf5;
-  color: #065f46;
-}
-
+.field textarea { min-height: 110px; resize: vertical; }
+.status { font-size: 13px; color: var(--muted); margin-top: 12px; white-space: pre-wrap; }
+.status.error { color: var(--red); }
+.status.success { color: var(--green); }
+.hidden { display: none !important; }
 .progress-track {
-  height: 8px;
-  overflow: hidden;
-  border-radius: 99px;
-  background: #e2e8f0;
+  height: 9px; background: #e8eef8; border-radius: 20px; overflow: hidden;
 }
-
-.progress-fill {
-  height: 100%;
-  width: 0;
-  border-radius: 99px;
-  background: linear-gradient(90deg, #60a5fa, #2563eb);
-  transition: width .3s;
+.progress-fill { height: 100%; width: 0; background: var(--blue); transition: width .25s; }
+.feature-card { cursor: pointer; transition: .16s; }
+.feature-card:hover { transform: translateY(-3px); border-color: #b5cdfb; }
+.list { display: flex; flex-direction: column; gap: 10px; }
+.list-item {
+  border: 1px solid var(--border); padding: 13px;
+  border-radius: 12px; display: flex; align-items: center;
+  justify-content: space-between; gap: 12px; background: white;
 }
-
-.hidden {
-  display: none !important;
-}
-
-/* PROFESSOR IA — ESTILO DE CHAT */
-
+.row { display: flex; align-items: center; gap: 10px; }
+.wrap { flex-wrap: wrap; }
 .chat-shell {
-  display: flex;
-  flex-direction: column;
-  height: min(690px, calc(100vh - 160px));
-  min-height: 480px;
-  overflow: hidden;
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  background: white;
+  background: white; border: 1px solid var(--border);
+  border-radius: 20px; overflow: hidden;
 }
-
-.chat-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 15px 19px;
-  border-bottom: 1px solid var(--border);
-}
-
-.chat-brand {
-  display: flex;
-  align-items: center;
-  gap: 11px;
-}
-
-.ai-mark {
-  display: grid;
-  place-items: center;
-  width: 38px;
-  height: 38px;
-  border-radius: 13px;
-  background: #dbeafe;
-  color: var(--blue);
-  font-size: 20px;
-}
-
 .chat-messages {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  gap: 20px;
-  overflow-y: auto;
-  padding: 22px;
+  min-height: 330px; max-height: 55vh; overflow-y: auto;
+  padding: 22px; display: flex; flex-direction: column; gap: 18px;
 }
-
-.welcome {
-  max-width: 650px;
-  margin: auto;
-  padding: 24px;
-  text-align: center;
+.chat-welcome { text-align: center; padding: 45px 10px; }
+.chat-welcome .star { font-size: 36px; color: var(--blue); }
+.message { display: flex; gap: 10px; align-items: flex-start; }
+.message.user { flex-direction: row-reverse; }
+.message-avatar {
+  flex: 0 0 34px; height: 34px; border-radius: 50%;
+  display: grid; place-items: center; background: var(--blue-light);
+  color: var(--blue); font-weight: 800;
 }
-
-.welcome-icon {
-  display: grid;
-  place-items: center;
-  width: 60px;
-  height: 60px;
-  margin: 0 auto 18px;
-  border-radius: 20px;
-  background: var(--pale);
-  font-size: 28px;
-}
-
-.suggestions {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 18px;
-}
-
-.suggestions button {
-  padding: 9px 12px;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: white;
-  color: #475569;
-  font-size: 12px;
-}
-
-.message {
-  display: flex;
-  align-items: flex-start;
-  gap: 11px;
-  width: 100%;
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.message.user {
-  flex-direction: row-reverse;
-}
-
-.msg-avatar {
-  display: grid;
-  place-items: center;
-  flex-shrink: 0;
-  width: 31px;
-  height: 31px;
-  border-radius: 50%;
-  background: #dbeafe;
-  color: var(--blue);
-}
-
-.message.user .msg-avatar {
-  background: #e2e8f0;
-  color: #334155;
-}
-
 .bubble {
-  max-width: calc(100% - 44px);
-  padding: 12px 15px;
+  max-width: 85%; background: #f3f6fb; border-radius: 5px 16px 16px 16px;
+  padding: 12px 15px; white-space: pre-wrap; line-height: 1.65;
   overflow-wrap: anywhere;
-  white-space: pre-wrap;
-  border: 1px solid #eef2f7;
-  border-radius: 15px;
-  background: #f8fafc;
 }
-
-.message.user .bubble {
-  border-color: #dbeafe;
-  background: #eff6ff;
-}
-
+.user .bubble { background: var(--blue); color: white; border-radius: 16px 5px 16px 16px; }
 .chat-compose {
-  padding: 14px 17px;
-  border-top: 1px solid var(--border);
+  padding: 13px; border-top: 1px solid var(--border);
+  display: flex; gap: 10px; align-items: flex-end;
 }
-
-.compose-inner {
-  display: flex;
-  align-items: flex-end;
-  gap: 10px;
-  max-width: 900px;
-  margin: auto;
-  padding: 9px;
-  border: 1px solid #cbd5e1;
-  border-radius: 15px;
+.chat-input { resize: none; min-height: 46px; max-height: 140px; }
+.player {
+  width: 100%; aspect-ratio: 16 / 9; background: #111827;
+  border-radius: 15px; overflow: hidden; display: grid; place-items: center;
 }
-
-.compose-inner textarea {
-  flex: 1;
-  min-height: 42px;
-  max-height: 140px;
-  padding: 10px;
-  border: 0;
-  outline: 0;
-  resize: none;
+.player iframe, .player video { width: 100%; height: 100%; border: 0; }
+.player img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.quiz-option {
+  display: flex; align-items: center; gap: 10px; padding: 13px;
+  border: 1px solid var(--border); border-radius: 12px; cursor: pointer;
+  margin: 9px 0;
 }
-
-.send-btn {
-  width: 42px;
-  height: 42px;
-  border: 0;
-  border-radius: 11px;
-  background: var(--blue);
-  color: white;
-  font-size: 19px;
-}
-
-.compose-note {
-  margin: 8px 0 0;
-  color: #94a3b8;
-  text-align: center;
-  font-size: 10px;
-}
-
-/* VÍDEOS INTEGRADOS */
-
-.video-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1.6fr) minmax(250px, .8fr);
-  gap: 18px;
-}
-
-.video-player {
-  display: grid;
-  place-items: center;
-  width: 100%;
-  aspect-ratio: 16 / 9;
-  overflow: hidden;
-  border-radius: 14px;
-  background: #0f172a;
-  color: white;
-}
-
-.video-player video,
-.video-player iframe {
-  width: 100%;
-  height: 100%;
-  border: 0;
-  background: #0f172a;
-}
-
-.video-placeholder {
-  padding: 20px;
-  color: #cbd5e1;
-  text-align: center;
-}
-
-.video-placeholder .big {
-  font-size: 50px;
-}
-
-.lesson-list {
-  display: grid;
-  gap: 8px;
-  max-height: 430px;
-  overflow-y: auto;
-}
-
-.lesson-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  width: 100%;
-  padding: 12px;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: white;
-  text-align: left;
-}
-
-.lesson-item.selected {
-  border-color: #93c5fd;
-  background: var(--pale);
-}
-
-.lesson-item strong {
-  display: block;
-  font-size: 13px;
-}
-
-/* EXERCÍCIOS E RESULTADOS */
-
-.option {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 8px 0;
-  padding: 12px;
-  border: 1px solid var(--border);
-  border-radius: 11px;
-  cursor: pointer;
-}
-
-.option:has(input:checked) {
-  border-color: #60a5fa;
-  background: var(--pale);
-}
-
-.option input {
-  accent-color: var(--blue);
-}
-
-.quiz-question {
-  margin: 15px 0 18px;
-  font-size: 19px;
-  font-weight: 750;
-}
-
-.empty {
-  padding: 30px 18px;
-  color: var(--muted);
-  text-align: center;
-}
-
-.empty-icon {
-  font-size: 35px;
-}
-
-.list-item,
-.music-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--border);
-}
-
-.list-item:last-child,
-.music-item:last-child {
-  border-bottom: 0;
-}
-
-.image-result {
-  display: block;
-  max-width: 100%;
-  max-height: 480px;
-  margin: 15px auto;
-  border-radius: 12px;
-}
-
-.footer-note {
-  margin-top: 25px;
-  color: #94a3b8;
-  text-align: center;
-  font-size: 12px;
-}
-
+.quiz-option:hover { border-color: #a9c4fb; background: #f8faff; }
+.quiz-option input { accent-color: var(--blue); }
+.quiz-feedback { padding: 12px; background: var(--blue-light); border-radius: 12px; margin: 12px 0; }
 .toast {
-  position: fixed;
-  right: 20px;
-  bottom: 20px;
-  z-index: 60;
-  display: none;
-  max-width: 360px;
-  padding: 12px 16px;
-  border-radius: 12px;
-  background: #0f172a;
-  color: white;
+  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+  padding: 12px 18px; color: white; background: #172033;
+  border-radius: 12px; z-index: 100; box-shadow: 0 8px 35px #0002;
+  max-width: calc(100vw - 30px);
 }
-
-.toast.show {
-  display: block;
+.empty { padding: 25px; text-align: center; color: var(--muted); }
+@media(max-width:1000px) {
+  .grid-4 { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .grid-3 { grid-template-columns: repeat(2,minmax(0,1fr)); }
 }
-
-/* TELEMÓVEIS */
-
-@media (max-width: 1000px) {
-  .stats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .cards {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .video-layout {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 760px) {
-  .sidebar {
-    transform: translateX(-105%);
-    transition: transform .22s;
-    box-shadow: none;
-  }
-
-  .sidebar.open {
-    transform: translateX(0);
-    box-shadow: 15px 0 40px #0f172a18;
-  }
-
-  .main {
-    margin-left: 0;
-  }
-
-  .mobile-menu {
-    display: inline-flex;
-  }
-
-  .topbar {
-    min-height: 64px;
-    padding: 12px 15px;
-  }
-
-  .content {
-    padding: 22px 15px 40px;
-  }
-
-  .hero {
-    padding: 22px;
-  }
-
-  .hero-art {
-    display: none;
-  }
-
-  .cards,
-  .form-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .chat-shell {
-    height: calc(100vh - 125px);
-    min-height: 440px;
-  }
-
-  .chat-messages {
-    padding: 14px;
-  }
-
-  .chat-compose {
-    padding: 10px;
-  }
-
-  .card {
-    padding: 15px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: .01ms !important;
-    transition-duration: .01ms !important;
-  }
+@media(max-width:760px) {
+  .sidebar { transform: translateX(-105%); transition: transform .2s; box-shadow: 0 0 30px #0001; }
+  .sidebar.open { transform: translateX(0); }
+  .main { margin-left: 0; }
+  .menu-toggle { display: inline-flex; }
+  .topbar { padding: 0 16px; height: 65px; }
+  .content { padding: 18px 14px; }
+  .hero { padding: 23px; }
+  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  .chat-messages { padding: 14px; }
 }
 </style>
 </head>
-
 <body>
 <div class="app">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand"><span class="brand-icon">✦</span><span>Study AI</span></div>
 
-<aside class="sidebar" id="sidebar">
-  <div class="brand">
-    <span class="logo">✦</span>
-    <span>Study AI</span>
-  </div>
+    <div class="nav-label">Aprendizagem</div>
+    <button class="nav-btn active" data-page="home"><span class="nav-icon">⌂</span>Início</button>
+    <button class="nav-btn" data-page="study"><span class="nav-icon">📚</span>Estudar</button>
+    <button class="nav-btn" data-page="videos"><span class="nav-icon">▶</span>Vídeos-aula</button>
+    <button class="nav-btn" data-page="exercises"><span class="nav-icon">✓</span>Exercícios</button>
 
-  <div class="nav-label">Espaço de estudo</div>
+    <div class="nav-label">Inteligência artificial</div>
+    <button class="nav-btn" data-page="professor"><span class="nav-icon">✦</span>Professor IA</button>
+    <button class="nav-btn" data-page="images"><span class="nav-icon">▧</span>Imagens IA</button>
 
-  <nav class="nav" aria-label="Navegação principal">
-    <button class="active" data-page="home">
-      <span class="icon">⌂</span>Início
-    </button>
-    <button data-page="study">
-      <span class="icon">📚</span>Estudar
-    </button>
-    <button data-page="videos">
-      <span class="icon">▶</span>Vídeos-aula
-    </button>
-    <button data-page="exercises">
-      <span class="icon">✎</span>Exercícios
-    </button>
-    <button data-page="images">
-      <span class="icon">▧</span>Imagens IA
-    </button>
-    <button data-page="professor">
-      <span class="icon">✦</span>Professor IA
-    </button>
-    <button data-page="music">
-      <span class="icon">♫</span>Música
-    </button>
-  </nav>
+    <div class="nav-label">A tua atividade</div>
+    <button class="nav-btn" data-page="music"><span class="nav-icon">♫</span>Música</button>
+    <button class="nav-btn" data-page="progress"><span class="nav-icon">▥</span>Progresso</button>
+    <button class="nav-btn" data-page="favorites"><span class="nav-icon">♡</span>Favoritos</button>
+    <button class="nav-btn" data-page="settings"><span class="nav-icon">⚙</span>Definições</button>
 
-  <div class="nav-label">Pessoal</div>
-
-  <nav class="nav">
-    <button data-page="progress">
-      <span class="icon">◴</span>Progresso
-    </button>
-    <button data-page="favorites">
-      <span class="icon">♡</span>Favoritos
-    </button>
-    <button data-page="settings">
-      <span class="icon">⚙</span>Definições
-    </button>
-  </nav>
-
-  <div class="side-bottom">
-    <strong>✦ Study AI gratuito</strong>
-    Ferramentas de estudo num só lugar.
-  </div>
-</aside>
-
-<main class="main">
-  <header class="topbar">
-    <div class="row">
-      <button class="mobile-menu" id="mobileMenu"
-        aria-label="Abrir menu">☰</button>
-      <span class="top-title" id="topTitle">Início</span>
+    <div class="sidebar-bottom">
+      <span class="free-label">100% gratuito</span><br>
+      Aprende ao teu ritmo com o Study AI.
     </div>
+  </aside>
 
-    <div class="top-right">
-      <span class="muted small" id="topUser">Estudante</span>
-      <span class="avatar" id="avatar">E</span>
-    </div>
-  </header>
-
-  <div class="content">
-
-    <!-- INÍCIO -->
-
-    <section class="page active" id="page-home">
-      <div class="hero">
-        <div>
-          <span class="pill">✦ O teu espaço de aprendizagem</span>
-          <h1 id="greeting">Olá! Vamos aprender?</h1>
-          <p>
-            Estuda ao teu ritmo, pratica com exercícios
-            e acompanha a tua evolução. Tudo num só lugar.
-          </p>
-          <button class="btn primary" data-go="study">
-            Começar a estudar →
-          </button>
-        </div>
-        <div class="hero-art" aria-hidden="true">📘</div>
+  <main class="main">
+    <header class="topbar">
+      <div class="row">
+        <button class="menu-toggle" id="mobileMenu" aria-label="Abrir menu">☰</button>
+        <h1 id="topTitle">Início</h1>
       </div>
-
-      <div class="grid stats">
-        <div class="card stat">
-          <div class="stat-icon">⏱️</div>
-          <div>
-            <div class="stat-value" id="statMinutes">0 min</div>
-            <div class="stat-label">Tempo de estudo</div>
-          </div>
-        </div>
-
-        <div class="card stat">
-          <div class="stat-icon">✓</div>
-          <div>
-            <div class="stat-value" id="statQuizzes">0</div>
-            <div class="stat-label">Respostas dadas</div>
-          </div>
-        </div>
-
-        <div class="card stat">
-          <div class="stat-icon">🎯</div>
-          <div>
-            <div class="stat-value" id="statAccuracy">—</div>
-            <div class="stat-label">Taxa de acerto</div>
-          </div>
-        </div>
-
-        <div class="card stat">
-          <div class="stat-icon">🔥</div>
-          <div>
-            <div class="stat-value" id="statDays">0</div>
-            <div class="stat-label">Dias de estudo</div>
-          </div>
-        </div>
+      <div class="top-right">
+        <span class="muted small" id="topUser">Estudante</span>
+        <div class="avatar" id="avatar">E</div>
       </div>
+    </header>
 
-      <div class="section-head">
-        <h2>O que queres fazer hoje?</h2>
-      </div>
-
-      <div class="grid cards">
-        <div class="card feature-card" data-go="professor">
-          <div class="feature-icon">✦</div>
-          <div>
-            <h3>Falar com o Professor IA</h3>
-            <p>Tira dúvidas e pede explicações passo a passo.</p>
+    <div class="content">
+      <section class="page active" id="page-home">
+        <div class="hero">
+          <p class="small">O TEU ESPAÇO DE APRENDIZAGEM</p>
+          <h2 id="greeting">Olá! Vamos aprender?</h2>
+          <p>Estuda, pratica e esclarece dúvidas com ferramentas criadas para te ajudar a aprender melhor.</p>
+          <div class="btn-row">
+            <button class="btn primary" data-go="study">Começar a estudar →</button>
+            <button class="btn" data-go="professor">Perguntar ao Professor IA</button>
           </div>
         </div>
 
-        <div class="card feature-card" data-go="videos">
-          <div class="feature-icon">▶</div>
-          <div>
-            <h3>Ver uma vídeo-aula</h3>
-            <p>Encontra aulas e vê os vídeos nesta página.</p>
+        <div class="grid grid-4">
+          <div class="card">
+            <div class="muted small">Tempo de estudo</div>
+            <div class="stat-number" id="statMinutes">0 min</div>
+            <div class="muted small">Minutos registados</div>
+          </div>
+          <div class="card">
+            <div class="muted small">Respostas</div>
+            <div class="stat-number" id="statQuizzes">0</div>
+            <div class="muted small">Exercícios respondidos</div>
+          </div>
+          <div class="card">
+            <div class="muted small">Precisão</div>
+            <div class="stat-number" id="statAccuracy">—</div>
+            <div class="muted small">Respostas corretas</div>
+          </div>
+          <div class="card">
+            <div class="muted small">Dias ativos</div>
+            <div class="stat-number" id="statDays">0</div>
+            <div class="muted small">Dias em que estudaste</div>
           </div>
         </div>
 
-        <div class="card feature-card" data-go="exercises">
-          <div class="feature-icon">✎</div>
-          <div>
-            <h3>Treinar com exercícios</h3>
-            <p>Pratica e recebe feedback imediato.</p>
+        <div class="section-heading"><h2>O que queres fazer?</h2></div>
+        <div class="grid grid-3">
+          <div class="card feature-card" data-go="professor">
+            <div class="card-icon">✦</div><h3>Professor IA</h3>
+            <p class="muted small">Faz perguntas e pede explicações passo a passo.</p>
+          </div>
+          <div class="card feature-card" data-go="videos">
+            <div class="card-icon">▶</div><h3>Vídeos-aula</h3>
+            <p class="muted small">Procura aulas e reproduz os vídeos disponíveis.</p>
+          </div>
+          <div class="card feature-card" data-go="exercises">
+            <div class="card-icon">✓</div><h3>Desafios</h3>
+            <p class="muted small">Pratica matérias com perguntas interativas.</p>
+          </div>
+          <div class="card feature-card" data-go="images">
+            <div class="card-icon">▧</div><h3>Imagens IA</h3>
+            <p class="muted small">Cria imagens a partir das tuas descrições.</p>
+          </div>
+          <div class="card feature-card" data-go="music">
+            <div class="card-icon">♫</div><h3>Música de estudo</h3>
+            <p class="muted small">Encontra música para te concentrares.</p>
+          </div>
+          <div class="card feature-card" data-go="progress">
+            <div class="card-icon">▥</div><h3>O teu progresso</h3>
+            <p class="muted small">Acompanha as tuas respostas e sessões.</p>
           </div>
         </div>
+        <p class="muted small" id="profileSummary">Configura o teu ano escolar nas Definições.</p>
+      </section>
 
-        <div class="card feature-card" data-go="images">
-          <div class="feature-icon">▧</div>
-          <div>
-            <h3>Explorar imagens</h3>
-            <p>Procura recursos visuais ou gera imagens com IA.</p>
-          </div>
-        </div>
-
-        <div class="card feature-card" data-go="music">
-          <div class="feature-icon">♫</div>
-          <div>
-            <h3>Música de estudo</h3>
-            <p>Ouve música enquanto estudas.</p>
-          </div>
-        </div>
-
-        <div class="card feature-card" data-go="progress">
-          <div class="feature-icon">◴</div>
-          <div>
-            <h3>Acompanhar progresso</h3>
-            <p>Vê o tempo dedicado e os teus resultados.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="section-head">
-        <h2>O teu perfil de estudo</h2>
-        <button class="btn" data-go="settings">Editar perfil</button>
-      </div>
-
-      <div class="card">
-        <strong id="profileSummary">Configura o teu ano escolar</strong>
-        <p class="muted small">Personaliza o teu perfil nas definições.</p>
-      </div>
-    </section>
-
-    <!-- ESTUDAR -->
-
-    <section class="page" id="page-study">
-      <h1>Estudar</h1>
-      <p class="muted">Prepara a tua próxima sessão de estudo.</p>
-
-      <div class="grid cards">
-        <div class="card stack">
-          <h3>Plano de estudo</h3>
-
-          <div class="field">
-            <label for="studyYear">Ano escolar</label>
-            <select id="studyYear">
-              <option value="">Seleciona o ano</option>
-              <option>5.º ano</option>
-              <option>6.º ano</option>
-              <option>7.º ano</option>
-              <option>8.º ano</option>
-              <option>9.º ano</option>
-              <option>10.º ano</option>
-              <option>11.º ano</option>
-              <option>12.º ano</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <label for="subject">Disciplina</label>
-            <select id="subject">
-              <option>Matemática</option>
-              <option>Português</option>
-              <option>Inglês</option>
-              <option>Ciências Naturais</option>
-              <option>Físico-Química</option>
-              <option>História</option>
-              <option>Geografia</option>
-              <option>Outra</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <label for="topic">Tema a estudar</label>
-            <input id="topic"
-              placeholder="Ex.: frações, gramática…">
-          </div>
-
-          <div class="field">
-            <label for="duration">Duração</label>
-            <select id="duration">
-              <option value="5">5 minutos</option>
-              <option value="10">10 minutos</option>
-              <option value="15" selected>15 minutos</option>
-              <option value="25">25 minutos</option>
-              <option value="40">40 minutos</option>
-            </select>
-          </div>
-
-          <button class="btn primary" id="startStudy">
-            Iniciar sessão
-          </button>
-        </div>
-
-        <div class="card">
-          <h3>Temporizador</h3>
-          <p class="muted small">Controla o tempo da tua sessão.</p>
-          <div id="timerDisplay"
-            style="font-size:44px;font-weight:800;text-align:center;padding:25px 0">
-            15:00
-          </div>
-          <div class="row">
-            <button class="btn primary" id="timerStart">▶ Iniciar</button>
-            <button class="btn" id="timerPause" disabled>Ⅱ Pausar</button>
-            <button class="btn" id="timerReset">↺ Reiniciar</button>
-          </div>
-          <div class="progress-track" style="margin-top:20px">
-            <div class="progress-fill" id="timerProgress"></div>
-          </div>
-          <p class="muted small" id="timerLabel">Pronto para começar</p>
-        </div>
-
-        <div class="card stack">
-          <h3>Notas da sessão</h3>
-          <div class="field">
-            <label for="studyNotes">O que aprendeste?</label>
-            <textarea id="studyNotes"
-              placeholder="Escreve aqui as tuas notas…"></textarea>
-          </div>
-          <button class="btn" id="saveNotes">Guardar notas</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- VÍDEOS-AULA -->
-
-    <section class="page" id="page-videos">
-      <h1>Vídeos-aula</h1>
-      <p class="muted">
-        Pesquisa aulas e reproduz os vídeos dentro do Study AI.
-      </p>
-
-      <div class="card stack" style="margin-bottom:18px">
-        <div class="form-grid">
-          <div class="field">
-            <label for="videoQuery">Tema da aula</label>
-            <input id="videoQuery"
-              placeholder="Ex.: equações, sistema solar…">
-          </div>
-
-          <div class="field">
-            <label for="videoSubject">Disciplina</label>
-            <select id="videoSubject">
-              <option value="">Todas as disciplinas</option>
-              <option>Matemática</option>
-              <option>Português</option>
-              <option>Ciências Naturais</option>
-              <option>Físico-Química</option>
-              <option>História</option>
-              <option>Geografia</option>
-              <option>Inglês</option>
-            </select>
-          </div>
-        </div>
-
-        <button class="btn primary" id="searchVideos">
-          ⌕ Procurar aulas
-        </button>
-
-        <div class="notice" id="videoStatus">
-          Os vídeos compatíveis aparecerão aqui para serem
-          reproduzidos na própria aplicação.
-        </div>
-      </div>
-
-      <div class="video-layout">
-        <div class="card">
-          <div class="video-player" id="videoPlayer">
-            <div class="video-placeholder">
-              <div class="big">▶</div>
-              <strong>Escolhe uma vídeo-aula</strong>
-              <p class="small">O vídeo será reproduzido aqui.</p>
+      <section class="page" id="page-study">
+        <div class="section-heading"><h2>Sessão de estudo</h2></div>
+        <div class="grid grid-2">
+          <div class="card">
+            <h3>Define o teu tempo</h3>
+            <p class="muted small">Escolhe uma duração e começa a tua sessão.</p>
+            <div class="field">
+              <label for="duration">Duração</label>
+              <select id="duration">
+                <option value="5">5 minutos</option>
+                <option value="15" selected>15 minutos</option>
+                <option value="25">25 minutos</option>
+                <option value="45">45 minutos</option>
+                <option value="60">60 minutos</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="studyYear">Ano escolar</label>
+              <select id="studyYear">
+                <option value="">Selecionar ano</option>
+                <option>1.º ano</option><option>2.º ano</option>
+                <option>3.º ano</option><option>4.º ano</option>
+                <option>5.º ano</option><option>6.º ano</option>
+                <option>7.º ano</option><option>8.º ano</option>
+                <option>9.º ano</option><option>10.º ano</option>
+                <option>11.º ano</option><option>12.º ano</option>
+              </select>
+            </div>
+            <div class="stat-number" id="timerDisplay">15:00</div>
+            <div class="progress-track"><div class="progress-fill" id="timerProgress"></div></div>
+            <p class="muted small" id="timerLabel">Pronto para começar.</p>
+            <div class="btn-row">
+              <button class="btn primary" id="timerStart">▶ Iniciar</button>
+              <button class="btn" id="timerPause" disabled>Ⅱ Pausar</button>
+              <button class="btn" id="timerReset">Reiniciar</button>
             </div>
           </div>
-
-          <div style="padding-top:16px">
-            <h2 id="currentVideoTitle">Nenhum vídeo selecionado</h2>
-            <p class="muted small" id="currentVideoDesc">
-              Pesquisa uma aula para começar.
-            </p>
+          <div class="card">
+            <h3>Notas da sessão</h3>
+            <p class="muted small">Regista o que aprendeste ou aquilo que tens de rever.</p>
+            <div class="field">
+              <label for="studyNotes">As tuas notas</label>
+              <textarea id="studyNotes" placeholder="Hoje aprendi…"></textarea>
+            </div>
+            <button class="btn primary" id="saveNotes">Guardar notas</button>
           </div>
         </div>
+      </section>
 
+      <section class="page" id="page-videos">
+        <div class="section-heading"><h2>Vídeos-aula</h2></div>
         <div class="card">
-          <h3>Aulas encontradas</h3>
-          <div class="lesson-list" id="videoResults">
-            <div class="empty">
-              <div class="empty-icon">🎬</div>
-              <p>Pesquisa um tema para encontrar aulas.</p>
+          <p class="muted">Procura aulas educativas. A reprodução depende dos vídeos e endereços disponibilizados pelo servidor.</p>
+          <div class="grid grid-2">
+            <div class="field">
+              <label for="videoQuery">Tema a estudar</label>
+              <input id="videoQuery" class="search-input" placeholder="Ex.: frações, sistema solar…">
             </div>
+            <div class="field">
+              <label for="videoSubject">Disciplina</label>
+              <select id="videoSubject">
+                <option value="">Todas as disciplinas</option>
+                <option>Matemática</option><option>Português</option>
+                <option>Ciências Naturais</option><option>Físico-Química</option>
+                <option>História</option><option>Geografia</option>
+                <option>Inglês</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn primary" id="searchVideos">⌕ Procurar aulas</button>
+          <div class="status" id="videoStatus" role="status"></div>
+        </div>
+        <div class="grid grid-2" style="margin-top:18px">
+          <div class="card">
+            <h3 id="currentVideoTitle">Escolhe uma aula</h3>
+            <p class="muted small" id="currentVideoDesc">O vídeo selecionado aparecerá aqui.</p>
+            <div class="player" id="videoPlayer"><span style="color:white">▶</span></div>
+          </div>
+          <div class="card">
+            <h3>Aulas encontradas</h3>
+            <div class="list" id="videoResults"><p class="muted small">Pesquisa um tema para começar.</p></div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- PROFESSOR IA -->
-
-    <section class="page" id="page-professor">
-      <h1>Professor IA</h1>
-      <p class="muted">
-        Um espaço de conversa inspirado no estilo do ChatGPT.
-      </p>
-
-      <div class="chat-shell">
-        <div class="chat-head">
-          <div class="chat-brand">
-            <div class="ai-mark">✦</div>
-            <div>
-              <strong>Professor IA</strong>
-              <div class="muted small">Assistente de aprendizagem</div>
-            </div>
+      <section class="page" id="page-exercises">
+        <div class="section-heading">
+          <h2>Desafios e exercícios</h2>
+          <button class="btn" id="newQuiz">↻ Novo conjunto</button>
+        </div>
+        <div class="card">
+          <div class="row wrap" style="justify-content:space-between">
+            <span class="muted small" id="quizCounter">Pergunta 1</span>
+            <span class="muted small" id="quizScore">Pontuação: 0</span>
           </div>
+          <div id="quizContent" style="margin-top:20px"></div>
+          <div id="quizFeedback" class="quiz-feedback hidden" role="status"></div>
+          <div class="btn-row" style="margin-top:18px">
+            <button class="btn primary" id="checkAnswer">Confirmar resposta</button>
+            <button class="btn primary hidden" id="nextQuestion">Próxima pergunta →</button>
+          </div>
+        </div>
+      </section>
 
+      <section class="page" id="page-professor">
+        <div class="section-heading">
+          <div><h2>Professor IA</h2><p class="muted small">Um assistente para esclarecer dúvidas e estudar.</p></div>
           <button class="btn" id="clearChat">Nova conversa</button>
         </div>
-
-        <div class="chat-messages" id="chatMessages">
-          <div class="welcome" id="chatWelcome">
-            <div class="welcome-icon">✦</div>
-            <h2>Em que posso ajudar?</h2>
-            <p>
-              Pede explicações, exemplos ou ajuda com os teus exercícios.
-            </p>
-
-            <div class="suggestions">
-              <button data-prompt="Explica-me as frações com exemplos simples.">
-                Explicar uma matéria
-              </button>
-              <button data-prompt="Faz-me 5 perguntas de Matemática para estudar.">
-                Fazer perguntas
-              </button>
-              <button data-prompt="Ajuda-me a resolver um exercício passo a passo.">
-                Resolver um exercício
-              </button>
+        <div class="chat-shell">
+          <div class="chat-messages" id="chatMessages" aria-live="polite">
+            <div class="chat-welcome" id="chatWelcome">
+              <div class="star">✦</div>
+              <h2>Em que posso ajudar?</h2>
+              <p class="muted">Pede explicações, exemplos ou ajuda com os teus exercícios.</p>
+              <div class="btn-row" style="justify-content:center">
+                <button class="btn soft" data-prompt="Explica-me as frações com exemplos simples.">Explicar uma matéria</button>
+                <button class="btn soft" data-prompt="Faz-me cinco perguntas de Matemática para estudar.">Fazer perguntas</button>
+                <button class="btn soft" data-prompt="Ajuda-me a resolver um exercício passo a passo.">Resolver um exercício</button>
+              </div>
             </div>
           </div>
-        </div>
-
-        <div class="chat-compose">
-          <form class="compose-inner" id="chatForm">
-            <textarea id="chatInput" rows="1"
-              aria-label="Mensagem para o Professor IA"
-              placeholder="Pergunta o que quiseres…"></textarea>
-            <button class="send-btn" type="submit"
-              id="sendChat" aria-label="Enviar mensagem">↑</button>
+          <form class="chat-compose" id="chatForm">
+            <textarea class="chat-input" id="chatInput" rows="1" placeholder="Pergunta o que quiseres…" aria-label="Mensagem para o Professor IA"></textarea>
+            <button class="btn primary" id="sendChat" type="submit" aria-label="Enviar mensagem">↑</button>
           </form>
-          <p class="compose-note">
-            Confirma as respostas importantes com os teus materiais escolares.
-          </p>
         </div>
-      </div>
+        <div class="status" id="chatStatus" role="status"></div>
+      </section>
 
-      <div id="chatStatus" class="notice hidden"
-        style="margin-top:12px"></div>
-    </section>
-
-    <!-- IMAGENS IA -->
-
-    <section class="page" id="page-images">
-      <h1>Imagens IA</h1>
-      <p class="muted">
-        Gera imagens educativas através do serviço configurado.
-      </p>
-
-      <div class="card stack">
-        <div class="field">
-          <label for="imagePrompt">Descreve a imagem</label>
-          <textarea id="imagePrompt"
-            placeholder="Ex.: uma ilustração do sistema solar…"></textarea>
-        </div>
-        <button class="btn primary" id="generateImage">
-          ✦ Gerar imagem
-        </button>
-        <div id="imageStatus" class="notice">
-          A geração de imagens precisa de um serviço de IA configurado.
-        </div>
-        <div id="imageOutput"></div>
-      </div>
-    </section>
-
-    <!-- EXERCÍCIOS -->
-
-    <section class="page" id="page-exercises">
-      <h1>Exercícios</h1>
-      <p class="muted">Pratica e recebe feedback sobre as respostas.</p>
-
-      <div class="card">
-        <div class="row" style="justify-content:space-between">
-          <span class="pill" id="quizCounter">Pergunta 1</span>
-          <button class="btn" id="newQuiz">Novo conjunto</button>
-        </div>
-
-        <div id="quizContent"></div>
-        <div id="quizFeedback" class="notice hidden"
-          style="margin:14px 0"></div>
-
-        <div class="row" style="justify-content:space-between">
-          <span class="muted small" id="quizScore">Pontuação: 0</span>
-          <button class="btn primary" id="checkAnswer">
-            Confirmar resposta
-          </button>
-          <button class="btn primary hidden" id="nextQuestion">
-            Próxima pergunta →
-          </button>
-        </div>
-      </div>
-    </section>
-
-    <!-- MÚSICA -->
-
-    <section class="page" id="page-music">
-      <h1>Música de estudo</h1>
-      <p class="muted">Ouve música enquanto estudas.</p>
-
-      <div class="card stack">
-        <h3>Reprodutor de música</h3>
-        <audio id="musicPlayer" controls preload="none"
-          style="width:100%"></audio>
-        <div class="muted small" id="musicNow">
-          Nenhuma faixa selecionada
-        </div>
-        <div id="musicList"></div>
-      </div>
-    </section>
-
-    <!-- PROGRESSO -->
-
-    <section class="page" id="page-progress">
-      <h1>O teu progresso</h1>
-      <p class="muted">Acompanha a tua evolução.</p>
-
-      <div class="grid stats">
-        <div class="card stat">
-          <div class="stat-icon">⏱️</div>
-          <div>
-            <div class="stat-value" id="progressMinutes">0 min</div>
-            <div class="stat-label">Tempo total</div>
-          </div>
-        </div>
-        <div class="card stat">
-          <div class="stat-icon">✓</div>
-          <div>
-            <div class="stat-value" id="progressCompleted">0</div>
-            <div class="stat-label">Perguntas respondidas</div>
-          </div>
-        </div>
-        <div class="card stat">
-          <div class="stat-icon">🎯</div>
-          <div>
-            <div class="stat-value" id="progressAccuracy">—</div>
-            <div class="stat-label">Respostas corretas</div>
-          </div>
-        </div>
-        <div class="card stat">
-          <div class="stat-icon">📅</div>
-          <div>
-            <div class="stat-value" id="progressDays">0</div>
-            <div class="stat-label">Dias de estudo</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="card">
-        <h2>Resumo de aprendizagem</h2>
-        <div class="row" style="justify-content:space-between">
-          <span class="muted">Perguntas certas</span>
-          <strong id="correctSummary">0</strong>
-        </div>
-        <div class="progress-track" style="margin:12px 0 20px">
-          <div class="progress-fill" id="accuracyBar"></div>
-        </div>
-        <div class="row" style="justify-content:space-between">
-          <span class="muted">Sessões de estudo</span>
-          <strong id="sessionSummary">0</strong>
-        </div>
-      </div>
-    </section>
-
-    <!-- FAVORITOS -->
-
-    <section class="page" id="page-favorites">
-      <h1>Favoritos</h1>
-      <p class="muted">Os teus recursos guardados.</p>
-
-      <div class="card" id="favoritesList">
-        <div class="empty">
-          <div class="empty-icon">♡</div>
-          <p>Ainda não guardaste favoritos.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- DEFINIÇÕES -->
-
-    <section class="page" id="page-settings">
-      <h1>Definições</h1>
-      <p class="muted">Personaliza o teu perfil.</p>
-
-      <div class="grid cards">
-        <div class="card stack">
-          <h3>Perfil de estudante</h3>
-
+      <section class="page" id="page-images">
+        <div class="section-heading"><h2>Imagens IA</h2></div>
+        <div class="card">
+          <p class="muted">Descreve a imagem que queres criar. A geração real requer um serviço de imagens configurado no servidor.</p>
           <div class="field">
-            <label for="userName">Nome</label>
-            <input id="userName" placeholder="O teu nome">
+            <label for="imagePrompt">Descrição da imagem</label>
+            <textarea id="imagePrompt" placeholder="Ex.: ilustração educativa do sistema solar, com os planetas identificados…"></textarea>
           </div>
-
-          <div class="field">
-            <label for="userEmail">E-mail (opcional)</label>
-            <input id="userEmail" type="email"
-              placeholder="nome@exemplo.pt">
-          </div>
-
-          <div class="field">
-            <label for="userYear">Ano escolar</label>
-            <select id="userYear">
-              <option value="">Seleciona o ano</option>
-              <option>5.º ano</option>
-              <option>6.º ano</option>
-              <option>7.º ano</option>
-              <option>8.º ano</option>
-              <option>9.º ano</option>
-              <option>10.º ano</option>
-              <option>11.º ano</option>
-              <option>12.º ano</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <label for="targetGrade">Nota pretendida</label>
-            <select id="targetGrade">
-              <option value="">Escolhe uma meta</option>
-              <option>3</option>
-              <option>4</option>
-              <option>5</option>
-              <option>10</option>
-              <option>12</option>
-              <option>14</option>
-              <option>16</option>
-              <option>18</option>
-              <option>20</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <label for="language">Idioma</label>
-            <select id="language">
-              <option value="pt-PT">Português (Portugal)</option>
-              <option value="en">English</option>
-              <option value="es">Español</option>
-              <option value="fr">Français</option>
-            </select>
-          </div>
-
-          <div class="field">
-            <label for="backendUrl">Endereço do servidor de IA</label>
-            <input id="backendUrl" type="url"
-              placeholder="https://o-teu-servidor.onrender.com">
-          </div>
-
-          <p class="muted small">
-            Nunca coloques chaves secretas neste ficheiro público.
-            A chave da API deve ficar no servidor.
-          </p>
-
-          <button class="btn primary" id="saveSettings">
-            Guardar definições
-          </button>
-
-          <button class="btn" id="testBackend">
-            Testar servidor
-          </button>
-
-          <div id="settingsStatus" class="notice hidden"></div>
+          <button class="btn primary" id="generateImage">✦ Gerar imagem</button>
+          <div class="status" id="imageStatus" role="status"></div>
+          <div id="imageOutput" style="margin-top:20px"></div>
         </div>
+      </section>
 
-        <div class="card stack">
-          <h3>Preferências</h3>
-
-          <label class="option">
-            <input type="checkbox" id="prefNotifications">
-            <span>Notificações de estudo</span>
-          </label>
-
-          <label class="option">
-            <input type="checkbox" id="prefUpdates" checked>
-            <span>Mostrar novidades</span>
-          </label>
-
-          <div class="notice">
-            O perfil e o progresso ficam guardados neste navegador.
+      <section class="page" id="page-music">
+        <div class="section-heading"><h2>Música de estudo</h2></div>
+        <div class="card">
+          <h3 id="musicNow">Escolhe uma faixa</h3>
+          <audio id="musicPlayer" controls preload="none" style="width:100%;margin:12px 0"></audio>
+          <div class="list" id="musicList">
+            <p class="muted small">As faixas disponíveis aparecerão aqui.</p>
           </div>
-
-          <button class="btn" id="resetData">
-            Apagar dados locais
-          </button>
         </div>
-      </div>
-    </section>
+      </section>
 
-  </div>
-</main>
+      <section class="page" id="page-progress">
+        <div class="section-heading"><h2>O teu progresso</h2></div>
+        <div class="grid grid-3">
+          <div class="card"><div class="muted small">Minutos estudados</div><div class="stat-number" id="progressMinutes">0 min</div></div>
+          <div class="card"><div class="muted small">Respostas dadas</div><div class="stat-number" id="progressCompleted">0</div></div>
+          <div class="card"><div class="muted small">Precisão</div><div class="stat-number" id="progressAccuracy">—</div></div>
+        </div>
+        <div class="card" style="margin-top:18px">
+          <h3>Respostas corretas</h3>
+          <div class="progress-track"><div class="progress-fill" id="accuracyBar"></div></div>
+          <p class="muted small" id="correctSummary">0</p>
+          <p class="muted small">Sessões concluídas: <strong id="sessionSummary">0</strong></p>
+        </div>
+        <div id="activityHistory"></div>
+      </section>
+
+      <section class="page" id="page-favorites">
+        <div class="section-heading"><h2>Favoritos</h2></div>
+        <div class="card">
+          <div id="favoritesList" class="list">
+            <p class="muted">Ainda não guardaste favoritos.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="page" id="page-settings">
+        <div class="section-heading"><h2>Definições</h2></div>
+        <div class="grid grid-2">
+          <div class="card">
+            <h3>Perfil de estudante</h3>
+            <div class="field"><label for="userName">Nome</label><input id="userName" autocomplete="name" placeholder="O teu nome"></div>
+            <div class="field"><label for="userEmail">Email (opcional)</label><input id="userEmail" type="email" autocomplete="email" placeholder="nome@exemplo.com"></div>
+            <div class="field">
+              <label for="userYear">Ano escolar</label>
+              <select id="userYear">
+                <option value="">Selecionar ano</option>
+                <option>1.º ano</option><option>2.º ano</option><option>3.º ano</option><option>4.º ano</option>
+                <option>5.º ano</option><option>6.º ano</option><option>7.º ano</option><option>8.º ano</option>
+                <option>9.º ano</option><option>10.º ano</option><option>11.º ano</option><option>12.º ano</option>
+              </select>
+            </div>
+            <div class="field"><label for="targetGrade">Objetivo de nota</label>
+              <select id="targetGrade">
+                <option value="">Escolher objetivo</option><option>3</option><option>4</option><option>5</option>
+                <option>10</option><option>12</option><option>14</option><option>16</option><option>18</option><option>20</option>
+              </select>
+            </div>
+            <div class="field"><label for="language">Idioma</label>
+              <select id="language">
+                <option value="pt-PT">Português (Portugal)</option>
+                <option value="en">English</option>
+                <option value="es">Español</option>
+                <option value="fr">Français</option>
+              </select>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Ligação ao servidor</h3>
+            <p class="muted small">O endereço do servidor é usado para pedir respostas e outros serviços. A chave da API deve ficar no servidor, nunca neste ficheiro.</p>
+            <div class="field"><label for="backendUrl">Endereço do backend</label><input id="backendUrl" type="url" placeholder="https://teu-servidor.onrender.com"></div>
+            <button class="btn" id="testBackend">Testar servidor</button>
+            <div class="status" id="settingsStatus" role="status"></div>
+            <hr style="border:0;border-top:1px solid var(--border);margin:20px 0">
+            <label class="row" style="margin:12px 0"><input id="prefNotifications" type="checkbox"> Ativar notificações</label>
+            <label class="row" style="margin:12px 0"><input id="prefUpdates" type="checkbox" checked> Receber novidades</label>
+            <button class="btn primary" id="saveSettings">Guardar definições</button>
+            <button class="btn danger" id="resetData" style="margin-top:10px">Apagar dados locais</button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
 </div>
 
-<div class="toast" id="toast" role="status"></div>
+<div id="toast" class="toast hidden" role="status"></div>
 
 <!-- A PARTE 2 CONTINUA AQUI -->
-
-</body>
-</html>
 
 <script>
 "use strict";
 
-/* CONFIGURAÇÃO GERAL */
-
-const DEFAULT_BACKEND =
-  "https://my-study-ai-app-github-io.onrender.com";
-
-const $ = (id) => document.getElementById(id);
+const DEFAULT_BACKEND = "https://my-study-ai-app-github-io.onrender.com";
+const $ = id => document.getElementById(id);
 
 const pageNames = {
-  home: "Início",
-  study: "Estudar",
-  videos: "Vídeos-aula",
-  exercises: "Exercícios",
-  images: "Imagens IA",
-  professor: "Professor IA",
-  music: "Música",
-  progress: "Progresso",
-  favorites: "Favoritos",
-  settings: "Definições"
+  home: "Início", study: "Estudar", videos: "Vídeos-aula",
+  exercises: "Exercícios", professor: "Professor IA",
+  images: "Imagens IA", music: "Música",
+  progress: "Progresso", favorites: "Favoritos", settings: "Definições"
 };
 
 let profile = {
-  name: "",
-  email: "",
-  year: "",
-  target: "",
-  language: "pt-PT",
-  backend: DEFAULT_BACKEND,
-  notifications: false,
-  updates: true
+  name: "", email: "", year: "", target: "",
+  language: "pt-PT", backend: DEFAULT_BACKEND,
+  notifications: false, updates: true
 };
 
-let appData = {
-  minutes: 0,
-  answers: 0,
-  correct: 0,
-  sessions: 0,
-  days: [],
-  favorites: [],
-  notes: "",
-  history: []
+let data = {
+  minutes: 0, answers: 0, correct: 0, sessions: 0,
+  days: [], favorites: [], notes: "", history: []
 };
 
-let currentPage = "home";
 let chatHistory = [];
 let chatBusy = false;
+let quizQuestions = [];
+let quizIndex = 0;
+let quizScore = 0;
+let quizAnswered = false;
+let timerRemaining = 900;
+let timerTotal = 900;
 let timerInterval = null;
-let timerRemaining = 15 * 60;
-let timerTotal = 15 * 60;
 let timerRunning = false;
 let sessionCounted = false;
+let musicLoaded = false;
 
-/* GUARDAR E RECUPERAR DADOS */
+/* DADOS LOCAIS */
 
-function loadStoredData() {
+function loadData() {
   try {
-    const savedProfile = localStorage.getItem("studyAI_profile");
-    const savedData = localStorage.getItem("studyAI_data");
-
-    if (savedProfile) {
-      profile = { ...profile, ...JSON.parse(savedProfile) };
-    }
-
-    if (savedData) {
-      appData = { ...appData, ...JSON.parse(savedData) };
-    }
-  } catch (error) {
-    console.warn("Não foi possível carregar os dados locais.", error);
+    const p = JSON.parse(localStorage.getItem("studyAI_profile") || "{}");
+    const d = JSON.parse(localStorage.getItem("studyAI_data") || "{}");
+    profile = { ...profile, ...p };
+    data = { ...data, ...d };
+  } catch (e) {
+    console.warn("Os dados guardados não puderam ser carregados.", e);
   }
 }
 
-function saveProfileData() {
+function saveData() {
   try {
     localStorage.setItem("studyAI_profile", JSON.stringify(profile));
-    localStorage.setItem("studyAI_data", JSON.stringify(appData));
-  } catch (error) {
-    showToast("Não foi possível guardar os dados neste navegador.");
+    localStorage.setItem("studyAI_data", JSON.stringify(data));
+  } catch (e) {
+    showToast("Não foi possível guardar os dados no navegador.");
   }
 }
 
-function getBackend() {
-  const entered = $("backendUrl")?.value?.trim();
-  return (entered || profile.backend || DEFAULT_BACKEND).replace(/\/+$/, "");
+function backend() {
+  return ( $("backendUrl")?.value.trim() || profile.backend || DEFAULT_BACKEND )
+    .replace(/\/+$/, "");
 }
 
 /* AVISOS */
 
-let toastTimeout;
+let toastTimer;
 
 function showToast(message) {
   const toast = $("toast");
-  if (!toast) return;
-
   toast.textContent = message;
-  toast.classList.add("show");
-
-  clearTimeout(toastTimeout);
-  toastTimeout = setTimeout(() => {
-    toast.classList.remove("show");
-  }, 3200);
+  toast.classList.remove("hidden");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toast.classList.add("hidden"), 3000);
 }
 
-function setStatus(id, message, type = "") {
+function status(id, message, type = "") {
   const el = $(id);
   if (!el) return;
-
   el.textContent = message;
-  el.classList.remove("hidden", "error", "success");
-
+  el.classList.remove("error", "success");
   if (type) el.classList.add(type);
 }
 
-function hideStatus(id) {
-  $(id)?.classList.add("hidden");
+function clearStatus(id) {
+  const el = $(id);
+  if (el) {
+    el.textContent = "";
+    el.classList.remove("error", "success");
+  }
 }
 
 /* NAVEGAÇÃO */
 
-function navigateTo(page) {
+function goTo(page) {
   if (!pageNames[page]) return;
 
-  currentPage = page;
-
-  document.querySelectorAll(".page").forEach((section) => {
-    section.classList.toggle("active", section.id === `page-${page}`);
+  document.querySelectorAll(".page").forEach(el => {
+    el.classList.toggle("active", el.id === "page-" + page);
   });
 
-  document.querySelectorAll("[data-page]").forEach((button) => {
-    button.classList.toggle("active", button.dataset.page === page);
+  document.querySelectorAll(".nav-btn").forEach(el => {
+    el.classList.toggle("active", el.dataset.page === page);
   });
 
   $("topTitle").textContent = pageNames[page];
@@ -1713,147 +680,102 @@ function navigateTo(page) {
   if (page === "progress") renderProgress();
   if (page === "favorites") renderFavorites();
   if (page === "music") loadMusic();
-  if (page === "exercises" && !quizStarted) startQuiz();
 
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 
-document.querySelectorAll("[data-page]").forEach((button) => {
-  button.addEventListener("click", () => navigateTo(button.dataset.page));
+document.querySelectorAll("[data-page]").forEach(button => {
+  button.addEventListener("click", () => goTo(button.dataset.page));
 });
 
-document.querySelectorAll("[data-go]").forEach((element) => {
-  element.addEventListener("click", () => navigateTo(element.dataset.go));
+document.querySelectorAll("[data-go]").forEach(button => {
+  button.addEventListener("click", () => goTo(button.dataset.go));
 });
 
 $("mobileMenu").addEventListener("click", () => {
   $("sidebar").classList.toggle("open");
 });
 
-document.addEventListener("click", (event) => {
-  const sidebar = $("sidebar");
-  const menu = $("mobileMenu");
-
+document.addEventListener("click", event => {
   if (
     window.innerWidth <= 760 &&
-    sidebar.classList.contains("open") &&
-    !sidebar.contains(event.target) &&
-    !menu.contains(event.target)
+    $("sidebar").classList.contains("open") &&
+    !$("sidebar").contains(event.target) &&
+    !$("mobileMenu").contains(event.target)
   ) {
-    sidebar.classList.remove("open");
+    $("sidebar").classList.remove("open");
   }
 });
 
-/* PERFIL E IDIOMAS */
+/* IDIOMAS */
 
-const translations = {
+const dictionaries = {
   "pt-PT": {
-    home: "Início",
-    study: "Estudar",
-    videos: "Vídeos-aula",
-    exercises: "Exercícios",
-    images: "Imagens IA",
-    professor: "Professor IA",
-    music: "Música",
-    progress: "Progresso",
-    favorites: "Favoritos",
-    settings: "Definições",
-    greeting: "Olá! Vamos aprender?",
-    start: "Começar a estudar →",
-    ask: "Pergunta o que quiseres…",
-    send: "Enviar mensagem",
-    save: "Guardar definições",
-    search: "⌕ Procurar aulas",
-    free: "Study AI gratuito"
+    home:"Início", study:"Estudar", videos:"Vídeos-aula",
+    exercises:"Exercícios", professor:"Professor IA",
+    images:"Imagens IA", music:"Música", progress:"Progresso",
+    favorites:"Favoritos", settings:"Definições",
+    greeting:"Olá! Vamos aprender?", start:"Começar a estudar →",
+    ask:"Pergunta o que quiseres…", save:"Guardar definições",
+    search:"⌕ Procurar aulas"
   },
   en: {
-    home: "Home",
-    study: "Study",
-    videos: "Video lessons",
-    exercises: "Exercises",
-    images: "AI Images",
-    professor: "AI Tutor",
-    music: "Music",
-    progress: "Progress",
-    favorites: "Favorites",
-    settings: "Settings",
-    greeting: "Hello! Ready to learn?",
-    start: "Start studying →",
-    ask: "Ask anything…",
-    send: "Send message",
-    save: "Save settings",
-    search: "⌕ Search lessons",
-    free: "Free Study AI"
+    home:"Home", study:"Study", videos:"Video lessons",
+    exercises:"Exercises", professor:"AI Tutor",
+    images:"AI Images", music:"Music", progress:"Progress",
+    favorites:"Favorites", settings:"Settings",
+    greeting:"Hello! Ready to learn?", start:"Start studying →",
+    ask:"Ask anything…", save:"Save settings",
+    search:"⌕ Search lessons"
   },
   es: {
-    home: "Inicio",
-    study: "Estudiar",
-    videos: "Videoclases",
-    exercises: "Ejercicios",
-    images: "Imágenes IA",
-    professor: "Profesor IA",
-    music: "Música",
-    progress: "Progreso",
-    favorites: "Favoritos",
-    settings: "Ajustes",
-    greeting: "¡Hola! ¿Aprendemos?",
-    start: "Empezar a estudiar →",
-    ask: "Pregunta lo que quieras…",
-    send: "Enviar mensaje",
-    save: "Guardar ajustes",
-    search: "⌕ Buscar clases",
-    free: "Study AI gratis"
+    home:"Inicio", study:"Estudiar", videos:"Videoclases",
+    exercises:"Ejercicios", professor:"Profesor IA",
+    images:"Imágenes IA", music:"Música", progress:"Progreso",
+    favorites:"Favoritos", settings:"Ajustes",
+    greeting:"¡Hola! ¿Aprendemos?", start:"Empezar a estudiar →",
+    ask:"Pregunta lo que quieras…", save:"Guardar ajustes",
+    search:"⌕ Buscar clases"
   },
   fr: {
-    home: "Accueil",
-    study: "Étudier",
-    videos: "Cours vidéo",
-    exercises: "Exercices",
-    images: "Images IA",
-    professor: "Professeur IA",
-    music: "Musique",
-    progress: "Progression",
-    favorites: "Favoris",
-    settings: "Paramètres",
-    greeting: "Bonjour ! Prêt à apprendre ?",
-    start: "Commencer à étudier →",
-    ask: "Pose ta question…",
-    send: "Envoyer le message",
-    save: "Enregistrer les paramètres",
-    search: "⌕ Rechercher des cours",
-    free: "Study AI gratuit"
+    home:"Accueil", study:"Étudier", videos:"Cours vidéo",
+    exercises:"Exercices", professor:"Professeur IA",
+    images:"Images IA", music:"Musique", progress:"Progression",
+    favorites:"Favoris", settings:"Paramètres",
+    greeting:"Bonjour ! Prêt à apprendre ?", start:"Commencer →",
+    ask:"Pose ta question…", save:"Enregistrer",
+    search:"⌕ Rechercher des cours"
   }
 };
 
 function applyLanguage() {
-  const lang = profile.language || "pt-PT";
-  const dict = translations[lang] || translations["pt-PT"];
+  const t = dictionaries[profile.language] || dictionaries["pt-PT"];
+  document.documentElement.lang = profile.language || "pt-PT";
 
-  document.documentElement.lang = lang;
-
-  document.querySelectorAll("[data-page]").forEach((button) => {
-    const key = button.dataset.page;
-    const icon = button.querySelector(".icon");
-    const label = dict[key] || pageNames[key];
-
-    if (icon) {
-      button.replaceChildren(icon, document.createTextNode(label));
-    }
+  document.querySelectorAll(".nav-btn").forEach(button => {
+    const icon = button.querySelector(".nav-icon");
+    const label = t[button.dataset.page] || pageNames[button.dataset.page];
+    button.replaceChildren();
+    if (icon) button.appendChild(icon);
+    button.appendChild(document.createTextNode(label));
   });
 
-  $("topTitle").textContent = dict[currentPage] || pageNames[currentPage];
-  $("greeting").textContent = dict.greeting;
-  $("chatInput").placeholder = dict.ask;
-  $("sendChat").setAttribute("aria-label", dict.send);
-  $("saveSettings").textContent = dict.save;
-  $("searchVideos").textContent = dict.search;
+  $("topTitle").textContent = t[
+    document.querySelector(".nav-btn.active")?.dataset.page || "home"
+  ] || "Study AI";
+
+  $("greeting").textContent = t.greeting;
+  $("chatInput").placeholder = t.ask;
+  $("saveSettings").textContent = t.save;
+  $("searchVideos").textContent = t.search;
+
   $("topUser").textContent = profile.name || "Estudante";
   $("avatar").textContent = (profile.name || "E").trim().charAt(0).toUpperCase();
-  $("profileSummary").textContent = profile.year
-    ? `${profile.name || "Estudante"} · ${profile.year}${profile.target ? " · Meta: " + profile.target : ""}`
-    : "Configura o teu ano escolar";
 
-  document.querySelector(".side-bottom strong").textContent = dict.free;
+  $("profileSummary").textContent = profile.year
+    ? `${profile.name || "Estudante"} · ${profile.year}` +
+      (profile.target ? ` · Meta: ${profile.target}` : "")
+    : "Configura o teu ano escolar nas Definições.";
 }
 
 function fillSettings() {
@@ -1863,9 +785,15 @@ function fillSettings() {
   $("targetGrade").value = profile.target || "";
   $("language").value = profile.language || "pt-PT";
   $("backendUrl").value = profile.backend || DEFAULT_BACKEND;
-  $("prefNotifications").checked = Boolean(profile.notifications);
+  $("prefNotifications").checked = !!profile.notifications;
   $("prefUpdates").checked = profile.updates !== false;
 }
+
+$("language").addEventListener("change", () => {
+  profile.language = $("language").value;
+  applyLanguage();
+  saveData();
+});
 
 $("saveSettings").addEventListener("click", () => {
   profile.name = $("userName").value.trim();
@@ -1877,104 +805,52 @@ $("saveSettings").addEventListener("click", () => {
   profile.notifications = $("prefNotifications").checked;
   profile.updates = $("prefUpdates").checked;
 
-  saveProfileData();
+  saveData();
   applyLanguage();
   renderStats();
+  status("settingsStatus", "Definições guardadas.", "success");
   showToast("Definições guardadas.");
-  setStatus("settingsStatus", "As tuas definições foram guardadas.", "success");
-});
-
-$("language").addEventListener("change", () => {
-  profile.language = $("language").value;
-  applyLanguage();
 });
 
 $("resetData").addEventListener("click", () => {
-  const confirmed = window.confirm(
-    "Queres apagar o perfil, o progresso, as notas e os favoritos guardados neste navegador?"
-  );
-
-  if (!confirmed) return;
+  if (!confirm("Queres apagar o perfil, o progresso, as notas e os favoritos deste navegador?")) return;
 
   localStorage.removeItem("studyAI_profile");
   localStorage.removeItem("studyAI_data");
-
-  profile = {
-    name: "",
-    email: "",
-    year: "",
-    target: "",
-    language: "pt-PT",
-    backend: DEFAULT_BACKEND,
-    notifications: false,
-    updates: true
-  };
-
-  appData = {
-    minutes: 0,
-    answers: 0,
-    correct: 0,
-    sessions: 0,
-    days: [],
-    favorites: [],
-    notes: "",
-    history: []
-  };
-
-  fillSettings();
-  applyLanguage();
-  renderStats();
-  renderProgress();
-  renderFavorites();
-  showToast("Dados locais apagados.");
+  location.reload();
 });
 
-/* TESTAR O SERVIDOR */
+/* TESTE DE LIGAÇÃO */
 
 $("testBackend").addEventListener("click", async () => {
-  setStatus("settingsStatus", "A testar a ligação ao servidor…");
+  status("settingsStatus", "A testar a ligação ao servidor…");
 
   try {
-    const response = await fetch(`${getBackend()}/health`, {
-      method: "GET",
+    const response = await fetch(backend() + "/health", {
       signal: AbortSignal.timeout(12000)
     });
 
-    if (!response.ok) {
-      throw new Error(`O servidor respondeu com o código ${response.status}.`);
-    }
+    if (!response.ok) throw new Error("Resposta HTTP " + response.status);
 
-    const data = await response.json().catch(() => ({}));
-
-    setStatus(
-      "settingsStatus",
-      "Servidor acessível. " + (data.message || data.status || ""),
-      "success"
-    );
+    status("settingsStatus", "O servidor respondeu. A disponibilidade dos serviços deve ser testada separadamente.", "success");
   } catch (error) {
-    setStatus(
-      "settingsStatus",
-      "Não foi possível testar o servidor. Confirma o endereço, se o serviço está ativo e se permite pedidos do site do Study AI. " + error.message,
-      "error"
-    );
+    status("settingsStatus", "Não foi possível testar o servidor: " + error.message, "error");
   }
 });
 
 /* PROFESSOR IA */
 
-function addChatMessage(role, text) {
+function addMessage(role, text) {
   $("chatWelcome")?.remove();
 
   const row = document.createElement("div");
-  row.className = `message ${role === "user" ? "user" : "assistant"}`;
+  row.className = "message " + (role === "user" ? "user" : "assistant");
 
   const avatar = document.createElement("div");
-  avatar.className = "msg-avatar";
-  avatar.textContent = role === "user" ? "E" : "✦";
-
-  if (role === "user" && profile.name) {
-    avatar.textContent = profile.name.charAt(0).toUpperCase();
-  }
+  avatar.className = "message-avatar";
+  avatar.textContent = role === "user"
+    ? (profile.name || "E").charAt(0).toUpperCase()
+    : "✦";
 
   const bubble = document.createElement("div");
   bubble.className = "bubble";
@@ -1983,8 +859,6 @@ function addChatMessage(role, text) {
   row.append(avatar, bubble);
   $("chatMessages").appendChild(row);
   $("chatMessages").scrollTop = $("chatMessages").scrollHeight;
-
-  return bubble;
 }
 
 function setChatBusy(busy) {
@@ -1994,36 +868,35 @@ function setChatBusy(busy) {
   $("sendChat").textContent = busy ? "…" : "↑";
 }
 
-function extractAssistantText(data) {
-  if (typeof data === "string") return data;
-  if (data?.reply) return data.reply;
-  if (data?.answer) return data.answer;
-  if (data?.message && typeof data.message === "string") return data.message;
-  if (data?.output_text) return data.output_text;
-  if (data?.choices?.[0]?.message?.content) {
-    const content = data.choices[0].message.content;
-    if (typeof content === "string") return content;
-    if (Array.isArray(content)) {
-      return content.map((item) => item.text || "").join("\n");
-    }
+function responseText(json) {
+  if (typeof json === "string") return json;
+  if (typeof json?.reply === "string") return json.reply;
+  if (typeof json?.answer === "string") return json.answer;
+  if (typeof json?.output_text === "string") return json.output_text;
+  if (typeof json?.message === "string") return json.message;
+
+  const content = json?.choices?.[0]?.message?.content;
+  if (typeof content === "string") return content;
+  if (Array.isArray(content)) {
+    return content.map(part => part.text || "").join("\n");
   }
   return "";
 }
 
-async function sendChatMessage(text) {
-  const message = text.trim();
-  if (!message || chatBusy) return;
+async function sendChat(text) {
+  text = text.trim();
+  if (!text || chatBusy) return;
 
-  addChatMessage("user", message);
-  chatHistory.push({ role: "user", content: message });
+  addMessage("user", text);
+  chatHistory.push({ role: "user", content: text });
+
   $("chatInput").value = "";
   $("chatInput").style.height = "auto";
-
   setChatBusy(true);
-  setStatus("chatStatus", "O Professor IA está a preparar a resposta…");
+  status("chatStatus", "O Professor IA está a preparar a resposta…");
 
   try {
-    const response = await fetch(`${getBackend()}/api/chat`, {
+    const response = await fetch(backend() + "/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -2034,186 +907,138 @@ async function sendChatMessage(text) {
       signal: AbortSignal.timeout(90000)
     });
 
-    const data = await response.json().catch(() => ({}));
-
+    const json = await response.json().catch(() => ({}));
     if (!response.ok) {
-      throw new Error(
-        data.error || data.message ||
-        `Erro do servidor (${response.status}).`
-      );
+      throw new Error(json.error || json.message || "Erro HTTP " + response.status);
     }
 
-    const reply = extractAssistantText(data);
+    const answer = responseText(json);
+    if (!answer) throw new Error("O servidor não devolveu uma resposta reconhecível.");
 
-    if (!reply) {
-      throw new Error("O servidor respondeu, mas não devolveu texto reconhecível.");
-    }
+    addMessage("assistant", answer);
+    chatHistory.push({ role: "assistant", content: answer });
 
-    addChatMessage("assistant", reply);
-    chatHistory.push({ role: "assistant", content: reply });
-
-    if (chatHistory.length > 30) {
-      chatHistory = chatHistory.slice(-30);
-    }
-
-    saveProfileData();
-    hideStatus("chatStatus");
+    if (chatHistory.length > 30) chatHistory = chatHistory.slice(-30);
+    clearStatus("chatStatus");
   } catch (error) {
-    const messageText =
-      "Não consegui obter uma resposta do servidor. " +
+    const message = "Não foi possível obter uma resposta real do Professor IA. " +
       error.message +
-      "\n\nConfirma se o backend está ativo e se o endpoint /api/chat está configurado.";
-
-    addChatMessage("assistant", messageText);
-    setStatus("chatStatus", messageText, "error");
+      "\nConfirma o endpoint /api/chat, a configuração do modelo e o CORS do servidor.";
+    addMessage("assistant", message);
+    status("chatStatus", message, "error");
   } finally {
     setChatBusy(false);
     $("chatInput").focus();
   }
 }
 
-$("chatForm").addEventListener("submit", (event) => {
+$("chatForm").addEventListener("submit", event => {
   event.preventDefault();
-  sendChatMessage($("chatInput").value);
+  sendChat($("chatInput").value);
 });
 
 $("chatInput").addEventListener("input", () => {
-  const input = $("chatInput");
-  input.style.height = "auto";
-  input.style.height = `${Math.min(input.scrollHeight, 140)}px`;
+  const el = $("chatInput");
+  el.style.height = "auto";
+  el.style.height = Math.min(el.scrollHeight, 140) + "px";
 });
 
-$("chatInput").addEventListener("keydown", (event) => {
+$("chatInput").addEventListener("keydown", event => {
   if (event.key === "Enter" && !event.shiftKey) {
     event.preventDefault();
     $("chatForm").requestSubmit();
   }
 });
 
-document.querySelectorAll("[data-prompt]").forEach((button) => {
+document.querySelectorAll("[data-prompt]").forEach(button => {
   button.addEventListener("click", () => {
-    navigateTo("professor");
-    sendChatMessage(button.dataset.prompt);
+    goTo("professor");
+    sendChat(button.dataset.prompt);
   });
 });
 
 $("clearChat").addEventListener("click", () => {
   if (chatBusy) return;
-
   chatHistory = [];
   $("chatMessages").replaceChildren();
 
   const welcome = document.createElement("div");
-  welcome.className = "welcome";
+  welcome.className = "chat-welcome";
   welcome.id = "chatWelcome";
-  welcome.innerHTML = `
-    <div class="welcome-icon">✦</div>
-    <h2>Em que posso ajudar?</h2>
-    <p>Pede explicações, exemplos ou ajuda com os teus exercícios.</p>
-    <div class="suggestions">
-      <button data-prompt="Explica-me as frações com exemplos simples.">Explicar uma matéria</button>
-      <button data-prompt="Faz-me 5 perguntas de Matemática para estudar.">Fazer perguntas</button>
-      <button data-prompt="Ajuda-me a resolver um exercício passo a passo.">Resolver um exercício</button>
-    </div>
-  `;
 
+  const star = document.createElement("div");
+  star.className = "star";
+  star.textContent = "✦";
+
+  const heading = document.createElement("h2");
+  heading.textContent = "Em que posso ajudar?";
+
+  const paragraph = document.createElement("p");
+  paragraph.className = "muted";
+  paragraph.textContent = "Pede explicações, exemplos ou ajuda com exercícios.";
+
+  welcome.append(star, heading, paragraph);
   $("chatMessages").appendChild(welcome);
-
-  welcome.querySelectorAll("[data-prompt]").forEach((button) => {
-    button.addEventListener("click", () => sendChatMessage(button.dataset.prompt));
-  });
-
-  hideStatus("chatStatus");
+  clearStatus("chatStatus");
 });
 
+/* FIM DA PARTE 2 — CONTINUAR COM A PARTE 3 */
 
 /* VÍDEOS-AULA */
 
-let videoItems = [];
-
-function normalizeVideoUrl(raw) {
-  if (!raw || typeof raw !== "string") return "";
-
+function safeUrl(value) {
   try {
-    const url = new URL(raw);
-    if (!["https:", "http:"].includes(url.protocol)) return "";
-    return url.href;
+    const url = new URL(value);
+    return ["https:", "http:"].includes(url.protocol) ? url.href : "";
   } catch {
     return "";
   }
 }
 
-function getPlayableVideo(item) {
-  const raw = item.url || item.videoUrl || item.embedUrl || item.embed_url || "";
-  const safeUrl = normalizeVideoUrl(raw);
+function playableVideo(item) {
+  const raw = item.url || item.videoUrl || item.video_url ||
+              item.embedUrl || item.embed_url || "";
+  const value = safeUrl(raw);
+  if (!value) return null;
 
-  if (!safeUrl) return null;
-
-  let url;
-
-  try {
-    url = new URL(safeUrl);
-  } catch {
-    return null;
-  }
-
+  const url = new URL(value);
   const host = url.hostname.toLowerCase();
 
-  if (
-    host === "youtu.be" ||
-    host.endsWith(".youtube.com") ||
-    host === "youtube.com"
-  ) {
-    let id = "";
+  if (host === "youtu.be" || host.endsWith("youtube.com")) {
+    let id = host === "youtu.be"
+      ? url.pathname.split("/").filter(Boolean)[0]
+      : url.searchParams.get("v");
 
-    if (host === "youtu.be") {
-      id = url.pathname.split("/").filter(Boolean)[0] || "";
-    } else {
-      id = url.searchParams.get("v") || "";
-
-      if (!id) {
-        const parts = url.pathname.split("/").filter(Boolean);
-        const marker = parts.findIndex((part) =>
-          ["embed", "shorts", "live"].includes(part)
-        );
-
-        if (marker >= 0) id = parts[marker + 1] || "";
-      }
+    if (!id) {
+      const parts = url.pathname.split("/").filter(Boolean);
+      const index = parts.findIndex(p => ["embed", "shorts", "live"].includes(p));
+      if (index >= 0) id = parts[index + 1];
     }
 
-    if (!/^[a-zA-Z0-9_-]{6,20}$/.test(id)) return null;
-
-    return {
-      type: "iframe",
-      url: `https://www.youtube-nocookie.com/embed/${id}`
-    };
+    if (!id || !/^[\w-]{6,20}$/.test(id)) return null;
+    return { type: "iframe", url: "https://www.youtube-nocookie.com/embed/" + id };
   }
 
   if (host === "vimeo.com" || host.endsWith(".vimeo.com")) {
     const match = url.pathname.match(/\/(?:video\/)?(\d+)/);
-
     if (match) {
-      return {
-        type: "iframe",
-        url: `https://player.vimeo.com/video/${match[1]}`
-      };
+      return { type: "iframe", url: "https://player.vimeo.com/video/" + match[1] };
     }
   }
 
   if (/\.(mp4|webm|ogg)(?:$|\?)/i.test(url.href)) {
-    return { type: "video", url: url.href };
+    return { type: "video", url };
   }
 
   if (item.embedUrl || item.embed_url) {
-    return { type: "iframe", url: safeUrl };
+    return { type: "iframe", url };
   }
 
   return null;
 }
 
-function playVideo(item, index) {
-  const playable = getPlayableVideo(item);
-
+function playVideo(item) {
+  const playable = playableVideo(item);
   if (!playable) {
     showToast("Este vídeo não tem um endereço compatível para reprodução.");
     return;
@@ -2230,64 +1055,20 @@ function playVideo(item, index) {
     video.src = playable.url;
     player.appendChild(video);
   } else {
-    const frame = document.createElement("iframe");
-    frame.src = playable.url;
-    frame.title = item.title || "Vídeo educativo";
-    frame.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-    frame.allowFullscreen = true;
-    player.appendChild(frame);
+    const iframe = document.createElement("iframe");
+    iframe.src = playable.url;
+    iframe.title = item.title || "Vídeo educativo";
+    iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+    iframe.allowFullscreen = true;
+    player.appendChild(iframe);
   }
 
   $("currentVideoTitle").textContent = item.title || "Vídeo-aula";
-  $("currentVideoDesc").textContent =
-    item.description || item.subject || "Vídeo educativo";
-
-  document.querySelectorAll(".lesson-item").forEach((button, i) => {
-    button.classList.toggle("selected", i === index);
-  });
-}
-
-function renderVideoResults(items) {
-  const container = $("videoResults");
-  container.replaceChildren();
-
-  if (!items.length) {
-    const empty = document.createElement("div");
-    empty.className = "empty";
-    empty.textContent = "Não foram encontradas aulas compatíveis.";
-    container.appendChild(empty);
-    return;
-  }
-
-  items.forEach((item, index) => {
-    const button = document.createElement("button");
-    button.className = "lesson-item";
-
-    const icon = document.createElement("span");
-    icon.textContent = "▶";
-
-    const content = document.createElement("span");
-
-    const title = document.createElement("strong");
-    title.textContent = item.title || `Vídeo ${index + 1}`;
-
-    const description = document.createElement("span");
-    description.className = "muted small";
-    description.textContent = item.subject || item.description || "Vídeo educativo";
-
-    content.append(title, description);
-    button.append(icon, content);
-
-    button.addEventListener("click", () => playVideo(item, index));
-    container.appendChild(button);
-  });
+  $("currentVideoDesc").textContent = item.description || item.subject || "Vídeo educativo";
 }
 
 $("searchVideos").addEventListener("click", async () => {
   const query = $("videoQuery").value.trim();
-  const subject = $("videoSubject").value;
-  const year = $("studyYear").value || profile.year || "";
-
   if (!query) {
     showToast("Escreve o tema que queres estudar.");
     $("videoQuery").focus();
@@ -2295,58 +1076,62 @@ $("searchVideos").addEventListener("click", async () => {
   }
 
   const params = new URLSearchParams({ q: query });
-
-  if (subject) params.set("subject", subject);
-  if (year) params.set("year", year);
+  if ($("videoSubject").value) params.set("subject", $("videoSubject").value);
+  if ($("studyYear").value || profile.year) {
+    params.set("year", $("studyYear").value || profile.year);
+  }
 
   $("searchVideos").disabled = true;
-  setStatus("videoStatus", "A procurar vídeos compatíveis…");
+  status("videoStatus", "A procurar aulas…");
 
   try {
-    const response = await fetch(`${getBackend()}/api/videos?${params}`, {
+    const response = await fetch(backend() + "/api/videos?" + params.toString(), {
       signal: AbortSignal.timeout(25000)
     });
-
-    const data = await response.json().catch(() => ({}));
+    const json = await response.json().catch(() => ({}));
 
     if (!response.ok) {
-      throw new Error(data.error || `Erro ${response.status}`);
+      throw new Error(json.error || "Erro HTTP " + response.status);
     }
 
-    const results = Array.isArray(data)
-      ? data
-      : data.videos || data.results || data.items || [];
+    const items = Array.isArray(json)
+      ? json
+      : json.videos || json.results || json.items || [];
 
-    videoItems = results.filter((item) => item && getPlayableVideo(item));
+    const valid = items.filter(item => item && playableVideo(item));
+    const container = $("videoResults");
+    container.replaceChildren();
 
-    renderVideoResults(videoItems);
-
-    if (videoItems.length) {
-      setStatus("videoStatus", `Encontradas ${videoItems.length} aulas compatíveis.`, "success");
-    } else {
-      setStatus(
-        "videoStatus",
-        "O servidor não devolveu vídeos com endereços reproduzíveis. Confirma se /api/videos está configurado e se as fontes permitem incorporação.",
-        "error"
-      );
+    if (!valid.length) {
+      container.textContent = "Não foram encontrados vídeos reproduzíveis. Confirma se o servidor disponibiliza /api/videos.";
+      status("videoStatus", "Não foram devolvidos vídeos compatíveis.", "error");
+      return;
     }
+
+    valid.forEach(item => {
+      const button = document.createElement("button");
+      button.className = "btn";
+      button.style.justifyContent = "flex-start";
+      button.style.textAlign = "left";
+      button.style.width = "100%";
+      button.textContent = "▶ " + (item.title || "Vídeo educativo");
+      button.addEventListener("click", () => playVideo(item));
+      container.appendChild(button);
+    });
+
+    status("videoStatus", "Encontrados " + valid.length + " vídeos.", "success");
   } catch (error) {
-    renderVideoResults([]);
-    setStatus(
-      "videoStatus",
-      `Não foi possível procurar vídeos: ${error.message}. O backend precisa de disponibilizar o endpoint /api/videos.`,
-      "error"
-    );
+    $("videoResults").textContent = "Não foi possível carregar vídeos. " + error.message;
+    status("videoStatus", "Confirma se o servidor tem o endpoint /api/videos e permite pedidos deste site.", "error");
   } finally {
     $("searchVideos").disabled = false;
   }
 });
 
-/* GERAR IMAGENS COM IA */
+/* IMAGENS IA */
 
 $("generateImage").addEventListener("click", async () => {
   const prompt = $("imagePrompt").value.trim();
-
   if (!prompt) {
     showToast("Descreve primeiro a imagem que queres criar.");
     $("imagePrompt").focus();
@@ -2355,11 +1140,10 @@ $("generateImage").addEventListener("click", async () => {
 
   $("generateImage").disabled = true;
   $("imageOutput").replaceChildren();
-
-  setStatus("imageStatus", "A pedir ao serviço de geração de imagens…");
+  status("imageStatus", "A pedir a geração da imagem ao servidor…");
 
   try {
-    const response = await fetch(`${getBackend()}/api/images/generate`, {
+    const response = await fetch(backend() + "/api/images/generate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -2370,58 +1154,47 @@ $("generateImage").addEventListener("click", async () => {
       signal: AbortSignal.timeout(90000)
     });
 
-    const data = await response.json().catch(() => ({}));
-
+    const json = await response.json().catch(() => ({}));
     if (!response.ok) {
-      throw new Error(data.error || data.message || `Erro ${response.status}`);
+      throw new Error(json.error || json.message || "Erro HTTP " + response.status);
     }
 
-    let imageUrl =
-      data.url ||
-      data.imageUrl ||
-      data.image_url ||
-      data.data?.[0]?.url ||
-      "";
+    let src = json.url || json.imageUrl || json.image_url ||
+              json.data?.[0]?.url || "";
 
-    if (!imageUrl && data.b64_json) {
-      imageUrl = `data:image/png;base64,${data.b64_json}`;
+    if (!src && (json.b64_json || json.data?.[0]?.b64_json)) {
+      src = "data:image/png;base64," +
+        (json.b64_json || json.data[0].b64_json);
     }
 
-    if (!imageUrl && data.data?.[0]?.b64_json) {
-      imageUrl = `data:image/png;base64,${data.data[0].b64_json}`;
-    }
-
-    if (typeof imageUrl !== "string" ||
-        !/^(https?:\/\/|data:image\/)/i.test(imageUrl)) {
-      throw new Error("O servidor não devolveu uma imagem válida.");
+    if (typeof src !== "string" ||
+        !/^(https?:\/\/|data:image\/)/i.test(src)) {
+      throw new Error("O serviço não devolveu uma imagem válida.");
     }
 
     const image = document.createElement("img");
-    image.className = "image-result";
+    image.src = src;
     image.alt = prompt;
-    image.src = imageUrl;
+    image.style.cssText = "display:block;max-width:100%;max-height:600px;border-radius:16px;margin:15px auto;";
 
-    const download = document.createElement("a");
-    download.className = "btn";
-    download.textContent = "Abrir ou guardar imagem";
-    download.href = imageUrl;
-    download.target = "_blank";
-    download.rel = "noopener noreferrer";
+    const link = document.createElement("a");
+    link.href = src;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    link.className = "btn";
+    link.textContent = "Abrir ou guardar imagem";
 
-    $("imageOutput").append(image, download);
-    setStatus("imageStatus", "Imagem recebida do serviço de IA.", "success");
+    $("imageOutput").append(image, link);
+    status("imageStatus", "Imagem recebida do serviço de IA.", "success");
   } catch (error) {
-    setStatus(
-      "imageStatus",
-      `Não foi possível gerar a imagem: ${error.message}. Confirma se o backend tem o endpoint /api/images/generate e um serviço de geração configurado.`,
-      "error"
-    );
+    status("imageStatus", "Não foi possível gerar a imagem: " + error.message +
+      ". O servidor precisa do endpoint /api/images/generate e de um serviço de geração configurado.", "error");
   } finally {
     $("generateImage").disabled = false;
   }
 });
 
-/* EXERCÍCIOS INTERATIVOS */
+/* EXERCÍCIOS */
 
 const quizBank = [
   {
@@ -2436,35 +1209,35 @@ const quizBank = [
     question: "Quanto é 15% de 200?",
     options: ["15", "20", "30", "45"],
     answer: 2,
-    explanation: "15% de 200 = 0,15 × 200 = 30."
+    explanation: "0,15 × 200 = 30."
   },
   {
     subject: "Português",
-    question: "Qual é a conjunção causal?",
+    question: "Qual destas conjunções pode introduzir uma oração causal?",
     options: ["Embora", "Porque", "Quando", "Enquanto"],
     answer: 1,
     explanation: "«Porque» pode introduzir uma oração subordinada causal."
   },
   {
     subject: "Ciências Naturais",
-    question: "Qual é a principal função das raízes?",
+    question: "Qual é uma função das raízes das plantas?",
     options: [
-      "Produzir sementes",
-      "Absorver água e sais minerais",
       "Produzir luz",
-      "Polinizar as flores"
+      "Absorver água e sais minerais",
+      "Polinizar as flores",
+      "Produzir sementes"
     ],
     answer: 1,
     explanation: "As raízes absorvem água e sais minerais e ajudam a fixar a planta."
   },
   {
     subject: "Físico-Química",
-    question: "Numa reação química num sistema fechado, a massa total…",
+    question: "Num sistema fechado, durante uma reação química, a massa total…",
     options: [
       "Aumenta sempre",
-      "Diminui sempre",
+      "Desaparece",
       "Conserva-se",
-      "Desaparece"
+      "Diminui sempre"
     ],
     answer: 2,
     explanation: "A massa total conserva-se num sistema fechado."
@@ -2472,53 +1245,55 @@ const quizBank = [
   {
     subject: "Geografia",
     question: "Qual é a estrela do Sistema Solar?",
-    options: ["A Lua", "Marte", "A Terra", "O Sol"],
+    options: ["Lua", "Marte", "Terra", "Sol"],
     answer: 3,
     explanation: "O Sol é a estrela do Sistema Solar."
+  },
+  {
+    subject: "Matemática",
+    question: "Qual é o resultado de 2³?",
+    options: ["5", "6", "8", "9"],
+    answer: 2,
+    explanation: "2³ = 2 × 2 × 2 = 8."
+  },
+  {
+    subject: "Português",
+    question: "Uma oração introduzida por «embora» exprime normalmente…",
+    options: ["Causa", "Concessão", "Tempo", "Finalidade"],
+    answer: 1,
+    explanation: "«Embora» introduz normalmente uma oração subordinada concessiva."
   }
 ];
-
-let quizQuestions = [];
-let quizIndex = 0;
-let quizScore = 0;
-let quizAnswered = false;
-let quizStarted = false;
 
 function startQuiz() {
   quizQuestions = [...quizBank].sort(() => Math.random() - 0.5);
   quizIndex = 0;
   quizScore = 0;
   quizAnswered = false;
-  quizStarted = true;
-
   renderQuestion();
 }
 
 function renderQuestion() {
-  const question = quizQuestions[quizIndex];
-
-  if (!question) return;
+  const item = quizQuestions[quizIndex];
+  if (!item) return;
 
   $("quizCounter").textContent =
-    `Pergunta ${quizIndex + 1} de ${quizQuestions.length} · ${question.subject}`;
-
-  $("quizScore").textContent = `Pontuação: ${quizScore}`;
+    `Pergunta ${quizIndex + 1} de ${quizQuestions.length} · ${item.subject}`;
+  $("quizScore").textContent = "Pontuação: " + quizScore;
   $("quizFeedback").classList.add("hidden");
   $("checkAnswer").classList.remove("hidden");
-  $("checkAnswer").disabled = false;
   $("nextQuestion").classList.add("hidden");
 
   const container = $("quizContent");
   container.replaceChildren();
 
-  const title = document.createElement("div");
-  title.className = "quiz-question";
-  title.textContent = question.question;
+  const title = document.createElement("h3");
+  title.textContent = item.question;
   container.appendChild(title);
 
-  question.options.forEach((option, index) => {
+  item.options.forEach((option, index) => {
     const label = document.createElement("label");
-    label.className = "option";
+    label.className = "quiz-option";
 
     const input = document.createElement("input");
     input.type = "radio";
@@ -2537,71 +1312,62 @@ $("checkAnswer").addEventListener("click", () => {
   if (quizAnswered) return;
 
   const selected = document.querySelector('input[name="quizAnswer"]:checked');
-
   if (!selected) {
     showToast("Seleciona uma resposta primeiro.");
     return;
   }
 
-  const question = quizQuestions[quizIndex];
-  const isCorrect = Number(selected.value) === question.answer;
-
+  const item = quizQuestions[quizIndex];
+  const correct = Number(selected.value) === item.answer;
   quizAnswered = true;
-  appData.answers += 1;
+  data.answers++;
 
-  if (isCorrect) {
-    quizScore += 1;
-    appData.correct += 1;
+  if (correct) {
+    quizScore++;
+    data.correct++;
   }
 
-  appData.history.push({
+  data.history.push({
     date: new Date().toISOString(),
-    subject: question.subject,
-    correct: isCorrect
+    subject: item.subject,
+    correct
   });
 
-  saveProfileData();
-  renderStats();
+  data.history = data.history.slice(-100);
+  saveData();
 
-  document.querySelectorAll('input[name="quizAnswer"]').forEach((input) => {
+  document.querySelectorAll('input[name="quizAnswer"]').forEach(input => {
     input.disabled = true;
   });
 
-  setStatus(
+  status(
     "quizFeedback",
-    `${isCorrect ? "Correto!" : "Ainda não. A resposta certa é: " + question.options[question.answer] + "."} ${question.explanation}`,
-    isCorrect ? "success" : "error"
+    (correct ? "Correto! " : "Resposta correta: " + item.options[item.answer] + ". ") +
+      item.explanation,
+    correct ? "success" : "error"
   );
 
-  $("quizScore").textContent = `Pontuação: ${quizScore}`;
+  $("quizScore").textContent = "Pontuação: " + quizScore;
   $("checkAnswer").classList.add("hidden");
   $("nextQuestion").classList.remove("hidden");
+  renderStats();
 });
 
 $("nextQuestion").addEventListener("click", () => {
-  quizIndex += 1;
+  quizIndex++;
   quizAnswered = false;
 
   if (quizIndex >= quizQuestions.length) {
     $("quizContent").replaceChildren();
 
-    const result = document.createElement("div");
-    result.className = "empty";
-
-    const heading = document.createElement("h2");
-    heading.textContent = "Conjunto concluído!";
-
+    const result = document.createElement("h3");
+    result.textContent = "Conjunto concluído!";
     const score = document.createElement("p");
-    score.textContent =
-      `Acertaste ${quizScore} em ${quizQuestions.length} perguntas.`;
+    score.textContent = `Acertaste ${quizScore} em ${quizQuestions.length} perguntas.`;
 
-    result.append(heading, score);
-    $("quizContent").appendChild(result);
-
+    $("quizContent").append(result, score);
     $("quizCounter").textContent = "Concluído";
-    $("checkAnswer").classList.add("hidden");
     $("nextQuestion").classList.add("hidden");
-
     showToast("Exercícios concluídos!");
     return;
   }
@@ -2611,81 +1377,49 @@ $("nextQuestion").addEventListener("click", () => {
 
 $("newQuiz").addEventListener("click", startQuiz);
 
-/* TEMPORIZADOR DE ESTUDO */
+/* TEMPORIZADOR */
 
-function updateTimerDisplay() {
+function updateTimer() {
   const minutes = Math.floor(timerRemaining / 60);
   const seconds = timerRemaining % 60;
 
   $("timerDisplay").textContent =
-    `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
+    String(minutes).padStart(2, "0") + ":" +
+    String(seconds).padStart(2, "0");
 
-  const progress = timerTotal > 0
-    ? ((timerTotal - timerRemaining) / timerTotal) * 100
+  const percent = timerTotal
+    ? 100 * (timerTotal - timerRemaining) / timerTotal
     : 0;
 
-  $("timerProgress").style.width = `${Math.max(0, Math.min(100, progress))}%`;
+  $("timerProgress").style.width = Math.max(0, Math.min(100, percent)) + "%";
 }
 
 function stopTimer() {
-  if (timerInterval) clearInterval(timerInterval);
+  clearInterval(timerInterval);
   timerInterval = null;
   timerRunning = false;
   $("timerStart").disabled = false;
   $("timerPause").disabled = true;
 }
 
-function finishStudySession() {
+function finishSession() {
   stopTimer();
 
   if (!sessionCounted) {
-    appData.sessions += 1;
+    data.sessions++;
     sessionCounted = true;
-  }
 
-  saveProfileData();
-  renderStats();
+    const today = new Date().toISOString().slice(0, 10);
+    if (!data.days.includes(today)) data.days.push(today);
+
+    data.minutes += Math.round(timerTotal / 60);
+    saveData();
+  }
 
   $("timerLabel").textContent = "Sessão concluída!";
-  showToast("Parabéns! Concluíste a sessão de estudo.");
+  renderStats();
+  showToast("Parabéns! Concluíste a sessão.");
 }
-
-function tickTimer() {
-  if (timerRemaining <= 0) {
-    finishStudySession();
-    return;
-  }
-
-  timerRemaining -= 1;
-  updateTimerDisplay();
-
-  if (timerRemaining <= 0) finishStudySession();
-}
-
-$("startStudy").addEventListener("click", () => {
-  const selectedDuration = Number($("duration").value) || 15;
-
-  if (timerRunning) {
-    showToast("Termina ou reinicia a sessão atual primeiro.");
-    return;
-  }
-
-  timerTotal = selectedDuration * 60;
-  timerRemaining = timerTotal;
-  sessionCounted = false;
-
-  if ($("studyYear").value) {
-    profile.year = $("studyYear").value;
-    $("userYear").value = profile.year;
-  }
-
-  $("timerLabel").textContent =
-    `Sessão de ${selectedDuration} minutos preparada.`;
-
-  updateTimerDisplay();
-  navigateTo("study");
-  $("timerStart").click();
-});
 
 $("timerStart").addEventListener("click", () => {
   if (timerRunning) return;
@@ -2700,12 +1434,18 @@ $("timerStart").addEventListener("click", () => {
   $("timerPause").disabled = false;
   $("timerLabel").textContent = "Sessão em curso…";
 
-  timerInterval = setInterval(tickTimer, 1000);
+  timerInterval = setInterval(() => {
+    if (timerRemaining > 0) {
+      timerRemaining--;
+      updateTimer();
+    }
+
+    if (timerRemaining <= 0) finishSession();
+  }, 1000);
 });
 
 $("timerPause").addEventListener("click", () => {
   if (!timerRunning) return;
-
   stopTimer();
   $("timerLabel").textContent = "Sessão pausada.";
 });
@@ -2715,169 +1455,127 @@ $("timerReset").addEventListener("click", () => {
   timerRemaining = timerTotal;
   sessionCounted = false;
   $("timerLabel").textContent = "Temporizador reiniciado.";
-  updateTimerDisplay();
+  updateTimer();
+});
+
+$("duration").addEventListener("change", () => {
+  if (timerRunning) return;
+  timerTotal = Number($("duration").value) * 60;
+  timerRemaining = timerTotal;
+  sessionCounted = false;
+  updateTimer();
 });
 
 $("saveNotes").addEventListener("click", () => {
-  appData.notes = $("studyNotes").value;
-  saveProfileData();
+  data.notes = $("studyNotes").value;
+  saveData();
   showToast("Notas guardadas.");
 });
 
 /* PROGRESSO */
 
 function renderStats() {
-  $("statMinutes").textContent = `${appData.minutes || 0} min`;
-  $("statQuizzes").textContent = String(appData.answers || 0);
+  $("statMinutes").textContent = data.minutes + " min";
+  $("statQuizzes").textContent = String(data.answers);
 
-  const accuracy = appData.answers
-    ? Math.round((appData.correct / appData.answers) * 100)
+  const accuracy = data.answers
+    ? Math.round(100 * data.correct / data.answers)
     : null;
 
-  $("statAccuracy").textContent =
-    accuracy === null ? "—" : `${accuracy}%`;
+  $("statAccuracy").textContent = accuracy === null ? "—" : accuracy + "%";
+  $("statDays").textContent = String(data.days.length);
 
-  $("statDays").textContent = String((appData.days || []).length);
-  $("progressMinutes").textContent = `${appData.minutes || 0} min`;
-  $("progressCompleted").textContent = String(appData.answers || 0);
-
-  $("progressAccuracy").textContent =
-    accuracy === null ? "—" : `${accuracy}%`;
-
-  $("progressDays").textContent = String((appData.days || []).length);
-  $("correctSummary").textContent = String(appData.correct || 0);
-  $("sessionSummary").textContent = String(appData.sessions || 0);
-  $("accuracyBar").style.width = `${accuracy || 0}%`;
+  $("progressMinutes").textContent = data.minutes + " min";
+  $("progressCompleted").textContent = String(data.answers);
+  $("progressAccuracy").textContent = accuracy === null ? "—" : accuracy + "%";
+  $("accuracyBar").style.width = (accuracy || 0) + "%";
+  $("correctSummary").textContent = data.correct + " respostas corretas";
+  $("sessionSummary").textContent = String(data.sessions);
 
   $("topUser").textContent = profile.name || "Estudante";
   $("avatar").textContent = (profile.name || "E").trim().charAt(0).toUpperCase();
-
   $("profileSummary").textContent = profile.year
-    ? `${profile.name || "Estudante"} · ${profile.year}${profile.target ? " · Meta: " + profile.target : ""}`
-    : "Configura o teu ano escolar";
+    ? `${profile.name || "Estudante"} · ${profile.year}` +
+      (profile.target ? ` · Meta: ${profile.target}` : "")
+    : "Configura o teu ano escolar nas Definições.";
 }
 
 function renderProgress() {
   renderStats();
 
-  const container = $("page-progress");
-  let activity = container.querySelector("#activityHistory");
+  const container = $("activityHistory");
+  container.replaceChildren();
 
-  if (!activity) {
-    activity = document.createElement("div");
-    activity.id = "activityHistory";
-    activity.className = "card";
-    activity.style.marginTop = "16px";
-    container.appendChild(activity);
-  }
-
-  activity.replaceChildren();
-
-  const heading = document.createElement("h2");
+  const heading = document.createElement("h3");
   heading.textContent = "Atividade recente";
-  activity.appendChild(heading);
+  container.appendChild(heading);
 
-  const history = (appData.history || []).slice(-10).reverse();
+  const recent = data.history.slice(-10).reverse();
 
-  if (!history.length) {
-    const message = document.createElement("p");
-    message.className = "muted";
-    message.textContent = "Ainda não tens respostas registadas.";
-    activity.appendChild(message);
+  if (!recent.length) {
+    const p = document.createElement("p");
+    p.className = "muted";
+    p.textContent = "Ainda não tens respostas registadas.";
+    container.appendChild(p);
     return;
   }
 
-  history.forEach((item) => {
+  recent.forEach(item => {
     const row = document.createElement("div");
     row.className = "list-item";
 
-    const title = document.createElement("span");
-    title.textContent = item.subject || "Exercício";
+    const subject = document.createElement("span");
+    subject.textContent = item.subject || "Exercício";
 
     const result = document.createElement("span");
-    result.className = "pill";
     result.textContent = item.correct ? "Correto" : "Incorreto";
+    result.style.color = item.correct ? "var(--green)" : "var(--red)";
 
     const date = document.createElement("span");
     date.className = "muted small";
-    date.textContent = new Date(item.date).toLocaleDateString(
-      profile.language || "pt-PT"
-    );
+    date.textContent = new Date(item.date).toLocaleDateString("pt-PT");
 
-    row.append(title, date, result);
-    activity.appendChild(row);
+    row.append(subject, date, result);
+    container.appendChild(row);
   });
 }
 
 /* FAVORITOS */
 
-function addFavorite(title, description, url = "") {
-  const item = {
-    id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
-    title,
-    description,
-    url
-  };
-
-  appData.favorites.push(item);
-  saveProfileData();
-  renderFavorites();
-}
-
 function renderFavorites() {
   const container = $("favoritesList");
   container.replaceChildren();
 
-  if (!appData.favorites.length) {
-    const empty = document.createElement("div");
-    empty.className = "empty";
-
-    const icon = document.createElement("div");
-    icon.className = "empty-icon";
-    icon.textContent = "♡";
-
-    const text = document.createElement("p");
-    text.textContent = "Ainda não guardaste favoritos.";
-
-    empty.append(icon, text);
-    container.appendChild(empty);
+  if (!data.favorites.length) {
+    const p = document.createElement("p");
+    p.className = "muted";
+    p.textContent = "Ainda não guardaste favoritos.";
+    container.appendChild(p);
     return;
   }
 
-  appData.favorites.forEach((item) => {
+  data.favorites.forEach(item => {
     const row = document.createElement("div");
     row.className = "list-item";
 
-    const content = document.createElement("div");
     const title = document.createElement("strong");
     title.textContent = item.title;
-
-    const description = document.createElement("p");
-    description.className = "muted small";
-    description.textContent = item.description || "";
-
-    content.append(title, description);
 
     const remove = document.createElement("button");
     remove.className = "btn";
     remove.textContent = "Remover";
-
     remove.addEventListener("click", () => {
-      appData.favorites = appData.favorites.filter(
-        (favorite) => favorite.id !== item.id
-      );
-      saveProfileData();
+      data.favorites = data.favorites.filter(f => f.id !== item.id);
+      saveData();
       renderFavorites();
     });
 
-    row.append(content, remove);
+    row.append(title, remove);
     container.appendChild(row);
   });
 }
 
 /* MÚSICA */
-
-let musicLoaded = false;
 
 async function loadMusic() {
   if (musicLoaded) return;
@@ -2885,75 +1583,62 @@ async function loadMusic() {
   const list = $("musicList");
   list.replaceChildren();
 
-  const loading = document.createElement("p");
-  loading.className = "muted small";
-  loading.textContent = "A procurar faixas disponíveis…";
-  list.appendChild(loading);
+  const message = document.createElement("p");
+  message.className = "muted small";
+  message.textContent = "A procurar música disponível…";
+  list.appendChild(message);
 
   try {
-    const response = await fetch(`${getBackend()}/api/music`, {
+    const response = await fetch(backend() + "/api/music", {
       signal: AbortSignal.timeout(15000)
     });
 
-    if (!response.ok) throw new Error("Catálogo de música indisponível.");
+    if (!response.ok) throw new Error("Catálogo indisponível.");
 
-    const data = await response.json();
-    const tracks = Array.isArray(data)
-      ? data
-      : data.tracks || data.results || data.items || [];
+    const json = await response.json();
+    const tracks = Array.isArray(json)
+      ? json
+      : json.tracks || json.results || json.items || [];
+
+    const valid = tracks.filter(track =>
+      safeUrl(track.url || track.audioUrl || track.audio_url)
+    );
 
     list.replaceChildren();
 
-    const validTracks = tracks.filter((track) =>
-      normalizeVideoUrl(track.url || track.audioUrl || track.audio_url)
-    );
+    if (!valid.length) throw new Error("Não existem faixas reproduzíveis.");
 
-    if (!validTracks.length) {
-      throw new Error("O catálogo não contém faixas reproduzíveis.");
-    }
-
-    validTracks.forEach((track) => {
-      const url = normalizeVideoUrl(
-        track.url || track.audioUrl || track.audio_url
-      );
+    valid.forEach(track => {
+      const url = safeUrl(track.url || track.audioUrl || track.audio_url);
 
       const row = document.createElement("div");
-      row.className = "music-item";
+      row.className = "list-item";
 
-      const title = document.createElement("div");
-      const name = document.createElement("strong");
-      name.textContent = track.title || "Faixa de estudo";
-
-      const description = document.createElement("div");
-      description.className = "muted small";
-      description.textContent =
-        track.artist || track.description || "Música de estudo";
-
-      title.append(name, description);
-
-      const controls = document.createElement("div");
-      controls.className = "row";
+      const title = document.createElement("strong");
+      title.textContent = track.title || "Música de estudo";
 
       const play = document.createElement("button");
       play.className = "btn primary";
       play.textContent = "▶ Ouvir";
-
       play.addEventListener("click", () => {
         $("musicPlayer").src = url;
-        $("musicNow").textContent = track.title || "A reproduzir música";
+        $("musicNow").textContent = track.title || "A reproduzir";
         $("musicPlayer").play().catch(() => {
           showToast("Carrega no botão de reprodução do leitor.");
         });
       });
 
-      const download = document.createElement("a");
-      download.className = "btn";
-      download.href = url;
-      download.target = "_blank";
-      download.rel = "noopener noreferrer";
-      download.textContent = "Abrir";
+      const open = document.createElement("a");
+      open.className = "btn";
+      open.href = url;
+      open.target = "_blank";
+      open.rel = "noopener noreferrer";
+      open.textContent = "Abrir faixa";
 
-      controls.append(play, download);
+      const controls = document.createElement("div");
+      controls.className = "row wrap";
+      controls.append(play, open);
+
       row.append(title, controls);
       list.appendChild(row);
     });
@@ -2962,10 +1647,9 @@ async function loadMusic() {
   } catch (error) {
     list.replaceChildren();
 
-    const message = document.createElement("p");
-    message.className = "muted";
-    message.textContent =
-      "Ainda não há um catálogo de música configurado no servidor. Podes procurar música gratuita e verificar a respetiva licença em Pixabay Music.";
+    const p = document.createElement("p");
+    p.className = "muted";
+    p.textContent = "O catálogo do servidor ainda não está disponível. Podes explorar música gratuita, verificando a licença de cada faixa.";
 
     const link = document.createElement("a");
     link.className = "btn";
@@ -2982,38 +1666,32 @@ async function loadMusic() {
       loadMusic();
     });
 
-    list.append(message, link, retry);
+    list.append(p, link, retry);
   }
 }
 
 /* INICIALIZAÇÃO */
 
-function initializeStudyAI() {
-  loadStoredData();
+function initializeApp() {
+  loadData();
   fillSettings();
 
-  $("studyNotes").value = appData.notes || "";
+  $("studyNotes").value = data.notes || "";
 
-  if (profile.year) {
-    $("studyYear").value = profile.year;
-  }
+  if (profile.year) $("studyYear").value = profile.year;
+
+  timerTotal = Number($("duration").value) * 60;
+  timerRemaining = timerTotal;
 
   applyLanguage();
   renderStats();
   renderProgress();
   renderFavorites();
-
-  const duration = Number($("duration").value) || 15;
-  timerTotal = duration * 60;
-  timerRemaining = timerTotal;
-  updateTimerDisplay();
-
+  updateTimer();
   startQuiz();
 }
 
-initializeStudyAI();
-
+initializeApp();
 </script>
 </body>
 </html>
-
