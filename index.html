@@ -5,1145 +5,1521 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#2563eb">
-<meta name="description" content="Study AI — estuda, pratica e acompanha o teu progresso gratuitamente.">
-<title>Study AI — Estudar com Inteligência Artificial</title>
-
+<meta name="description" content="Study AI — aprende, pratica e melhora as tuas notas gratuitamente.">
+<title>Study AI — Aprende melhor</title>
 <style>
 :root {
-  --blue: #2563eb;
-  --blue-light: #dbeafe;
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --primary-light: #dbeafe;
+  --bg: #f4f7fc;
+  --surface: #ffffff;
   --text: #172033;
   --muted: #64748b;
-  --background: #f4f7fb;
-  --panel: #ffffff;
   --border: #e2e8f0;
-  --shadow: 0 8px 28px #0f172a0b;
+  --success: #16a34a;
+  --danger: #dc2626;
+  --shadow: 0 8px 28px rgba(30, 64, 175, .07);
+}
+body.dark {
+  --bg: #0b1220;
+  --surface: #111c30;
+  --text: #e5edff;
+  --muted: #9aabc7;
+  --border: #263650;
+  --primary-light: #1c3157;
+  --shadow: 0 8px 28px rgba(0,0,0,.18);
 }
 * { box-sizing: border-box; }
 body {
   margin: 0;
-  font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
-  background: var(--background);
+  font-family: Inter, Arial, sans-serif;
+  background: var(--bg);
   color: var(--text);
+  transition: background .25s, color .25s;
 }
 button, input, select, textarea { font: inherit; }
 button { cursor: pointer; }
+button:focus-visible, input:focus-visible,
+select:focus-visible, textarea:focus-visible {
+  outline: 3px solid #93c5fd;
+  outline-offset: 2px;
+}
+.app { min-height: 100vh; }
 .sidebar {
+  width: 245px;
   position: fixed;
   inset: 0 auto 0 0;
-  width: 244px;
-  background: var(--panel);
+  padding: 24px 16px;
+  background: var(--surface);
   border-right: 1px solid var(--border);
-  padding: 22px 15px;
   display: flex;
   flex-direction: column;
-  z-index: 5;
+  z-index: 10;
+  overflow-y: auto;
 }
 .brand {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 3px 9px 25px;
-  font-size: 21px;
-  font-weight: 850;
+  gap: 11px;
+  font-size: 22px;
+  font-weight: 800;
+  padding: 3px 8px 28px;
+  letter-spacing: -.7px;
 }
-.logo {
-  width: 39px;
-  height: 39px;
-  border-radius: 13px;
-  background: linear-gradient(135deg, #2563eb, #60a5fa);
+.brand-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
   display: grid;
   place-items: center;
   color: white;
-  font-size: 22px;
+  font-size: 23px;
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  box-shadow: 0 5px 14px #2563eb44;
 }
 .nav-label {
   font-size: 11px;
-  text-transform: uppercase;
-  color: #94a3b8;
+  color: var(--muted);
   font-weight: 800;
-  letter-spacing: 1px;
-  padding: 8px 11px;
+  letter-spacing: 1.2px;
+  padding: 12px 10px 8px;
 }
-.nav { display: grid; gap: 5px; }
-.nav button {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+.nav-btn {
   width: 100%;
   border: 0;
-  background: transparent;
-  color: #64748b;
-  padding: 12px 13px;
   border-radius: 12px;
-  text-align: left;
-  font-weight: 650;
-}
-.nav button:hover, .nav button.active {
-  background: #eff6ff;
-  color: var(--blue);
-}
-.nav .ico { width: 22px; text-align: center; }
-.sidebar-bottom {
-  margin-top: auto;
-  background: #eff6ff;
-  border-radius: 15px;
-  padding: 14px;
-  font-size: 13px;
-  color: #475569;
-  line-height: 1.5;
-}
-.sidebar-bottom strong {
-  display: block;
-  color: #1d4ed8;
-  margin-bottom: 4px;
-}
-.main {
-  margin-left: 244px;
-  padding: 28px clamp(18px, 4vw, 48px) 50px;
-  max-width: 1600px;
-}
-.topbar {
+  padding: 12px;
+  margin: 3px 0;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 27px;
-}
-.eyebrow {
-  color: var(--blue);
-  font-size: 12px;
-  text-transform: uppercase;
-  font-weight: 800;
-  letter-spacing: 1px;
-}
-.topbar h1 {
-  font-size: clamp(24px, 3vw, 34px);
-  margin: 5px 0 0;
-}
-.top-actions { display: flex; gap: 9px; align-items: center; }
-.avatar {
-  width: 40px;
-  height: 40px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
-  background: #dbeafe;
-  color: #1d4ed8;
-  font-weight: 800;
-}
-.btn {
-  border: 0;
-  border-radius: 11px;
-  padding: 11px 15px;
-  background: var(--blue);
-  color: white;
-  font-weight: 750;
-  transition: transform .18s;
-}
-.btn:hover { transform: translateY(-1px); }
-.btn.secondary { background: #eff6ff; color: #1d4ed8; }
-.btn.ghost {
-  background: white;
-  color: #475569;
-  border: 1px solid var(--border);
-}
-.page { display: none; animation: fade .25s ease; }
-.page.active { display: block; }
-@keyframes fade {
-  from { opacity: 0; transform: translateY(5px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-.hero {
-  background: linear-gradient(120deg, #1d4ed8, #3b82f6, #93c5fd);
-  color: white;
-  border-radius: 23px;
-  padding: clamp(24px, 4vw, 40px);
-  position: relative;
-  overflow: hidden;
-}
-.hero h2 {
-  font-size: clamp(25px, 3.2vw, 38px);
-  max-width: 610px;
-  line-height: 1.12;
-  margin: 10px 0;
-}
-.hero p { max-width: 570px; color: #eaf2ff; line-height: 1.7; }
-.hero .eyebrow { color: #dbeafe; }
-.hero .btn { background: white; color: #1d4ed8; }
-.stats {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 15px;
-  margin: 20px 0;
-}
-.stat, .card {
-  background: var(--panel);
-  border: 1px solid var(--border);
-  border-radius: 17px;
-  padding: 20px;
-  box-shadow: var(--shadow);
-}
-.stat-top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: var(--muted);
-  font-size: 13px;
-}
-.stat-icon {
-  width: 35px;
-  height: 35px;
-  border-radius: 11px;
-  background: #eff6ff;
-  display: grid;
-  place-items: center;
-}
-.stat strong { display: block; font-size: 28px; margin: 13px 0 2px; }
-.stat small, .muted { color: var(--muted); }
-.section-head {
-  display: flex;
-  justify-content: space-between;
   align-items: center;
   gap: 12px;
-  margin: 28px 0 15px;
+  text-align: left;
+  background: transparent;
+  color: var(--muted);
+  transition: background .2s, transform .2s;
 }
-.section-head h2 { margin: 0; font-size: 21px; }
-.section-head p { margin: 5px 0 0; color: var(--muted); font-size: 13px; }
-.grid2 { display: grid; grid-template-columns: 1.2fr .8fr; gap: 17px; }
-.grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 15px; }
-.subject-row { display: flex; align-items: center; gap: 12px; margin: 17px 0; }
-.subject-icon {
-  width: 40px; height: 40px; display: grid; place-items: center;
-  border-radius: 12px; background: #eff6ff; font-size: 20px;
+.nav-btn:hover { background: var(--bg); transform: translateX(2px); }
+.nav-btn.active {
+  background: var(--primary-light);
+  color: var(--primary);
+  font-weight: 750;
 }
-.grow { flex: 1; min-width: 0; }
+.nav-icon { width: 23px; text-align: center; font-size: 18px; }
+.sidebar-bottom { margin-top: auto; padding-top: 18px; }
+.profile-mini {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  border-top: 1px solid var(--border);
+  margin-top: 15px;
+  padding: 18px 5px 0;
+}
+.avatar {
+  width: 39px; height: 39px; flex-shrink: 0;
+  border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--primary-light);
+  color: var(--primary); font-weight: 800;
+}
+.profile-info { min-width: 0; }
+.profile-info strong, .profile-info small {
+  display: block; overflow: hidden; text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.profile-info small { color: var(--muted); margin-top: 3px; }
+.main {
+  margin-left: 245px;
+  min-height: 100vh;
+  padding: 28px clamp(16px, 3vw, 40px) 50px;
+}
+.topbar {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 14px; margin-bottom: 27px;
+}
+.topbar h1 { font-size: clamp(24px, 3vw, 32px); margin: 0; letter-spacing: -.8px; }
+.topbar p { color: var(--muted); margin: 7px 0 0; }
+.top-actions { display: flex; align-items: center; gap: 9px; }
+.icon-btn {
+  width: 42px; height: 42px; border: 1px solid var(--border);
+  background: var(--surface); color: var(--text);
+  border-radius: 12px; font-size: 18px;
+}
+.page { display: none; animation: appear .3s ease; }
+.page.active { display: block; }
+@keyframes appear {
+  from { opacity: 0; transform: translateY(7px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.grid { display: grid; gap: 18px; }
+.grid-4 { grid-template-columns: repeat(4, minmax(0,1fr)); }
+.grid-3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
+.grid-2 { grid-template-columns: repeat(2, minmax(0,1fr)); }
+.card {
+  min-width: 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 21px;
+  box-shadow: var(--shadow);
+}
+.card h2, .card h3 { margin-top: 0; }
+.stat-label { color: var(--muted); font-size: 13px; font-weight: 650; }
+.stat-value { font-size: 29px; font-weight: 850; margin: 10px 0 5px; }
+.stat-icon {
+  width: 43px; height: 43px; display: grid; place-items: center;
+  border-radius: 13px; background: var(--primary-light);
+  color: var(--primary); font-size: 21px;
+}
+.stat-top { display: flex; justify-content: space-between; gap: 8px; }
+.muted { color: var(--muted); }
+.small { font-size: 12px; }
+.btn {
+  border: 0; border-radius: 11px; padding: 11px 16px;
+  font-weight: 750; transition: transform .2s, opacity .2s;
+}
+.btn:hover { transform: translateY(-1px); }
+.btn-primary { background: var(--primary); color: white; }
+.btn-primary:hover { background: var(--primary-dark); }
+.btn-secondary {
+  color: var(--text); background: var(--bg);
+  border: 1px solid var(--border);
+}
+.btn-danger { background: #fee2e2; color: #b91c1c; }
+.btn-small { padding: 7px 10px; font-size: 12px; }
+.full { width: 100%; }
+.section-head {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 12px; margin: 26px 0 15px;
+}
+.section-head h2 { margin: 0; font-size: 20px; }
+.hero {
+  padding: clamp(24px,4vw,38px);
+  border-radius: 23px;
+  background: linear-gradient(120deg, #1d4ed8, #3b82f6 65%, #60a5fa);
+  color: white;
+  position: relative; overflow: hidden;
+  margin-bottom: 20px;
+}
+.hero::after {
+  content: "✦"; position: absolute; right: 7%; top: -25px;
+  font-size: 145px; opacity: .13; transform: rotate(15deg);
+}
+.hero h2 { font-size: clamp(24px,3vw,34px); margin: 0 0 12px; }
+.hero p { max-width: 580px; line-height: 1.65; opacity: .92; }
+.hero .btn { background: white; color: #1d4ed8; margin-top: 7px; }
 .progress-track {
-  height: 9px; background: #eaf0f8; border-radius: 20px;
+  height: 9px; border-radius: 99px; background: var(--border);
   overflow: hidden; margin: 12px 0;
 }
 .progress-fill {
-  height: 100%; width: 0;
+  height: 100%; border-radius: 99px;
   background: linear-gradient(90deg, #2563eb, #60a5fa);
-  border-radius: 20px; transition: width .35s;
+  transition: width .4s ease;
 }
-.tag {
-  font-size: 11px; color: #1d4ed8; background: #eff6ff;
-  border-radius: 8px; padding: 5px 8px; width: max-content; font-weight: 800;
+.quick-card { cursor: pointer; transition: transform .2s; }
+.quick-card:hover { transform: translateY(-3px); }
+.quick-card .stat-icon { margin-bottom: 15px; }
+.quick-card h3 { margin-bottom: 7px; }
+.quick-card p { color: var(--muted); font-size: 13px; line-height: 1.5; }
+.field { display: grid; gap: 7px; margin: 14px 0; }
+.field label { font-size: 13px; font-weight: 750; }
+.field input, .field select, .field textarea,
+.chat-input, .search-input {
+  width: 100%; border: 1px solid var(--border);
+  background: var(--bg); color: var(--text);
+  border-radius: 11px; padding: 12px;
 }
-.small { font-size: 13px; }
-.field { display: grid; gap: 7px; margin-bottom: 15px; }
-.field label { font-size: 13px; font-weight: 750; color: #475569; }
-.field input, .field select, .field textarea, .chat-input {
-  width: 100%; padding: 12px 13px; border: 1px solid #dbe3ef;
-  border-radius: 11px; background: white; color: var(--text); outline: none;
+.field textarea { resize: vertical; min-height: 100px; }
+.row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.spread { justify-content: space-between; }
+.pill {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: var(--primary-light); color: var(--primary);
+  padding: 5px 9px; border-radius: 99px;
+  font-size: 11px; font-weight: 800;
 }
-.field input:focus, .field select:focus, .field textarea:focus, .chat-input:focus {
-  border-color: #60a5fa; box-shadow: 0 0 0 3px #dbeafe;
+.empty {
+  padding: 28px 12px; text-align: center; color: var(--muted);
 }
 .notice {
-  padding: 12px 14px; background: #eff6ff; border-radius: 12px;
-  color: #1e40af; font-size: 13px; line-height: 1.55;
+  background: var(--primary-light); color: var(--text);
+  border-radius: 12px; padding: 13px 15px;
+  font-size: 13px; line-height: 1.6;
 }
-.form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 15px; }
-.timer {
-  font-size: clamp(38px, 6vw, 62px); font-weight: 850;
-  text-align: center; margin: 20px 0; color: #1d4ed8;
+.list { display: grid; gap: 10px; }
+.list-item {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; border: 1px solid var(--border);
+  padding: 13px; border-radius: 12px;
 }
-.timer-actions { display: flex; gap: 9px; justify-content: center; flex-wrap: wrap; }
-.chat-box {
-  min-height: 300px; max-height: 440px; overflow: auto;
-  background: #f8fafc; border: 1px solid var(--border);
-  border-radius: 15px; padding: 16px; display: flex; flex-direction: column; gap: 12px;
-}
-.bubble {
-  max-width: 88%; padding: 12px 14px; border-radius: 14px;
-  line-height: 1.6; font-size: 14px; white-space: pre-wrap;
-}
-.bubble.ai { background: white; border: 1px solid var(--border); align-self: flex-start; }
-.bubble.user { background: #2563eb; color: white; align-self: flex-end; }
-.chat-controls { display: flex; gap: 8px; margin-top: 12px; }
-.chat-input { flex: 1; min-width: 0; }
-.music-row { display: flex; align-items: center; gap: 13px; padding: 13px 0; border-bottom: 1px solid var(--border); }
-.music-art {
-  width: 52px; height: 52px; border-radius: 13px;
-  background: linear-gradient(135deg, #dbeafe, #93c5fd);
-  display: grid; place-items: center; font-size: 23px;
-}
-.music-row:last-child { border-bottom: 0; }
-.settings-block { padding: 20px 0; border-bottom: 1px solid var(--border); }
-.settings-block:last-child { border: 0; }
-.switch { display: flex; align-items: center; gap: 10px; }
-.toast {
-  position: fixed; bottom: 22px; right: 22px; background: #0f172a;
-  color: white; padding: 12px 16px; border-radius: 12px; z-index: 20; display: none;
-}
+.list-item h3 { font-size: 14px; margin: 0 0 5px; }
+.list-item p { font-size: 12px; margin: 0; color: var(--muted); }
 .mobile-menu { display: none; }
-.footer { text-align: center; color: #94a3b8; font-size: 12px; margin-top: 35px; }
-
-body.dark {
-  --text: #e5edf9; --muted: #9aabc4; --background: #0b1220;
-  --panel: #111c2e; --border: #26364d; --shadow: 0 8px 28px #0002;
+@media (max-width: 1100px) {
+  .grid-4 { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .grid-3 { grid-template-columns: repeat(2,minmax(0,1fr)); }
 }
-body.dark .sidebar, body.dark .card, body.dark .stat,
-body.dark .chat-box, body.dark .bubble.ai,
-body.dark .field input, body.dark .field select,
-body.dark .field textarea, body.dark .chat-input {
-  background: #111c2e; color: var(--text);
-}
-body.dark .nav button { color: #a7b5ca; }
-body.dark .nav button.active { background: #172d4c; color: #bfdbfe; }
-body.dark .sidebar-bottom { background: #172d4c; color: #cbd5e1; }
-body.dark .progress-track { background: #26364d; }
-
-@media (max-width: 1000px) {
-  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .grid3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .grid2 { grid-template-columns: 1fr; }
-}
-@media (max-width: 700px) {
-  .sidebar { width: 0; padding: 0; overflow: hidden; }
-  .sidebar.open { width: 245px; padding: 20px 14px; }
-  .main { margin-left: 0; padding: 19px 15px 35px; }
-  .mobile-menu { display: inline-flex; }
+@media (max-width: 760px) {
+  .sidebar {
+    width: 265px; transform: translateX(-100%);
+    transition: transform .25s; box-shadow: var(--shadow);
+  }
+  .sidebar.open { transform: translateX(0); }
+  .main { margin-left: 0; padding: 18px 14px 35px; }
+  .mobile-menu { display: inline-grid; place-items: center; }
   .topbar { align-items: flex-start; }
-  .top-actions .btn { display: none; }
-  .stats { gap: 10px; }
-  .stat { padding: 14px; }
-  .stat strong { font-size: 24px; }
-  .grid3, .form-grid { grid-template-columns: 1fr; }
-  .hero { border-radius: 17px; }
-  .chat-controls { flex-wrap: wrap; }
-  .chat-controls input { flex-basis: 100%; }
+  .grid-4, .grid-3, .grid-2 { grid-template-columns: 1fr; }
+  .hero { padding: 25px 20px; }
+  .stat-value { font-size: 25px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    transition-duration: .01ms !important;
+  }
 }
 </style>
 </head>
 <body>
 <div class="app">
-<aside class="sidebar" id="sidebar">
-  <div class="brand"><div class="logo">✦</div><span>Study AI</span></div>
-  <div class="nav-label">Menu principal</div>
-  <nav class="nav" aria-label="Navegação principal">
-    <button class="active" data-page="home"><span class="ico">⌂</span>Início</button>
-    <button data-page="study"><span class="ico">📚</span>Estudar</button>
-    <button data-page="challenges"><span class="ico">⚡</span>Desafios</button>
-    <button data-page="tutor"><span class="ico">✦</span>Professor IA</button>
-    <button data-page="music"><span class="ico">♫</span>Música</button>
-    <button data-page="progress"><span class="ico">▥</span>Progresso</button>
-    <button data-page="settings"><span class="ico">⚙</span>Definições</button>
-  </nav>
-  <div class="sidebar-bottom">
-    <strong>✦ Aprende ao teu ritmo</strong>
-    Define um objetivo, pratica um pouco todos os dias e acompanha a tua evolução.
-  </div>
-</aside>
-
-<main class="main">
-<header class="topbar">
-  <div style="display:flex;gap:12px;align-items:flex-start">
-    <button class="btn ghost mobile-menu" id="menuToggle">☰</button>
-    <div>
-      <div class="eyebrow">O teu espaço de aprendizagem</div>
-      <h1 id="pageTitle">Olá! Vamos aprender? 👋</h1>
+  <aside class="sidebar" id="sidebar">
+    <div class="brand">
+      <div class="brand-icon">✦</div>
+      <span>Study AI</span>
     </div>
-  </div>
-  <div class="top-actions">
-    <button class="btn secondary" data-go="study">＋ Nova sessão</button>
-    <div class="avatar" id="avatar">E</div>
-  </div>
-</header>
-
-<section class="page active" id="page-home" data-page="home">
-  <div class="hero">
-    <div class="eyebrow">O teu próximo passo começa aqui</div>
-    <h2 id="heroTitle">Pequenos passos. Grandes resultados.</h2>
-    <p>Pratica, resolve desafios e descobre maneiras de compreender melhor a matéria. O teu espaço de estudo é gratuito.</p>
-    <button class="btn" data-go="study">Começar a estudar →</button>
-  </div>
-
-  <div class="stats">
-    <div class="stat"><div class="stat-top">Tempo de estudo <span class="stat-icon">◷</span></div><strong id="totalMinutes">0 min</strong><small>Tempo registado</small></div>
-    <div class="stat"><div class="stat-top">Desafios concluídos <span class="stat-icon">⚡</span></div><strong id="totalChallenges">0</strong><small>Continua a praticar</small></div>
-    <div class="stat"><div class="stat-top">Sequência atual <span class="stat-icon">🔥</span></div><strong id="streak">0 dias</strong><small>Dias com estudo registado</small></div>
-    <div class="stat"><div class="stat-top">Objetivo <span class="stat-icon">🎯</span></div><strong id="targetGrade">—</strong><small id="targetLabel">Define a tua meta</small></div>
-  </div>
-
-  <div class="grid2">
-    <div class="card">
-      <div class="section-head" style="margin-top:0">
-        <div><h2>Retomar aprendizagem</h2><p>Escolhe uma área para praticar</p></div>
+    <div class="nav-label" data-i18n="menu">MENU PRINCIPAL</div>
+    <button class="nav-btn active" data-page="home" onclick="showPage('home')">
+      <span class="nav-icon">⌂</span><span data-i18n="home">Início</span>
+    </button>
+    <button class="nav-btn" data-page="study" onclick="showPage('study')">
+      <span class="nav-icon">📚</span><span data-i18n="study">Estudar</span>
+    </button>
+    <button class="nav-btn" data-page="challenges" onclick="showPage('challenges')">
+      <span class="nav-icon">🎯</span><span data-i18n="challenges">Desafios</span>
+    </button>
+    <button class="nav-btn" data-page="professor" onclick="showPage('professor')">
+      <span class="nav-icon">🤖</span><span data-i18n="professor">Professor IA</span>
+    </button>
+    <button class="nav-btn" data-page="music" onclick="showPage('music')">
+      <span class="nav-icon">🎵</span><span data-i18n="music">Música</span>
+    </button>
+    <button class="nav-btn" data-page="progress" onclick="showPage('progress')">
+      <span class="nav-icon">📈</span><span data-i18n="progress">Progresso</span>
+    </button>
+    <button class="nav-btn" data-page="settings" onclick="showPage('settings')">
+      <span class="nav-icon">⚙️</span><span data-i18n="settings">Definições</span>
+    </button>
+    <div class="sidebar-bottom">
+      <div class="notice">
+        <strong>Study AI</strong><br>
+        <span data-i18n="freeNote">Todas as funcionalidades são gratuitas.</span>
       </div>
-      <div class="subject-row"><div class="subject-icon">➗</div><div class="grow"><strong>Matemática</strong><div class="progress-track"><div class="progress-fill" style="width:42%"></div></div></div><button class="btn secondary" data-subject="Matemática">Praticar</button></div>
-      <div class="subject-row"><div class="subject-icon">📖</div><div class="grow"><strong>Português</strong><div class="progress-track"><div class="progress-fill" style="width:30%"></div></div></div><button class="btn secondary" data-subject="Português">Praticar</button></div>
-      <div class="subject-row"><div class="subject-icon">🧪</div><div class="grow"><strong>Ciências</strong><div class="progress-track"><div class="progress-fill" style="width:22%"></div></div></div><button class="btn secondary" data-subject="Ciências Naturais">Praticar</button></div>
-    </div>
-
-    <div class="card">
-      <div class="section-head" style="margin-top:0">
-        <div><h2>Desafio do dia</h2><p>Um exercício para treinar</p></div>
-        <span style="font-size:25px">💡</span>
+      <div class="profile-mini">
+        <div class="avatar" id="sideAvatar">E</div>
+        <div class="profile-info">
+          <strong id="sideName">Estudante</strong>
+          <small id="sideYear">8.º ano</small>
+        </div>
       </div>
-      <span class="tag">MATEMÁTICA · FÁCIL</span>
-      <h3 style="margin-top:13px">Quanto é 25% de 80?</h3>
-      <p class="muted small">Dica: 25% é o mesmo que um quarto.</p>
-      <button class="btn" style="margin-top:15px" data-go="challenges">Resolver desafio →</button>
     </div>
-  </div>
-</section>
+  </aside>
 
-<!-- PÁGINA: ESTUDAR -->
-<section class="page" id="page-study" data-page="study">
-  <div class="section-head">
-    <div>
-      <span class="eyebrow">APRENDIZAGEM PERSONALIZADA</span>
-      <h2>Vamos estudar?</h2>
-      <p>Escolhe a disciplina e aprende ao teu ritmo.</p>
-    </div>
-  </div>
-  <div class="card">
-    <h2>Preparar sessão</h2>
-    <div class="form-grid">
-      <label>Disciplina
-        <select id="study-subject">
-          <option>Matemática</option><option>Português</option>
-          <option>Inglês</option><option>Ciências Naturais</option>
-          <option>Físico-Química</option><option>História</option>
-          <option>Geografia</option><option>Espanhol</option><option>Outra</option>
-        </select>
-      </label>
-      <label>Matéria
-        <input id="study-topic" placeholder="Ex.: números racionais">
-      </label>
-      <label>Dificuldade
-        <select id="study-level">
-          <option value="facil">Fácil</option><option value="medio" selected>Intermédia</option>
-          <option value="dificil">Difícil</option><option value="desafio">Desafio máximo</option>
-        </select>
-      </label>
-      <label>Duração
-        <select id="study-duration">
-          <option value="5">5 minutos</option><option value="10">10 minutos</option>
-          <option value="15" selected>15 minutos</option><option value="20">20 minutos</option>
-          <option value="30">30 minutos</option>
-        </select>
-      </label>
-    </div>
-    <div style="display:flex;gap:9px;flex-wrap:wrap;margin-top:12px">
-      <button class="btn" id="start-study">Começar a estudar</button>
-      <button class="btn secondary" id="generate-question">Gerar exercício</button>
-    </div>
-  </div>
-
-  <div class="card">
-    <span class="eyebrow">SESSÃO ATIVA</span>
-    <h2 id="session-title">A tua sessão de estudo</h2>
-    <p id="session-status">Pronta</p>
-    <p id="session-message">Carrega em “Começar a estudar” para iniciar.</p>
-    <div class="progress-track"><div class="progress-fill" id="session-progress"></div></div>
-    <div class="timer" id="session-timer">15:00</div>
-    <div class="timer-actions">
-      <button class="btn secondary" id="pause-study">Pausar / continuar</button>
-      <button class="btn" id="finish-study">Terminar sessão</button>
-    </div>
-  </div>
-
-  <div class="card">
-    <h2>Exercício de treino</h2>
-    <p id="question-text">Carrega em “Gerar exercício”.</p>
-    <div id="question-options"></div>
-    <p id="question-feedback" aria-live="polite"></p>
-    <button class="btn secondary" id="next-question">Outro exercício</button>
-  </div>
-</section>
-
-<!-- PÁGINA: DESAFIOS -->
-<section class="page" id="page-challenges" data-page="challenges">
-  <span class="eyebrow">TREINA E EVOLUI</span>
-  <h2>Desafios</h2>
-  <p>Pratica, ganha pontos e melhora os teus resultados.</p>
-  <div class="stats">
-    <div class="stat">Pontos<strong id="challenge-points">0</strong></div>
-    <div class="stat">Respondidos<strong id="challenge-count">0</strong></div>
-    <div class="stat">Corretos<strong id="challenge-correct">0</strong></div>
-  </div>
-  <div class="card">
-    <h2 id="challenge-title">Desafio diário</h2>
-    <p id="challenge-question">Prepara-te para testar os teus conhecimentos.</p>
-    <div id="challenge-options"></div>
-    <p id="challenge-feedback" aria-live="polite"></p>
-    <button class="btn" id="new-challenge">Novo desafio</button>
-  </div>
-  <div class="card">
-    <h2>Dica para evoluíres</h2>
-    <p>Quando errares, lê a explicação e tenta compreender o raciocínio antes de avançares.</p>
-  </div>
-</section>
-
-<!-- PÁGINA: PROFESSOR IA -->
-<section class="page" id="page-tutor" data-page="tutor">
-  <span class="eyebrow">O TEU ASSISTENTE DE ESTUDO</span>
-  <h2>Professor IA</h2>
-  <p>Faz perguntas, pede exemplos e solicita explicações passo a passo.</p>
-
-  <div class="card">
-    <div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
-      <div>
-        <strong>As minhas conversas</strong>
-        <p class="muted small">Cada conversa tem o seu próprio histórico neste navegador.</p>
+  <main class="main">
+    <header class="topbar">
+      <div class="row">
+        <button class="icon-btn mobile-menu" onclick="toggleSidebar()" aria-label="Abrir menu">☰</button>
+        <div>
+          <h1 id="pageTitle">Início</h1>
+          <p id="pageSubtitle">O teu espaço para aprender e evoluir.</p>
+        </div>
       </div>
-      <button class="btn" id="new-chat">＋ Nova conversa</button>
-    </div>
-
-    <div class="form-grid" style="margin:15px 0">
-      <label>Conversas guardadas
-        <select id="chat-history-select">
-          <option value="">Nova conversa</option>
-        </select>
-      </label>
-      <label>Nome da conversa
-        <input id="chat-title-input" placeholder="Ex.: Matemática — frações">
-      </label>
-    </div>
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px">
-      <button class="btn secondary" id="rename-chat">Mudar nome</button>
-      <button class="btn secondary" id="delete-chat">Apagar conversa</button>
-      <button class="btn secondary" id="clear-chat">Limpar mensagens</button>
-    </div>
-
-    <div id="chat-messages" class="chat-box" aria-live="polite"></div>
-    <form id="chat-form">
-      <textarea id="chat-input" class="chat-input" rows="3" placeholder="Escreve a tua pergunta..." required></textarea>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:10px">
-        <button class="btn secondary" type="button" id="voice-input">🎙️ Falar</button>
-        <button class="btn secondary" type="button" id="stop-speaking">⏹ Parar voz</button>
-        <button class="btn" type="submit">Enviar pergunta</button>
+      <div class="top-actions">
+        <button class="icon-btn" onclick="toggleDark()" title="Alterar tema" aria-label="Alterar tema">◐</button>
       </div>
-    </form>
-    <p class="muted small">A leitura em voz alta e o microfone dependem do navegador. As respostas continuam a ser de demonstração até ligares um serviço de IA real.</p>
-  </div>
-</section>
+    </header>
 
-<!-- PÁGINA: MÚSICA -->
-<section class="page" id="page-music" data-page="music">
-  <span class="eyebrow">CONCENTRAÇÃO</span>
-  <h2>Música para estudar</h2>
-  <p>Sons gratuitos gerados no teu dispositivo, sem subscrição.</p>
-  <div class="grid3">
-    <div class="card">
-      <div class="music-art">🌧️</div>
-      <h3>Chuva tranquila</h3>
-      <p class="muted small">Som ambiente para relaxar.</p>
-      <button class="btn music-toggle" data-sound="rain">Reproduzir</button>
-    </div>
-    <div class="card">
-      <div class="music-art">🌊</div>
-      <h3>Ondas suaves</h3>
-      <p class="muted small">Som contínuo e calmo.</p>
-      <button class="btn music-toggle" data-sound="waves">Reproduzir</button>
-    </div>
-    <div class="card">
-      <div class="music-art">🎧</div>
-      <h3>Ruído de concentração</h3>
-      <p class="muted small">Ajuda a reduzir distrações.</p>
-      <button class="btn music-toggle" data-sound="focus">Reproduzir</button>
-    </div>
-  </div>
-  <div class="card">
-    <label for="music-volume">Volume</label>
-    <input id="music-volume" type="range" min="0" max="100" value="30">
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:12px">
-      <button class="btn secondary" id="stop-music">Parar música</button>
-      <button class="btn secondary" id="download-sound">Descarregar som</button>
-    </div>
-    <p id="music-status" aria-live="polite">Nenhum som em reprodução.</p>
-    <p class="muted small">O ficheiro descarregado é um som gerado, não uma música comercial.</p>
-  </div>
-</section>
+    <section class="page active" id="page-home">
+      <div class="hero">
+        <h2 id="welcomeTitle">Olá! Vamos aprender? 👋</h2>
+        <p>Estuda ao teu ritmo, pratica com desafios e acompanha a tua evolução. O teu próximo objetivo começa hoje!</p>
+        <button class="btn" onclick="showPage('study')">Começar a estudar →</button>
+      </div>
 
-<!-- PÁGINA: PROGRESSO -->
-<section class="page" id="page-progress" data-page="progress">
-  <span class="eyebrow">ACOMPANHA A TUA EVOLUÇÃO</span>
-  <h2>O teu progresso</h2>
-  <div class="stats">
-    <div class="stat">Minutos estudados<strong id="total-minutes">0</strong></div>
-    <div class="stat">Sessões concluídas<strong id="total-sessions">0</strong></div>
-    <div class="stat">Respostas corretas<strong id="total-correct">0</strong></div>
-  </div>
-  <div class="card">
-    <h3>Objetivo semanal</h3>
-    <p id="goal-description">Define um objetivo nas Definições.</p>
-    <div class="progress-track"><div class="progress-fill" id="goal-progress"></div></div>
-    <p id="goal-percent">0% do objetivo semanal</p>
-  </div>
-  <div class="card">
-    <h3>Histórico de estudo</h3>
-    <ul id="study-history"><li>Ainda não existem sessões concluídas.</li></ul>
-    <button class="btn secondary" id="reset-progress">Repor progresso</button>
-  </div>
-</section>
+      <div class="grid grid-4">
+        <div class="card">
+          <div class="stat-top"><span class="stat-label">Tempo de estudo</span><span class="stat-icon">⏱️</span></div>
+          <div class="stat-value" id="homeMinutes">0 min</div>
+          <div class="muted small">Tempo acumulado</div>
+        </div>
+        <div class="card">
+          <div class="stat-top"><span class="stat-label">Desafios concluídos</span><span class="stat-icon">🎯</span></div>
+          <div class="stat-value" id="homeChallenges">0</div>
+          <div class="muted small">Respostas corretas incluídas</div>
+        </div>
+        <div class="card">
+          <div class="stat-top"><span class="stat-label">Pontos ganhos</span><span class="stat-icon">⭐</span></div>
+          <div class="stat-value" id="homePoints">0</div>
+          <div class="muted small">Continua a praticar</div>
+        </div>
+        <div class="card">
+          <div class="stat-top"><span class="stat-label">Objetivo de nota</span><span class="stat-icon">🏆</span></div>
+          <div class="stat-value" id="homeGoal">5</div>
+          <div class="muted small">Meta definida no perfil</div>
+        </div>
+      </div>
 
-<!-- PÁGINA: DEFINIÇÕES -->
-<section class="page" id="page-settings" data-page="settings">
-  <span class="eyebrow">PERSONALIZA A APLICAÇÃO</span>
-  <h2>Definições</h2>
-  <div class="card">
-    <h3>Perfil de estudante</h3>
-    <div class="form-grid">
-      <label>Nome<input id="profile-name" placeholder="O teu nome"></label>
-      <label>Email (opcional)<input id="profile-email" type="email" placeholder="O teu email"></label>
-      <label>Ano de escolaridade
-        <select id="profile-year">
-          <option>5.º ano</option><option>6.º ano</option><option>7.º ano</option>
-          <option selected>8.º ano</option><option>9.º ano</option><option>10.º ano</option>
-          <option>11.º ano</option><option>12.º ano</option>
-        </select>
-      </label>
-      <label>Nota atual (0–100)<input id="profile-grade" type="number" min="0" max="100" value="70"></label>
-      <label>Nota pretendida (0–100)<input id="profile-target" type="number" min="0" max="100" value="85"></label>
-      <label>Curso
-        <select id="profile-course">
-          <option value="">Ainda não definido</option>
-          <option>Ciências e Tecnologias</option><option>Línguas e Humanidades</option>
-          <option>Ciências Socioeconómicas</option><option>Artes Visuais</option>
-          <option>Curso profissional</option><option>Outro</option>
-        </select>
-      </label>
-      <label>Idioma
-        <select id="app-language">
-          <option value="pt">Português (Portugal)</option>
-          <option value="en">English</option><option value="es">Español</option>
-          <option value="fr">Français</option>
-        </select>
-      </label>
-      <label>Tema
-        <select id="app-theme">
-          <option value="light">Claro — branco e azul</option>
-          <option value="dark">Escuro</option>
-        </select>
-      </label>
-      <label>Objetivo semanal (minutos)
-        <input id="weekly-goal" type="number" min="5" max="2000" value="100">
-      </label>
-    </div>
-    <p><label><input id="setting-notifications" type="checkbox"> Notificações da aplicação</label></p>
-    <p><label><input id="setting-updates" type="checkbox"> Receber novidades e atualizações</label></p>
-    <button class="btn" id="save-settings">Guardar definições</button>
-    <p id="settings-status" aria-live="polite"></p>
-  </div>
-  <div class="card">
-    <h3>Sobre o Study AI</h3>
-    <p>Uma aplicação gratuita para aprender, praticar e acompanhar o teu progresso.</p>
-    <p class="muted small">Os dados deste protótipo ficam guardados neste navegador. O campo de email não cria uma conta nem envia mensagens.</p>
-  </div>
-</section>
-</main>
+      <div class="section-head"><h2>Atalhos rápidos</h2></div>
+      <div class="grid grid-3">
+        <div class="card quick-card" onclick="showPage('study')">
+          <div class="stat-icon">📖</div><h3>Estudar</h3>
+          <p>Escolhe uma disciplina e começa uma sessão de estudo.</p>
+          <button class="btn btn-secondary">Abrir →</button>
+        </div>
+        <div class="card quick-card" onclick="showPage('challenges')">
+          <div class="stat-icon">🧠</div><h3>Treinar conhecimentos</h3>
+          <p>Resolve perguntas e ganha pontos por respostas corretas.</p>
+          <button class="btn btn-secondary">Desafiar-me →</button>
+        </div>
+        <div class="card quick-card" onclick="showPage('professor')">
+          <div class="stat-icon">🤖</div><h3>Professor IA</h3>
+          <p>Faz perguntas e pede explicações simples para estudar.</p>
+          <button class="btn btn-secondary">Fazer uma pergunta →</button>
+        </div>
+      </div>
+
+      <div class="section-head"><h2>Objetivo semanal</h2><span class="pill" id="weeklyLabel">0 / 60 min</span></div>
+      <div class="card">
+        <div class="row spread">
+          <strong>O progresso desta semana</strong>
+          <span class="muted small" id="weeklyPercent">0%</span>
+        </div>
+        <div class="progress-track"><div class="progress-fill" id="weeklyBar" style="width:0%"></div></div>
+        <p class="muted small">Podes alterar o objetivo nas definições. Estudar um pouco todos os dias ajuda a criar bons hábitos.</p>
+      </div>
+    </section>
+
+    <section class="page" id="page-study">
+      <div class="grid grid-2">
+        <div class="card">
+          <h2>📚 Sessão de estudo</h2>
+          <p class="muted">Escolhe a disciplina e prepara uma sessão de pelo menos 5 minutos.</p>
+          <div class="field">
+            <label for="studySubject">Disciplina</label>
+            <select id="studySubject">
+              <option>Matemática</option><option>Português</option>
+              <option>Inglês</option><option>Ciências Naturais</option>
+              <option>Físico-Química</option><option>História</option>
+              <option>Geografia</option><option>Francês</option>
+              <option>Espanhol</option><option>Outra</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="studyTopic">O que vais estudar?</label>
+            <input id="studyTopic" placeholder="Ex.: frações, orações, células...">
+          </div>
+          <div class="field">
+            <label for="studyDuration">Duração da sessão</label>
+            <select id="studyDuration">
+              <option value="5">5 minutos</option>
+              <option value="10">10 minutos</option>
+              <option value="15">15 minutos</option>
+              <option value="20">20 minutos</option>
+              <option value="25">25 minutos</option>
+              <option value="30">30 minutos</option>
+              <option value="45">45 minutos</option>
+              <option value="60">60 minutos</option>
+            </select>
+          </div>
+          <button class="btn btn-primary full" onclick="startStudy()">Iniciar sessão</button>
+        </div>
+        <div class="card">
+          <h2>⏱️ Temporizador</h2>
+          <p class="muted">Concentra-te numa tarefa de cada vez.</p>
+          <div style="text-align:center;padding:22px 0">
+            <div id="timerDisplay" style="font-size:54px;font-weight:850;letter-spacing:2px">05:00</div>
+            <p id="timerStatus" class="muted">Pronto para começar</p>
+            <div class="row" style="justify-content:center">
+              <button class="btn btn-primary" id="timerToggle" onclick="toggleTimer()">▶ Iniciar</button>
+              <button class="btn btn-secondary" onclick="resetTimer()">↻ Reiniciar</button>
+            </div>
+          </div>
+          <div class="notice">A sessão só é contabilizada quando terminares o tempo escolhido. Podes pausar e continuar quando precisares.</div>
+        </div>
+      </div>
+      <div class="section-head"><h2>Vídeos educativos</h2></div>
+      <div class="card">
+        <p class="muted">Procura vídeos educativos por disciplina no YouTube.</p>
+        <div class="row">
+          <input id="videoQuery" class="search-input" style="flex:1;min-width:180px" placeholder="Ex.: equações do 8.º ano">
+          <button class="btn btn-primary" onclick="searchVideos()">Pesquisar vídeos</button>
+        </div>
+        <div id="videoResults" class="notice" style="margin-top:14px">Escreve um tema para encontrares vídeos educativos.</div>
+      </div>
+    </section>
+
+    <section class="page" id="page-challenges">
+      <div class="hero">
+        <h2>Desafia os teus conhecimentos! 🎯</h2>
+        <p>Pratica diferentes disciplinas, recebe feedback e ganha pontos. As perguntas adaptam-se ao teu ano escolar.</p>
+        <button class="btn" onclick="startChallenge()">Começar desafio →</button>
+      </div>
+      <div class="grid grid-3">
+        <div class="card"><div class="stat-label">Perguntas respondidas</div><div class="stat-value" id="challengeAnswered">0</div></div>
+        <div class="card"><div class="stat-label">Respostas corretas</div><div class="stat-value" id="challengeCorrect">0</div></div>
+        <div class="card"><div class="stat-label">Precisão</div><div class="stat-value" id="challengeAccuracy">0%</div></div>
+      </div>
+      <div class="section-head"><h2>Desafio de aprendizagem</h2></div>
+      <div class="card" id="challengeBox">
+        <div class="empty">Carrega em «Começar desafio» para receberes a primeira pergunta.</div>
+      </div>
+    </section>
+
+    <section class="page" id="page-professor">
+      <div class="grid grid-2">
+        <div class="card">
+          <div class="row spread">
+            <h2>🤖 Professor IA</h2>
+            <button class="btn btn-primary btn-small" onclick="newChat()">+ Nova conversa</button>
+          </div>
+          <p class="muted small">Pede ajuda com os trabalhos, pede exemplos ou solicita uma explicação mais simples.</p>
+          <div class="field">
+            <label for="chatList">As minhas conversas</label>
+            <select id="chatList" onchange="selectChat(this.value)"></select>
+          </div>
+          <div class="row">
+            <button class="btn btn-secondary btn-small" onclick="renameChat()">✏️ Renomear</button>
+            <button class="btn btn-secondary btn-small" onclick="deleteChat()">🗑️ Apagar</button>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Experimenta perguntar</h3>
+          <div class="list">
+            <button class="btn btn-secondary" onclick="quickAsk('Explica-me as frações de forma simples.')">Explica-me as frações</button>
+            <button class="btn btn-secondary" onclick="quickAsk('Ajuda-me a identificar orações subordinadas.')">Orações subordinadas</button>
+            <button class="btn btn-secondary" onclick="quickAsk('Cria cinco perguntas de Ciências Naturais para praticar.')">Perguntas de Ciências</button>
+          </div>
+        </div>
+      </div>
+      <div class="section-head"><h2>Conversa</h2></div>
+      <div class="card">
+        <div id="chatMessages" class="list" style="min-height:180px;max-height:420px;overflow-y:auto;margin-bottom:16px">
+          <div class="notice">Olá! Sou o Professor IA de demonstração. Posso ajudar-te a estudar e explicar conceitos. Confirma sempre as respostas importantes com os teus manuais ou professores.</div>
+        </div>
+        <label class="muted small" for="chatInput">A tua pergunta</label>
+        <textarea id="chatInput" class="chat-input" rows="3" placeholder="Escreve aqui a tua pergunta..."></textarea>
+        <div class="row spread" style="margin-top:10px">
+          <div class="row">
+            <button class="btn btn-secondary" onclick="startVoiceInput()">🎙️ Falar</button>
+            <button class="btn btn-secondary" onclick="stopSpeech()">🔇 Parar voz</button>
+          </div>
+          <button class="btn btn-primary" onclick="sendMessage()">Enviar →</button>
+        </div>
+        <p class="muted small">A versão desta página usa respostas locais de demonstração. Não é uma ligação a um modelo de IA online.</p>
+      </div>
+    </section>
+
+    <section class="page" id="page-music">
+      <div class="hero">
+        <h2>🎵 Música para te concentrares</h2>
+        <p>Usa som ambiente durante o estudo. A música gerada aqui funciona sem precisares de descarregar ficheiros.</p>
+        <button class="btn" id="soundToggle" onclick="toggleAmbient()">▶ Reproduzir som ambiente</button>
+      </div>
+      <div class="grid grid-3">
+        <div class="card">
+          <div class="stat-icon">🌧️</div><h3>Chuva suave</h3>
+          <p class="muted small">Ruído ambiente suave para ajudar a concentrar.</p>
+          <button class="btn btn-primary full" onclick="playNoise('rain')">Reproduzir chuva</button>
+        </div>
+        <div class="card">
+          <div class="stat-icon">🌊</div><h3>Ondas do mar</h3>
+          <p class="muted small">Som relaxante gerado no dispositivo.</p>
+          <button class="btn btn-primary full" onclick="playNoise('sea')">Reproduzir ondas</button>
+        </div>
+        <div class="card">
+          <div class="stat-icon">🎼</div><h3>Tom de concentração</h3>
+          <p class="muted small">Som contínuo suave para sessões de estudo.</p>
+          <button class="btn btn-primary full" onclick="playNoise('tone')">Reproduzir tom</button>
+        </div>
+      </div>
+      <div class="section-head"><h2>Mais música para estudar</h2></div>
+      <div class="card">
+        <p>Estas ligações permitem procurar música gratuita. Confirma a licença de cada faixa antes de a utilizares ou descarregares.</p>
+        <div class="list">
+          <div class="list-item"><div><h3>Pixabay Music</h3><p>Música de fundo e ambientes.</p></div><button class="btn btn-secondary" onclick="openExternal('https://pixabay.com/music/')">Visitar ↗</button></div>
+          <div class="list-item"><div><h3>YouTube Audio Library</h3><p>Biblioteca de faixas e efeitos sonoros.</p></div><button class="btn btn-secondary" onclick="openExternal('https://www.youtube.com/audiolibrary')">Visitar ↗</button></div>
+          <div class="list-item"><div><h3>Free Music Archive</h3><p>Faixas com licenças que variam consoante a música.</p></div><button class="btn btn-secondary" onclick="openExternal('https://freemusicarchive.org/')">Visitar ↗</button></div>
+        </div>
+        <p class="muted small">A reprodução e a descarga de faixas externas dependem do serviço e da licença da faixa.</p>
+      </div>
+    </section>
+
+    <section class="page" id="page-progress">
+      <div class="grid grid-3">
+        <div class="card"><div class="stat-label">Minutos estudados</div><div class="stat-value" id="progressMinutes">0</div></div>
+        <div class="card"><div class="stat-label">Pontos acumulados</div><div class="stat-value" id="progressPoints">0</div></div>
+        <div class="card"><div class="stat-label">Precisão nos desafios</div><div class="stat-value" id="progressAccuracy">0%</div></div>
+      </div>
+      <div class="section-head"><h2>Histórico de estudo</h2></div>
+      <div class="card"><div id="studyHistory" class="list"><div class="empty">Ainda não existem sessões registadas.</div></div></div>
+      <div class="section-head"><h2>Histórico de desafios</h2></div>
+      <div class="card"><div id="challengeHistory" class="list"><div class="empty">Ainda não respondeste a perguntas.</div></div></div>
+    </section>
+
+    <section class="page" id="page-settings">
+      <div class="card">
+        <h2>⚙️ O teu perfil</h2>
+        <p class="muted">Personaliza a aplicação para adaptar a experiência de estudo.</p>
+        <div class="grid grid-2">
+          <div class="field"><label for="profileName">Nome</label><input id="profileName" placeholder="O teu nome"></div>
+          <div class="field"><label for="profileEmail">Email (opcional)</label><input id="profileEmail" type="email" placeholder="exemplo@email.com"></div>
+          <div class="field"><label for="profileYear">Ano escolar</label>
+            <select id="profileYear">
+              <option value="1">1.º ano</option><option value="2">2.º ano</option>
+              <option value="3">3.º ano</option><option value="4">4.º ano</option>
+              <option value="5">5.º ano</option><option value="6">6.º ano</option>
+              <option value="7">7.º ano</option><option value="8" selected>8.º ano</option>
+              <option value="9">9.º ano</option><option value="10">10.º ano</option>
+              <option value="11">11.º ano</option><option value="12">12.º ano</option>
+            </select>
+          </div>
+          <div class="field"><label for="profileGrade">Nota atual (0–20)</label><input id="profileGrade" type="number" min="0" max="20" step="0.5" value="10"></div>
+          <div class="field"><label for="profileGoal">Nota pretendida (0–20)</label><input id="profileGoal" type="number" min="0" max="20" step="0.5" value="15"></div>
+          <div class="field" id="courseField" style="display:none"><label for="profileCourse">Curso / área</label>
+            <select id="profileCourse">
+              <option value="Ciências e Tecnologias">Ciências e Tecnologias</option>
+              <option value="Línguas e Humanidades">Línguas e Humanidades</option>
+              <option value="Ciências Socioeconómicas">Ciências Socioeconómicas</option>
+              <option value="Artes Visuais">Artes Visuais</option>
+              <option value="Profissional">Ensino Profissional</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn btn-primary" onclick="saveProfile()">Guardar perfil</button>
+      </div>
+      <div class="card" style="margin-top:18px">
+        <h2>🌐 Idioma e aparência</h2>
+        <div class="grid grid-2">
+          <div class="field"><label for="languageSelect">Idioma</label>
+            <select id="languageSelect" onchange="changeLanguage(this.value)">
+              <option value="pt">Português</option><option value="en">English</option>
+              <option value="es">Español</option><option value="fr">Français</option>
+              <option value="de">Deutsch</option><option value="it">Italiano</option>
+            </select>
+          </div>
+          <div class="field"><label for="weeklyGoal">Objetivo semanal (minutos)</label>
+            <select id="weeklyGoal" onchange="saveWeeklyGoal(this.value)">
+              <option value="30">30 minutos</option><option value="60" selected>60 minutos</option>
+              <option value="90">90 minutos</option><option value="120">120 minutos</option>
+              <option value="180">180 minutos</option><option value="300">300 minutos</option>
+            </select>
+          </div>
+        </div>
+        <div class="row"><button class="btn btn-secondary" onclick="toggleDark()">Alternar tema claro/escuro</button></div>
+      </div>
+      <div class="card" style="margin-top:18px">
+        <h2>🔔 Preferências</h2>
+        <div class="field"><label><input id="updatesToggle" type="checkbox"> Receber avisos de atualizações nesta aplicação</label></div>
+        <div class="field"><label><input id="notificationsToggle" type="checkbox"> Ativar lembretes locais de estudo</label></div>
+        <button class="btn btn-primary" onclick="savePreferences()">Guardar preferências</button>
+        <p class="muted small">Os lembretes dependem das permissões do navegador. A aplicação não envia emails automaticamente.</p>
+      </div>
+      <div class="card" style="margin-top:18px">
+        <h2>🧹 Dados da aplicação</h2>
+        <p class="muted">O progresso e as preferências são guardados neste navegador.</p>
+        <button class="btn btn-danger" onclick="clearProgress()">Apagar progresso</button>
+      </div>
+    </section>
+  </main>
 </div>
+</body>
+</html>
 
 <script>
-(() => {
-  "use strict";
-  const $ = id => document.getElementById(id);
-  const key = "studyAI_v4";
+const $ = id => document.getElementById(id);
+const STORAGE_KEY = "studyAI_v3_data";
 
-  const initial = {
-    name: "", email: "", year: "8.º ano", grade: 70, target: 85,
-    course: "", language: "pt", theme: "light", weeklyGoal: 100,
-    notifications: false, updates: false, points: 0, answered: 0,
-    correct: 0, minutes: 0, sessions: 0, history: [],
-    chats: [], currentChat: ""
-  };
+const defaultData = {
+  profile: { name: "Estudante", email: "", year: "8", grade: 10, goal: 15, course: "Ciências e Tecnologias" },
+  minutes: 0,
+  points: 0,
+  answered: 0,
+  correct: 0,
+  weeklyGoal: 60,
+  sessions: [],
+  answers: [],
+  chats: [],
+  currentChat: null,
+  language: "pt",
+  dark: false,
+  preferences: { updates: false, notifications: false }
+};
 
-  let state = { ...initial };
+let data = loadData();
+let timerSeconds = 300;
+let timerInterval = null;
+let timerRunning = false;
+let timerSession = null;
+let audioContext = null;
+let noiseSource = null;
+let noiseGain = null;
+let ambientType = "rain";
+let currentQuestion = null;
+let questionPool = [];
+let answeredThisQuestion = false;
+
+function loadData() {
   try {
-    const saved = JSON.parse(localStorage.getItem(key) || "{}");
-    state = { ...initial, ...saved };
-    if (!Array.isArray(state.history)) state.history = [];
-    if (!Array.isArray(state.chats)) state.chats = [];
-  } catch (_) {}
-
-  function save() {
-    try { localStorage.setItem(key, JSON.stringify(state)); }
-    catch (_) { console.warn("Não foi possível guardar os dados."); }
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    return saved ? { ...structuredClone(defaultData), ...saved,
+      profile: { ...defaultData.profile, ...(saved.profile || {}) },
+      preferences: { ...defaultData.preferences, ...(saved.preferences || {}) }
+    } : structuredClone(defaultData);
+  } catch {
+    return JSON.parse(JSON.stringify(defaultData));
   }
+}
 
-  const translations = {
-    pt: { greeting: "Olá", saved: "Definições guardadas!", correct: "Correto! Muito bem!", wrong: "Ainda não. Lê a explicação e tenta novamente.", listening: "A ouvir…", noVoice: "O navegador não suporta reconhecimento de voz." },
-    en: { greeting: "Hello", saved: "Settings saved!", correct: "Correct! Well done!", wrong: "Not quite. Read the explanation and try again.", listening: "Listening…", noVoice: "Speech recognition is not supported." },
-    es: { greeting: "Hola", saved: "¡Ajustes guardados!", correct: "¡Correcto! ¡Muy bien!", wrong: "Inténtalo de nuevo.", listening: "Escuchando…", noVoice: "Tu navegador no admite reconocimiento de voz." },
-    fr: { greeting: "Bonjour", saved: "Paramètres enregistrés !", correct: "Correct ! Bravo !", wrong: "Essaie encore.", listening: "Écoute…", noVoice: "La reconnaissance vocale n'est pas prise en charge." }
+function saveData() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  } catch (error) {
+    console.warn("Não foi possível guardar os dados.", error);
+  }
+}
+
+const translations = {
+  pt: {
+    menu:"MENU PRINCIPAL",home:"Início",study:"Estudar",
+    challenges:"Desafios",professor:"Professor IA",music:"Música",
+    progress:"Progresso",settings:"Definições",
+    freeNote:"Todas as funcionalidades são gratuitas.",
+    title_home:"Início",title_study:"Estudar",
+    title_challenges:"Desafios",title_professor:"Professor IA",
+    title_music:"Música",title_progress:"Progresso",
+    title_settings:"Definições",
+    subtitle_home:"O teu espaço para aprender e evoluir.",
+    subtitle_study:"Prepara uma sessão de estudo.",
+    subtitle_challenges:"Pratica e testa os teus conhecimentos.",
+    subtitle_professor:"Tira dúvidas e aprende passo a passo.",
+    subtitle_music:"Sons para te concentrares.",
+    subtitle_progress:"Acompanha a tua evolução.",
+    subtitle_settings:"Personaliza a tua experiência.",
+    start:"Iniciar",pause:"Pausar",resume:"Continuar",
+    send:"Enviar",correct:"Correto!",incorrect:"Não é bem assim.",
+    next:"Próxima pergunta",finish:"Terminar"
+  },
+  en: {
+    menu:"MAIN MENU",home:"Home",study:"Study",
+    challenges:"Challenges",professor:"AI Teacher",music:"Music",
+    progress:"Progress",settings:"Settings",
+    freeNote:"All features are free.",
+    title_home:"Home",title_study:"Study",
+    title_challenges:"Challenges",title_professor:"AI Teacher",
+    title_music:"Music",title_progress:"Progress",
+    title_settings:"Settings",
+    subtitle_home:"Your space to learn and improve.",
+    subtitle_study:"Prepare a study session.",
+    subtitle_challenges:"Practise and test your knowledge.",
+    subtitle_professor:"Ask questions and learn step by step.",
+    subtitle_music:"Sounds to help you focus.",
+    subtitle_progress:"Track your progress.",
+    subtitle_settings:"Personalise your experience.",
+    start:"Start",pause:"Pause",resume:"Resume",
+    send:"Send",correct:"Correct!",incorrect:"Not quite.",
+    next:"Next question",finish:"Finish"
+  },
+  es: {
+    menu:"MENÚ PRINCIPAL",home:"Inicio",study:"Estudiar",
+    challenges:"Desafíos",professor:"Profesor IA",music:"Música",
+    progress:"Progreso",settings:"Ajustes",
+    freeNote:"Todas las funciones son gratuitas.",
+    title_home:"Inicio",title_study:"Estudiar",
+    title_challenges:"Desafíos",title_professor:"Profesor IA",
+    title_music:"Música",title_progress:"Progreso",
+    title_settings:"Ajustes",
+    subtitle_home:"Tu espacio para aprender y mejorar.",
+    subtitle_study:"Prepara una sesión de estudio.",
+    subtitle_challenges:"Practica y comprueba tus conocimientos.",
+    subtitle_professor:"Pregunta y aprende paso a paso.",
+    subtitle_music:"Sonidos para concentrarte.",
+    subtitle_progress:"Sigue tu progreso.",
+    subtitle_settings:"Personaliza tu experiencia.",
+    start:"Empezar",pause:"Pausar",resume:"Continuar",
+    send:"Enviar",correct:"¡Correcto!",incorrect:"No exactamente.",
+    next:"Siguiente pregunta",finish:"Terminar"
+  },
+  fr: {
+    menu:"MENU PRINCIPAL",home:"Accueil",study:"Étudier",
+    challenges:"Défis",professor:"Professeur IA",music:"Musique",
+    progress:"Progrès",settings:"Paramètres",
+    freeNote:"Toutes les fonctionnalités sont gratuites.",
+    title_home:"Accueil",title_study:"Étudier",
+    title_challenges:"Défis",title_professor:"Professeur IA",
+    title_music:"Musique",title_progress:"Progrès",
+    title_settings:"Paramètres",
+    subtitle_home:"Ton espace pour apprendre et progresser.",
+    subtitle_study:"Prépare une session d'étude.",
+    subtitle_challenges:"Teste tes connaissances.",
+    subtitle_professor:"Pose des questions et apprends.",
+    subtitle_music:"Des sons pour te concentrer.",
+    subtitle_progress:"Suis tes progrès.",
+    subtitle_settings:"Personnalise ton expérience.",
+    start:"Commencer",pause:"Pause",resume:"Reprendre",
+    send:"Envoyer",correct:"Correct !",incorrect:"Pas tout à fait.",
+    next:"Question suivante",finish:"Terminer"
+  },
+  de: {
+    menu:"HAUPTMENÜ",home:"Start",study:"Lernen",
+    challenges:"Herausforderungen",professor:"KI-Lehrer",music:"Musik",
+    progress:"Fortschritt",settings:"Einstellungen",
+    freeNote:"Alle Funktionen sind kostenlos.",
+    title_home:"Start",title_study:"Lernen",
+    title_challenges:"Herausforderungen",title_professor:"KI-Lehrer",
+    title_music:"Musik",title_progress:"Fortschritt",
+    title_settings:"Einstellungen",
+    subtitle_home:"Dein Bereich zum Lernen und Verbessern.",
+    subtitle_study:"Plane eine Lerneinheit.",
+    subtitle_challenges:"Teste dein Wissen.",
+    subtitle_professor:"Stelle Fragen und lerne Schritt für Schritt.",
+    subtitle_music:"Klänge zum Konzentrieren.",
+    subtitle_progress:"Verfolge deinen Fortschritt.",
+    subtitle_settings:"Passe deine Erfahrung an.",
+    start:"Starten",pause:"Pause",resume:"Fortsetzen",
+    send:"Senden",correct:"Richtig!",incorrect:"Nicht ganz.",
+    next:"Nächste Frage",finish:"Beenden"
+  },
+  it: {
+    menu:"MENU PRINCIPALE",home:"Home",study:"Studiare",
+    challenges:"Sfide",professor:"Insegnante IA",music:"Musica",
+    progress:"Progressi",settings:"Impostazioni",
+    freeNote:"Tutte le funzioni sono gratuite.",
+    title_home:"Home",title_study:"Studiare",
+    title_challenges:"Sfide",title_professor:"Insegnante IA",
+    title_music:"Musica",title_progress:"Progressi",
+    title_settings:"Impostazioni",
+    subtitle_home:"Il tuo spazio per imparare e migliorare.",
+    subtitle_study:"Prepara una sessione di studio.",
+    subtitle_challenges:"Metti alla prova le tue conoscenze.",
+    subtitle_professor:"Fai domande e impara passo dopo passo.",
+    subtitle_music:"Suoni per concentrarti.",
+    subtitle_progress:"Segui i tuoi progressi.",
+    subtitle_settings:"Personalizza la tua esperienza.",
+    start:"Inizia",pause:"Pausa",resume:"Riprendi",
+    send:"Invia",correct:"Corretto!",incorrect:"Non proprio.",
+    next:"Prossima domanda",finish:"Termina"
+  }
+};
+
+function t(key) {
+  return (translations[data.language] || translations.pt)[key]
+    || translations.pt[key] || key;
+}
+
+const pageInfo = {
+  home:["Início","O teu espaço para aprender e evoluir."],
+  study:["Estudar","Prepara uma sessão de estudo."],
+  challenges:["Desafios","Pratica e testa os teus conhecimentos."],
+  professor:["Professor IA","Tira dúvidas e aprende passo a passo."],
+  music:["Música","Sons para te concentrares."],
+  progress:["Progresso","Acompanha a tua evolução."],
+  settings:["Definições","Personaliza a tua experiência."]
+};
+
+function showPage(name) {
+  if (!$("page-" + name)) return;
+  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
+  document.querySelectorAll(".nav-btn").forEach(b =>
+    b.classList.toggle("active", b.dataset.page === name)
+  );
+  $("page-" + name).classList.add("active");
+  $("pageTitle").textContent = t("title_" + name) || pageInfo[name][0];
+  $("pageSubtitle").textContent = t("subtitle_" + name) || pageInfo[name][1];
+  $("sidebar").classList.remove("open");
+  if (name === "progress") renderHistory();
+  if (name === "professor") renderChats();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function toggleSidebar() {
+  $("sidebar").classList.toggle("open");
+}
+
+function toggleDark() {
+  data.dark = !data.dark;
+  document.body.classList.toggle("dark", data.dark);
+  saveData();
+}
+
+function applyDark() {
+  document.body.classList.toggle("dark", !!data.dark);
+}
+
+function applyLanguage() {
+  document.documentElement.lang = data.language === "pt" ? "pt-PT" : data.language;
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const key = el.dataset.i18n;
+    if (t(key)) el.textContent = t(key);
+  });
+  document.querySelectorAll(".nav-btn").forEach(btn => {
+    const key = btn.dataset.page;
+    const label = btn.querySelector("[data-i18n]");
+    if (label) label.textContent = t(key);
+  });
+  const current = document.querySelector(".page.active");
+  if (current) {
+    const name = current.id.replace("page-", "");
+    $("pageTitle").textContent = t("title_" + name) || pageInfo[name][0];
+    $("pageSubtitle").textContent = t("subtitle_" + name) || pageInfo[name][1];
+  }
+}
+
+function changeLanguage(lang) {
+  data.language = translations[lang] ? lang : "pt";
+  saveData();
+  applyLanguage();
+}
+
+function updateProfileUI() {
+  const p = data.profile;
+  $("sideName").textContent = p.name || "Estudante";
+  $("sideYear").textContent = p.year + ".º ano";
+  $("sideAvatar").textContent = (p.name || "E").trim().charAt(0).toUpperCase();
+  $("welcomeTitle").textContent = "Olá, " + (p.name || "estudante") + "! Vamos aprender? 👋";
+  $("homeGoal").textContent = p.goal;
+  $("profileName").value = p.name || "";
+  $("profileEmail").value = p.email || "";
+  $("profileYear").value = p.year || "8";
+  $("profileGrade").value = p.grade ?? 10;
+  $("profileGoal").value = p.goal ?? 15;
+  $("profileCourse").value = p.course || "Ciências e Tecnologias";
+  $("courseField").style.display = Number(p.year) >= 10 ? "grid" : "none";
+  $("profileYear").onchange = () => {
+    $("courseField").style.display = Number($("profileYear").value) >= 10 ? "grid" : "none";
   };
-  const t = name => (translations[state.language] || translations.pt)[name] || translations.pt[name] || name;
+}
 
-  function applyTheme() {
-    document.body.classList.toggle("dark", state.theme === "dark");
+function saveProfile() {
+  const name = $("profileName").value.trim();
+  const grade = Number($("profileGrade").value);
+  const goal = Number($("profileGoal").value);
+  if (!name) return alert("Escreve o teu nome.");
+  if (!Number.isFinite(grade) || grade < 0 || grade > 20 ||
+      !Number.isFinite(goal) || goal < 0 || goal > 20) {
+    return alert("As notas devem estar entre 0 e 20.");
   }
+  data.profile = {
+    name,
+    email: $("profileEmail").value.trim(),
+    year: $("profileYear").value,
+    grade, goal,
+    course: $("profileCourse").value
+  };
+  saveData();
+  updateProfileUI();
+  refreshStats();
+  alert("Perfil guardado!");
+}
 
-  function showPage(name) {
-    document.querySelectorAll(".page").forEach(p => {
-      p.classList.toggle("active", p.dataset.page === name);
+function savePreferences() {
+  data.preferences.updates = $("updatesToggle").checked;
+  data.preferences.notifications = $("notificationsToggle").checked;
+  saveData();
+  alert("Preferências guardadas neste navegador.");
+}
+
+function saveWeeklyGoal(value) {
+  data.weeklyGoal = Math.max(30, Number(value) || 60);
+  saveData();
+  refreshStats();
+}
+
+function refreshStats() {
+  $("homeMinutes").textContent = data.minutes + " min";
+  $("homeChallenges").textContent = data.correct;
+  $("homePoints").textContent = data.points;
+  $("homeGoal").textContent = data.profile.goal;
+  $("progressMinutes").textContent = data.minutes;
+  $("progressPoints").textContent = data.points;
+  $("challengeAnswered").textContent = data.answered;
+  $("challengeCorrect").textContent = data.correct;
+  const accuracy = data.answered ? Math.round(data.correct / data.answered * 100) : 0;
+  $("challengeAccuracy").textContent = accuracy + "%";
+  $("progressAccuracy").textContent = accuracy + "%";
+  const now = new Date();
+  const start = new Date(now);
+  const weekday = (now.getDay() + 6) % 7;
+  start.setDate(now.getDate() - weekday);
+  start.setHours(0, 0, 0, 0);
+  const weeklyMinutes = data.sessions
+    .filter(s => new Date(s.date) >= start)
+    .reduce((sum, s) => sum + (s.minutes || 0), 0);
+  const percent = Math.min(100, Math.round(weeklyMinutes / data.weeklyGoal * 100));
+  $("weeklyLabel").textContent = weeklyMinutes + " / " + data.weeklyGoal + " min";
+  $("weeklyPercent").textContent = percent + "%";
+  $("weeklyBar").style.width = percent + "%";
+}
+
+function renderHistory() {
+  const history = $("studyHistory");
+  history.innerHTML = "";
+  if (!data.sessions.length) {
+    history.innerHTML = '<div class="empty">Ainda não existem sessões registadas.</div>';
+  } else {
+    data.sessions.slice().reverse().slice(0, 30).forEach(s => {
+      const el = document.createElement("div");
+      el.className = "list-item";
+      const left = document.createElement("div");
+      const h = document.createElement("h3");
+      h.textContent = s.subject + (s.topic ? " — " + s.topic : "");
+      const p = document.createElement("p");
+      p.textContent = new Date(s.date).toLocaleString();
+      left.append(h, p);
+      const pill = document.createElement("span");
+      pill.className = "pill";
+      pill.textContent = s.minutes + " min";
+      el.append(left, pill);
+      history.append(el);
     });
-    document.querySelectorAll(".sidebar [data-page]").forEach(b => {
-      b.classList.toggle("active", b.dataset.page === name);
+  }
+  const answers = $("challengeHistory");
+  answers.innerHTML = "";
+  if (!data.answers.length) {
+    answers.innerHTML = '<div class="empty">Ainda não respondeste a perguntas.</div>';
+  } else {
+    data.answers.slice().reverse().slice(0, 30).forEach(a => {
+      const el = document.createElement("div");
+      el.className = "list-item";
+      const left = document.createElement("div");
+      const h = document.createElement("h3");
+      h.textContent = a.question;
+      const p = document.createElement("p");
+      p.textContent = new Date(a.date).toLocaleString();
+      left.append(h, p);
+      const pill = document.createElement("span");
+      pill.className = "pill";
+      pill.textContent = a.correct ? "+10 pontos" : "Rever";
+      el.append(left, pill);
+      answers.append(el);
     });
-    const titles = {
-      home: "Olá! Vamos aprender? 👋", study: "Vamos estudar?",
-      challenges: "Desafios", tutor: "Professor IA",
-      music: "Música para estudar", progress: "O teu progresso",
-      settings: "Definições"
+  }
+}
+
+function startStudy() {
+  const subject = $("studySubject").value;
+  const topic = $("studyTopic").value.trim();
+  const duration = Number($("studyDuration").value);
+  if (duration < 5) return alert("A sessão tem de durar pelo menos 5 minutos.");
+  timerSession = { subject, topic, duration };
+  timerSeconds = duration * 60;
+  updateTimerDisplay();
+  $("timerStatus").textContent = "Sessão preparada: " + subject;
+  $("timerToggle").textContent = "▶ Iniciar";
+  showPage("study");
+  if (topic) {
+    $("videoQuery").value = topic + " " + subject + " " + data.profile.year + " ano";
+  }
+}
+
+function updateTimerDisplay() {
+  const m = Math.floor(timerSeconds / 60).toString().padStart(2, "0");
+  const s = (timerSeconds % 60).toString().padStart(2, "0");
+  $("timerDisplay").textContent = m + ":" + s;
+}
+
+function toggleTimer() {
+  if (timerRunning) {
+    clearInterval(timerInterval);
+    timerRunning = false;
+    $("timerToggle").textContent = "▶ Continuar";
+    $("timerStatus").textContent = "Sessão em pausa";
+    return;
+  }
+  if (timerSeconds <= 0) {
+    alert("Prepara uma nova sessão antes de começar.");
+    return;
+  }
+  if (!timerSession) {
+    const duration = Number($("studyDuration").value) || 5;
+    timerSession = {
+      subject: $("studySubject").value,
+      topic: $("studyTopic").value.trim(),
+      duration
     };
-    $("pageTitle").textContent = state.name && name === "home"
-      ? `${t("greeting")}, ${state.name}!` : titles[name] || "Study AI";
-    $("sidebar").classList.remove("open");
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    timerSeconds = duration * 60;
   }
+  timerRunning = true;
+  $("timerToggle").textContent = "Ⅱ Pausar";
+  $("timerStatus").textContent = "A estudar… mantém a concentração!";
+  timerInterval = setInterval(() => {
+    timerSeconds--;
+    updateTimerDisplay();
+    if (timerSeconds <= 0) completeStudySession();
+  }, 1000);
+}
 
-  document.querySelectorAll(".sidebar [data-page]").forEach(b =>
-    b.addEventListener("click", () => showPage(b.dataset.page))
-  );
-  document.querySelectorAll("[data-go]").forEach(b =>
-    b.addEventListener("click", () => showPage(b.dataset.go))
-  );
-  $("menuToggle")?.addEventListener("click", () => $("sidebar").classList.toggle("open"));
-  document.querySelectorAll("[data-subject]").forEach(b =>
-    b.addEventListener("click", () => {
-      $("study-subject").value = b.dataset.subject;
-      showPage("study");
-    })
-  );
-
-  function fillSettings() {
-    const fields = {
-      "profile-name": state.name, "profile-email": state.email,
-      "profile-year": state.year, "profile-grade": state.grade,
-      "profile-target": state.target, "profile-course": state.course,
-      "app-language": state.language, "app-theme": state.theme,
-      "weekly-goal": state.weeklyGoal,
-      "setting-notifications": state.notifications,
-      "setting-updates": state.updates
-    };
-    Object.entries(fields).forEach(([id, value]) => {
-      const el = $(id);
-      if (!el) return;
-      if (el.type === "checkbox") el.checked = Boolean(value);
-      else el.value = value;
-    });
-  }
-
-  $("save-settings").addEventListener("click", () => {
-    state.name = $("profile-name").value.trim();
-    state.email = $("profile-email").value.trim();
-    state.year = $("profile-year").value;
-    state.grade = Math.min(100, Math.max(0, Number($("profile-grade").value) || 0));
-    state.target = Math.min(100, Math.max(0, Number($("profile-target").value) || 0));
-    state.course = $("profile-course").value;
-    state.language = $("app-language").value;
-    state.theme = $("app-theme").value;
-    state.weeklyGoal = Math.max(5, Number($("weekly-goal").value) || 100);
-    state.notifications = $("setting-notifications").checked;
-    state.updates = $("setting-updates").checked;
-    save();
-    applyTheme();
-    renderStats();
-    $("settings-status").textContent = t("saved");
-    showPage("settings");
+function completeStudySession() {
+  clearInterval(timerInterval);
+  timerRunning = false;
+  const session = timerSession || { subject: "Estudo", topic: "", duration: 5 };
+  const minutes = session.duration;
+  data.minutes += minutes;
+  data.points += Math.max(5, minutes);
+  data.sessions.push({
+    subject: session.subject,
+    topic: session.topic,
+    minutes,
+    date: new Date().toISOString()
   });
+  timerSeconds = 0;
+  timerSession = null;
+  saveData();
+  refreshStats();
+  $("timerToggle").textContent = "▶ Iniciar";
+  $("timerStatus").textContent = "Sessão concluída! Excelente trabalho 🎉";
+  alert("Sessão concluída! Ganhaste " + minutes + " pontos de estudo.");
+}
 
-  const bank = [
-    { subject:"Matemática", question:"Quanto é 3/4 de 20?", options:["5","10","15","16"], answer:2, explanation:"20 ÷ 4 = 5 e 5 × 3 = 15." },
-    { subject:"Matemática", question:"Quanto é -3 + 8?", options:["-11","-5","5","11"], answer:2, explanation:"Partindo de -3 e avançando 8 unidades, chegamos a 5." },
-    { subject:"Português", question:"Em «Fiquei em casa porque chovia», «porque» indica…", options:["Tempo","Causa","Concessão","Consequência"], answer:1, explanation:"A oração indica a causa: fiquei em casa porque estava a chover." },
-    { subject:"Ciências Naturais", question:"Qual é a principal função dos pulmões?", options:["Bombear o sangue","Filtrar a urina","Realizar trocas gasosas","Produzir insulina"], answer:2, explanation:"Nos pulmões, o oxigénio passa para o sangue e o dióxido de carbono é eliminado." },
-    { subject:"História", question:"Em que ano começou a Revolução Francesa?", options:["1492","1640","1789","1910"], answer:2, explanation:"A Revolução Francesa começou em 1789." },
-    { subject:"Geografia", question:"Que oceano banha a costa ocidental de Portugal?", options:["Índico","Pacífico","Atlântico","Ártico"], answer:2, explanation:"Portugal continental tem costa voltada para o oceano Atlântico." },
-    { subject:"Inglês", question:"Qual é o passado simples de «go»?", options:["Goed","Went","Gone","Going"], answer:1, explanation:"O passado simples de «go» é «went»." },
-    { subject:"Físico-Química", question:"Num sistema fechado, a massa total durante uma reação química…", options:["Desaparece","Duplica","Mantém-se","Passa a zero"], answer:2, explanation:"A massa total dos reagentes é igual à massa total dos produtos." }
-  ];
+function resetTimer() {
+  clearInterval(timerInterval);
+  timerRunning = false;
+  const duration = timerSession?.duration || Number($("studyDuration").value) || 5;
+  timerSeconds = duration * 60;
+  updateTimerDisplay();
+  $("timerToggle").textContent = "▶ Iniciar";
+  $("timerStatus").textContent = "Pronto para começar";
+}
 
-  function renderQuestion(question, target, feedbackId, callback) {
-    const box = $(target);
-    box.replaceChildren();
-    question.options.forEach((option, index) => {
-      const b = document.createElement("button");
-      b.className = "btn secondary";
-      b.style.margin = "5px";
-      b.textContent = option;
-      b.addEventListener("click", () => {
-        if (b.disabled) return;
-        box.querySelectorAll("button").forEach(button => button.disabled = true);
-        const correct = index === question.answer;
-        $(feedbackId).textContent = (correct ? t("correct") : t("wrong")) + " " + question.explanation;
-        callback(correct);
-      });
-      box.appendChild(b);
-    });
-  }
+function searchVideos() {
+  const query = $("videoQuery").value.trim() ||
+    $("studySubject").value + " " + data.profile.year + " ano";
+  const url = "https://www.youtube.com/results?search_query=" + encodeURIComponent(query);
+  $("videoResults").innerHTML = "";
+  const p = document.createElement("p");
+  p.textContent = "Pesquisa preparada para: " + query;
+  const a = document.createElement("a");
+  a.href = url;
+  a.target = "_blank";
+  a.rel = "noopener noreferrer";
+  a.textContent = "Ver vídeos no YouTube ↗";
+  a.style.color = "var(--primary)";
+  a.style.fontWeight = "bold";
+  $("videoResults").append(p, a);
+}
 
-  function chooseQuestion(subject) {
-    const pool = bank.filter(q => !subject || subject === "Outra" || q.subject === subject);
-    const list = pool.length ? pool : bank;
-    return list[Math.floor(Math.random() * list.length)];
-  }
+function openExternal(url) {
+  window.open(url, "_blank", "noopener,noreferrer");
+}
+</script>
 
-  let currentQuestion;
-  function generateStudyQuestion() {
-    currentQuestion = chooseQuestion($("study-subject").value);
-    $("question-text").textContent = currentQuestion.question;
-    $("question-feedback").textContent = "";
-    renderQuestion(currentQuestion, "question-options", "question-feedback", correct => {
-      state.answered++;
-      if (correct) { state.correct++; state.points += 10; }
-      save(); renderStats();
-    });
-  }
-  $("generate-question").addEventListener("click", generateStudyQuestion);
-  $("next-question").addEventListener("click", generateStudyQuestion);
+<script>
+const questionBank = [
+  {s:"Matemática",y:[5,12],q:"Quanto é 3/4 + 1/4?",o:["1/2","1","4/8","3/8"],a:1,e:"Os denominadores são iguais: (3 + 1)/4 = 4/4 = 1."},
+  {s:"Matemática",y:[5,12],q:"Quanto é 25% de 200?",o:["25","40","50","75"],a:2,e:"25% corresponde a 1/4. 200 ÷ 4 = 50."},
+  {s:"Matemática",y:[7,12],q:"Resolve: 3x = 18.",o:["x = 3","x = 6","x = 9","x = 15"],a:1,e:"Divide ambos os membros por 3: x = 18 ÷ 3 = 6."},
+  {s:"Matemática",y:[7,12],q:"Qual é a área de um retângulo de 8 cm por 5 cm?",o:["13 cm²","26 cm²","40 cm²","80 cm²"],a:2,e:"Área = comprimento × largura = 8 × 5 = 40 cm²."},
+  {s:"Matemática",y:[7,12],q:"Qual é a raiz quadrada de 144?",o:["10","11","12","14"],a:2,e:"12 × 12 = 144."},
+  {s:"Matemática",y:[7,12],q:"Qual é a forma decimal de 3/5?",o:["0,3","0,5","0,6","1,5"],a:2,e:"3 ÷ 5 = 0,6."},
+  {s:"Português",y:[5,12],q:"Qual destas palavras é um adjetivo?",o:["Rapidamente","Bonito","Correr","Mesa"],a:1,e:"«Bonito» é um adjetivo porque caracteriza um nome."},
+  {s:"Português",y:[7,12],q:"Em «Fiquei em casa porque chovia», a oração introduzida por «porque» é:",o:["Causal","Temporal","Concessiva","Final"],a:0,e:"«Porque» apresenta a causa de ter ficado em casa."},
+  {s:"Português",y:[7,12],q:"Qual é o sujeito em «Os alunos estudaram»?",o:["estudaram","Os alunos","alunos estudaram","Não existe"],a:1,e:"«Os alunos» é quem pratica a ação."},
+  {s:"Português",y:[5,12],q:"Qual é o plural de «cidadão»?",o:["cidadões","cidadães","cidadãos","cidadans"],a:2,e:"O plural mais comum é «cidadãos»."},
+  {s:"Inglês",y:[5,12],q:"What is the past tense of «go»?",o:["Goed","Went","Gone yesterday","Going"],a:1,e:"O passado simples de «go» é «went»."},
+  {s:"Inglês",y:[5,12],q:"Choose the correct sentence.",o:["She are happy.","She is happy.","She be happy.","She am happy."],a:1,e:"Com «she», usa-se «is» no presente do verbo to be."},
+  {s:"Ciências Naturais",y:[5,12],q:"Qual é a unidade básica dos seres vivos?",o:["Órgão","Tecido","Célula","Sistema"],a:2,e:"A célula é a unidade básica estrutural e funcional dos seres vivos."},
+  {s:"Ciências Naturais",y:[7,12],q:"Qual é a principal função dos pulmões?",o:["Bombear sangue","Realizar trocas gasosas","Produzir bílis","Filtrar urina"],a:1,e:"Nos pulmões, o oxigénio passa para o sangue e o dióxido de carbono é eliminado."},
+  {s:"Físico-Química",y:[7,12],q:"Qual é o símbolo químico do oxigénio?",o:["Ox","O","Og","X"],a:1,e:"O símbolo químico do oxigénio é O."},
+  {s:"Físico-Química",y:[7,12],q:"Qual é a unidade SI da força?",o:["Joule","Watt","Newton","Pascal"],a:2,e:"A força mede-se em newtons (N)."},
+  {s:"História",y:[5,12],q:"Em que ano ocorreu a Revolução dos Cravos?",o:["1910","1926","1974","1986"],a:2,e:"A Revolução dos Cravos ocorreu a 25 de abril de 1974."},
+  {s:"Geografia",y:[5,12],q:"Qual é a capital de Portugal?",o:["Porto","Coimbra","Faro","Lisboa"],a:3,e:"Lisboa é a capital de Portugal."},
+  {s:"Geografia",y:[7,12],q:"Qual é o oceano que banha a costa ocidental de Portugal continental?",o:["Índico","Atlântico","Pacífico","Ártico"],a:1,e:"Portugal continental é banhado pelo oceano Atlântico."},
+  {s:"História",y:[7,12],q:"Em que ano começou a expansão marítima portuguesa com a conquista de Ceuta?",o:["1143","1385","1415","1498"],a:2,e:"A conquista de Ceuta ocorreu em 1415."},
+  {s:"Espanhol",y:[5,12],q:"Como se diz «bom dia» em espanhol?",o:["Buenas noches","Buenos días","Buenas tardes","Hasta luego"],a:1,e:"«Buenos días» significa «bom dia»."},
+  {s:"Francês",y:[5,12],q:"Como se diz «obrigado» em francês?",o:["Bonjour","Merci","Au revoir","Pardon"],a:1,e:"«Merci» significa «obrigado/obrigada»."},
+  {s:"Matemática",y:[7,12],q:"Um produto custa 80 € e tem 10% de desconto. Qual é o preço final?",o:["70 €","72 €","78 €","8 €"],a:1,e:"10% de 80 € são 8 €. Portanto, 80 − 8 = 72 €."},
+  {s:"Ciências Naturais",y:[5,12],q:"Qual destes órgãos faz parte do sistema circulatório?",o:["Coração","Estômago","Pulmão","Rim"],a:0,e:"O coração bombeia o sangue através dos vasos sanguíneos."},
+  {s:"Físico-Química",y:[7,12],q:"A água pura congela, à pressão atmosférica normal, aproximadamente a:",o:["−10 °C","0 °C","50 °C","100 °C"],a:1,e:"A água pura congela aproximadamente a 0 °C à pressão atmosférica normal."},
+  {s:"Português",y:[7,12],q:"Qual destas conjunções pode introduzir uma oração temporal?",o:["Embora","Quando","Porque","Portanto"],a:1,e:"«Quando» pode introduzir uma oração subordinada adverbial temporal."},
+  {s:"Matemática",y:[7,12],q:"Qual é o valor de 2³?",o:["5","6","8","9"],a:2,e:"2³ = 2 × 2 × 2 = 8."},
+  {s:"História",y:[5,12],q:"Quem foi o primeiro rei de Portugal?",o:["D. João I","D. Afonso Henriques","D. Manuel I","D. Sebastião"],a:1,e:"D. Afonso Henriques é considerado o primeiro rei de Portugal."},
+  {s:"Geografia",y:[5,12],q:"Qual destas é uma forma de relevo?",o:["Planície","Chuva","Vento","Humidade"],a:0,e:"Uma planície é uma forma de relevo relativamente plana."},
+  {s:"Inglês",y:[5,12],q:"What does «library» mean in Portuguese?",o:["Livraria sempre","Biblioteca","Laboratório","Lição"],a:1,e:"«Library» significa «biblioteca»."}
+];
 
-  function generateChallenge() {
-    const q = bank[Math.floor(Math.random() * bank.length)];
-    $("challenge-title").textContent = "Desafio: " + q.subject;
-    $("challenge-question").textContent = q.question;
-    $("challenge-feedback").textContent = "";
-    renderQuestion(q, "challenge-options", "challenge-feedback", correct => {
-      state.answered++;
-      if (correct) { state.correct++; state.points += 20; }
-      save(); renderStats();
-    });
-  }
-  $("new-challenge").addEventListener("click", generateChallenge);
+function buildQuestionPool() {
+  const year = Number(data.profile.year || 8);
+  const filtered = questionBank.filter(q => q.y[0] <= year && q.y[1] >= year);
+  return filtered.length ? filtered.slice() : questionBank.slice();
+}
 
-  let timer = null, active = false, paused = false, remaining = 900, studied = 0;
-  function displayTimer() {
-    $("session-timer").textContent =
-      String(Math.floor(remaining / 60)).padStart(2, "0") + ":" +
-      String(remaining % 60).padStart(2, "0");
-    const duration = Math.max(1, Number($("study-duration").value) * 60);
-    $("session-progress").style.width =
-      Math.max(0, Math.min(100, (duration - remaining) / duration * 100)) + "%";
-  }
-  function stopTimer() { clearInterval(timer); timer = null; }
+function startChallenge() {
+  questionPool = buildQuestionPool();
+  answeredThisQuestion = false;
+  nextQuestion();
+}
 
-  function finishSession(manual) {
-    if (!active) return;
-    stopTimer(); active = false; paused = false;
-    const minutes = Math.floor(studied / 60);
-    state.minutes += minutes;
-    state.sessions++;
-    state.history.unshift({
-      subject: $("study-subject").value,
-      topic: $("study-topic").value.trim() || "Revisão geral",
-      minutes, date: new Date().toLocaleDateString("pt-PT")
-    });
-    state.history = state.history.slice(0, 30);
-    save(); renderStats();
-    $("session-status").textContent = "Concluída";
-    $("session-message").textContent = manual
-      ? "Sessão terminada. O tempo de estudo foi registado."
-      : "Parabéns! Concluíste o tempo definido.";
-    remaining = 0; displayTimer();
-  }
+function nextQuestion() {
+  if (!questionPool.length) questionPool = buildQuestionPool();
+  const index = Math.floor(Math.random() * questionPool.length);
+  currentQuestion = questionPool.splice(index, 1)[0];
+  answeredThisQuestion = false;
+  renderQuestion();
+}
 
-  $("start-study").addEventListener("click", () => {
-    if (active) return;
-    remaining = Math.max(5, Number($("study-duration").value) || 15) * 60;
-    studied = 0; active = true; paused = false;
-    $("session-title").textContent = $("study-subject").value +
-      ($("study-topic").value.trim() ? " — " + $("study-topic").value.trim() : "");
-    $("session-status").textContent = "Em curso";
-    $("session-message").textContent = "Bom estudo! Concentra-te na matéria.";
-    displayTimer(); stopTimer();
-    timer = setInterval(() => {
-      if (!active || paused) return;
-      remaining--; studied++; displayTimer();
-      if (remaining <= 0) finishSession(false);
-    }, 1000);
+function renderQuestion() {
+  const q = currentQuestion;
+  const box = $("challengeBox");
+  box.innerHTML = "";
+  const top = document.createElement("div");
+  top.className = "row spread";
+  const pill = document.createElement("span");
+  pill.className = "pill";
+  pill.textContent = q.s;
+  const count = document.createElement("span");
+  count.className = "muted small";
+  count.textContent = "Ano escolar: " + data.profile.year + ".º";
+  top.append(pill, count);
+  const title = document.createElement("h2");
+  title.style.marginTop = "22px";
+  title.textContent = q.q;
+  const options = document.createElement("div");
+  options.className = "list";
+  options.style.marginTop = "20px";
+  q.o.forEach((option, i) => {
+    const button = document.createElement("button");
+    button.className = "btn btn-secondary";
+    button.style.textAlign = "left";
+    button.textContent = String.fromCharCode(65 + i) + ". " + option;
+    button.onclick = () => answerQuestion(i, button);
+    options.append(button);
   });
+  const feedback = document.createElement("div");
+  feedback.id = "questionFeedback";
+  feedback.style.marginTop = "18px";
+  box.append(top, title, options, feedback);
+}
 
-  $("pause-study").addEventListener("click", () => {
-    if (!active) return;
-    paused = !paused;
-    $("session-status").textContent = paused ? "Em pausa" : "Em curso";
-    $("session-message").textContent = paused ? "Sessão em pausa." : "Continua o teu estudo!";
+function answerQuestion(index, button) {
+  if (answeredThisQuestion) return;
+  answeredThisQuestion = true;
+  const q = currentQuestion;
+  const isCorrect = index === q.a;
+  data.answered++;
+  if (isCorrect) {
+    data.correct++;
+    data.points += 10;
+  }
+  data.answers.push({
+    question: q.q,
+    correct: isCorrect,
+    date: new Date().toISOString()
   });
-  $("finish-study").addEventListener("click", () => finishSession(true));
+  document.querySelectorAll("#challengeBox .list button").forEach(b => {
+    b.disabled = true;
+    b.style.opacity = ".7";
+  });
+  button.style.opacity = "1";
+  button.style.border = isCorrect ? "2px solid #16a34a" : "2px solid #dc2626";
+  const feedback = $("questionFeedback");
+  feedback.className = "notice";
+  feedback.style.marginTop = "18px";
+  feedback.textContent = (isCorrect ? "✅ Correto! +10 pontos. " : "❌ Ainda não. ") + q.e;
+  const next = document.createElement("button");
+  next.className = "btn btn-primary";
+  next.style.marginTop = "15px";
+  next.textContent = "Próxima pergunta →";
+  next.onclick = nextQuestion;
+  feedback.append(document.createElement("br"), next);
+  saveData();
+  refreshStats();
+}
 
-  function renderStats() {
-    const values = {
-      "totalMinutes": state.minutes + " min",
-      "totalChallenges": state.answered,
-      "streak": state.history.length ? "1 dia" : "0 dias",
-      "targetGrade": state.target,
-      "targetLabel": "Meta de nota",
-      "challenge-points": state.points,
-      "challenge-count": state.answered,
-      "challenge-correct": state.correct,
-      "total-minutes": state.minutes,
-      "total-sessions": state.sessions,
-      "total-correct": state.correct
-    };
-    Object.entries(values).forEach(([id, value]) => {
-      if ($(id)) $(id).textContent = value;
-    });
-    const goal = Math.max(5, Number(state.weeklyGoal) || 100);
-    const percent = Math.min(100, Math.round(state.minutes / goal * 100));
-    if ($("goal-progress")) $("goal-progress").style.width = percent + "%";
-    if ($("goal-percent")) $("goal-percent").textContent = percent + "% do objetivo semanal";
-    if ($("goal-description")) $("goal-description").textContent =
-      `Objetivo: ${goal} minutos por semana. Já estudaste ${state.minutes} minutos.`;
-    if ($("study-history")) {
-      const list = $("study-history"); list.replaceChildren();
-      if (!state.history.length) {
-        const li = document.createElement("li");
-        li.textContent = "Ainda não existem sessões concluídas.";
-        list.appendChild(li);
-      } else {
-        state.history.forEach(item => {
-          const li = document.createElement("li");
-          li.textContent = `${item.date} — ${item.subject}: ${item.topic} (${item.minutes} min)`;
-          list.appendChild(li);
-        });
-      }
+function ensureChat() {
+  if (!Array.isArray(data.chats)) data.chats = [];
+  if (!data.chats.length) {
+    const chat = { id: String(Date.now()), name: "Nova conversa", messages: [] };
+    data.chats.push(chat);
+    data.currentChat = chat.id;
+  }
+  if (!data.chats.some(c => c.id === data.currentChat)) {
+    data.currentChat = data.chats[0].id;
+  }
+}
+
+function currentChatObject() {
+  ensureChat();
+  return data.chats.find(c => c.id === data.currentChat);
+}
+
+function renderChats() {
+  ensureChat();
+  const select = $("chatList");
+  select.innerHTML = "";
+  data.chats.forEach(chat => {
+    const opt = document.createElement("option");
+    opt.value = chat.id;
+    opt.textContent = chat.name;
+    opt.selected = chat.id === data.currentChat;
+    select.append(opt);
+  });
+  renderMessages();
+}
+
+function selectChat(id) {
+  if (data.chats.some(c => c.id === id)) data.currentChat = id;
+  saveData();
+  renderChats();
+}
+
+function newChat() {
+  const chat = {
+    id: String(Date.now()) + Math.random().toString(16).slice(2),
+    name: "Nova conversa",
+    messages: []
+  };
+  data.chats.push(chat);
+  data.currentChat = chat.id;
+  saveData();
+  renderChats();
+}
+
+function renameChat() {
+  const chat = currentChatObject();
+  const name = prompt("Novo nome para a conversa:", chat.name);
+  if (name && name.trim()) {
+    chat.name = name.trim().slice(0, 60);
+    saveData();
+    renderChats();
+  }
+}
+
+function deleteChat() {
+  const chat = currentChatObject();
+  if (!confirm("Queres apagar a conversa «" + chat.name + "»?")) return;
+  data.chats = data.chats.filter(c => c.id !== chat.id);
+  data.currentChat = data.chats[0]?.id || null;
+  saveData();
+  renderChats();
+}
+
+function renderMessages() {
+  const chat = currentChatObject();
+  const box = $("chatMessages");
+  box.innerHTML = "";
+  if (!chat.messages.length) {
+    const intro = document.createElement("div");
+    intro.className = "notice";
+    intro.textContent = "Olá! Escreve uma pergunta ou escolhe uma sugestão.";
+    box.append(intro);
+    return;
+  }
+  chat.messages.forEach(msg => {
+    const el = document.createElement("div");
+    el.className = "card";
+    el.style.padding = "12px 14px";
+    el.style.boxShadow = "none";
+    el.style.background = msg.role === "user" ? "var(--primary-light)" : "var(--surface)";
+    const label = document.createElement("strong");
+    label.textContent = msg.role === "user" ? (data.profile.name || "Tu") : "Professor IA";
+    const text = document.createElement("p");
+    text.style.whiteSpace = "pre-wrap";
+    text.style.lineHeight = "1.6";
+    text.textContent = msg.text;
+    el.append(label, text);
+    if (msg.role === "assistant") {
+      const speak = document.createElement("button");
+      speak.className = "btn btn-secondary btn-small";
+      speak.textContent = "🔊 Ler resposta";
+      speak.onclick = () => speakText(msg.text);
+      el.append(speak);
     }
-  }
+    box.append(el);
+  });
+  box.scrollTop = box.scrollHeight;
+}
 
-  $("reset-progress").addEventListener("click", () => {
-    if (!confirm("Queres mesmo repor o progresso?")) return;
-    state.points = state.answered = state.correct = state.minutes = state.sessions = 0;
-    state.history = []; save(); renderStats();
-  });
+function quickAsk(text) {
+  $("chatInput").value = text;
+  sendMessage();
+}
 
-  /* CONVERSAS INDEPENDENTES GUARDADAS NO NAVEGADOR */
-  function currentChat() {
-    return state.chats.find(chat => chat.id === state.currentChat);
+function sendMessage() {
+  const input = $("chatInput");
+  const text = input.value.trim();
+  if (!text) return;
+  const chat = currentChatObject();
+  chat.messages.push({ role: "user", text });
+  if (chat.messages.length === 1 && chat.name === "Nova conversa") {
+    chat.name = text.slice(0, 32) + (text.length > 32 ? "…" : "");
   }
-  function updateChatSelect() {
-    const select = $("chat-history-select");
-    select.replaceChildren();
-    state.chats.forEach(chat => {
-      const option = document.createElement("option");
-      option.value = chat.id; option.textContent = chat.title;
-      select.appendChild(option);
-    });
-    select.value = state.currentChat || "";
-    $("chat-title-input").value = currentChat()?.title || "";
-  }
-  function makeChat(title) {
-    const chat = {
-      id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
-      title: title || "Nova conversa",
-      messages: [{ role: "assistant", text: "Olá! Sou o teu Professor IA. O que queres estudar hoje?" }]
-    };
-    state.chats.unshift(chat);
-    state.currentChat = chat.id;
-    save(); renderChat(); updateChatSelect();
-  }
-  function renderChat() {
-    const box = $("chat-messages");
-    box.replaceChildren();
-    const chat = currentChat();
-    if (!chat) {
-      const empty = document.createElement("p");
-      empty.textContent = "Cria uma conversa para começares.";
-      box.appendChild(empty); return;
-    }
-    chat.messages.forEach(message => {
-      const bubble = document.createElement("div");
-      bubble.className = "bubble " + (message.role === "user" ? "user" : "ai");
-      bubble.textContent = message.text;
-      if (message.role === "assistant") {
-        bubble.title = "Clica para ouvir esta resposta";
-        bubble.style.cursor = "pointer";
-        bubble.addEventListener("click", () => speak(message.text));
-      }
-      box.appendChild(bubble);
-    });
-    box.scrollTop = box.scrollHeight;
-  }
-  $("new-chat").addEventListener("click", () => makeChat());
-  $("chat-history-select").addEventListener("change", () => {
-    state.currentChat = $("chat-history-select").value;
-    save(); renderChat(); updateChatSelect();
-  });
-  $("rename-chat").addEventListener("click", () => {
-    const chat = currentChat();
-    if (!chat) return alert("Cria primeiro uma conversa.");
-    const title = $("chat-title-input").value.trim();
-    if (!title) return alert("Escreve um nome para a conversa.");
-    chat.title = title; save(); updateChatSelect();
-  });
-  $("delete-chat").addEventListener("click", () => {
-    const chat = currentChat();
-    if (!chat) return;
-    if (!confirm(`Apagar a conversa "${chat.title}"?`)) return;
-    state.chats = state.chats.filter(c => c.id !== chat.id);
-    state.currentChat = state.chats[0]?.id || "";
-    save(); renderChat(); updateChatSelect();
-  });
-  $("clear-chat").addEventListener("click", () => {
-    const chat = currentChat();
-    if (!chat) return;
-    if (!confirm("Limpar as mensagens desta conversa?")) return;
-    chat.messages = [];
-    save(); renderChat();
-  });
+  const reply = localTutorReply(text);
+  chat.messages.push({ role: "assistant", text: reply });
+  input.value = "";
+  saveData();
+  renderChats();
+}
 
-  function tutorAnswer(question) {
-    const q = question.toLowerCase();
-    if (q.includes("fração") || q.includes("fracao") || q.includes("frações")) {
-      return "Vamos por partes!\n\nUma fração representa partes de um todo. O número de cima é o numerador e o de baixo é o denominador.\n\nExemplo: 3/4 de 20.\n20 ÷ 4 = 5\n5 × 3 = 15\n\nResposta: 15. Queres experimentar outro exercício?";
-    }
-    if (q.includes("subordin") || q.includes("conjunção") || q.includes("conjuncao")) {
-      return "Exemplo: «Fiquei em casa porque chovia».\n\n«Fiquei em casa» é a oração subordinante.\n«porque chovia» é uma oração subordinada adverbial causal.\n«Porque» introduz a causa.\n\nDica: pergunta «Porquê?». Fiquei em casa porquê? Porque chovia.";
-    }
-    if (q.includes("fotossíntese") || q.includes("fotossintese")) {
-      return "A fotossíntese é o processo através do qual as plantas produzem matéria orgânica usando energia luminosa.\n\nPrecisam de água, dióxido de carbono e luz. Produzem glicose e libertam oxigénio.";
-    }
-    if (q.includes("massa") && (q.includes("química") || q.includes("quimica") || q.includes("reação"))) {
-      return "Numa reação química num sistema fechado, a massa conserva-se: a massa total dos reagentes é igual à massa total dos produtos.";
-    }
-    if (/olá|ola|oi|bom dia|boa tarde|boa noite/.test(q)) {
-      return "Olá! 😊 Diz-me a disciplina e a matéria que queres estudar. Posso explicar de forma simples e dar-te exercícios.";
-    }
-    return "Vamos resolver isso passo a passo. Primeiro, identifica o que o exercício pede; depois, separa os dados importantes; por fim, escolhe a regra adequada e confirma a resposta.\n\nEsta versão ainda usa respostas de demonstração. Para responder com a capacidade de um verdadeiro assistente de IA a qualquer pergunta, é necessário ligar um modelo de IA através de um servidor seguro.";
+function localTutorReply(input) {
+  const text = input.toLowerCase();
+  if (/olá|ola|bom dia|boa tarde|boa noite|hello|hi/.test(text)) {
+    return "Olá! 😊 Diz-me qual é a disciplina e o tema que estás a estudar. Posso explicar conceitos, dar exemplos e sugerir exercícios.";
   }
-
-  $("chat-form").addEventListener("submit", event => {
-    event.preventDefault();
-    const question = $("chat-input").value.trim();
-    if (!question) return;
-    if (!currentChat()) makeChat();
-    const chat = currentChat();
-    chat.messages.push({ role: "user", text: question });
-    chat.title = chat.title === "Nova conversa" ? question.slice(0, 35) : chat.title;
-    $("chat-input").value = "";
-    chat.messages.push({ role: "assistant", text: tutorAnswer(question) });
-    save(); renderChat(); updateChatSelect();
-  });
-
-  /* VOZ: FALAR E OUVIR RESPOSTAS */
-  function speak(text) {
-    if (!("speechSynthesis" in window)) return;
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = ({ pt: "pt-PT", en: "en-GB", es: "es-ES", fr: "fr-FR" })[state.language] || "pt-PT";
-    window.speechSynthesis.speak(utterance);
+  if (/fraç|fracao|fração/.test(text)) {
+    return "Uma fração representa partes de um todo. Por exemplo, 3/4 significa três de quatro partes iguais. Para somar frações com o mesmo denominador, somas os numeradores e manténs o denominador: 1/4 + 2/4 = 3/4. Queres experimentar um exercício?";
   }
+  if (/equação|equacao|incógnita|incognita/.test(text)) {
+    return "Uma equação é uma igualdade com um valor desconhecido. Exemplo: x + 3 = 8. Subtraímos 3 aos dois membros: x = 8 − 3 = 5. Verificação: 5 + 3 = 8. Queres outro exemplo?";
+  }
+  if (/subordinad|conjunç|conjunc|oração|oracao/.test(text)) {
+    return "Uma oração subordinada depende de outra oração. Exemplos: causal — «Fiquei em casa porque chovia»; temporal — «Quando cheguei, comecei a estudar»; concessiva — «Embora estivesse cansado, continuou». Identifica a conjunção e pergunta que relação estabelece entre as orações.";
+  }
+  if (/célula|celula|ciências|ciencias/.test(text)) {
+    return "A célula é a unidade básica dos seres vivos. Nas células eucarióticas, o núcleo contém o material genético. A membrana regula as trocas com o meio e o citoplasma é o local de muitas reações celulares. Queres um pequeno teste sobre este tema?";
+  }
+  if (/história|historia|revolução|revolucao/.test(text)) {
+    return "Para estudar História, organiza os acontecimentos por ordem cronológica, identifica as causas, o que aconteceu e as consequências. Faz uma linha do tempo e tenta explicar cada acontecimento pelas tuas palavras. Qual é o período histórico que estás a estudar?";
+  }
+  if (/inglês|ingles|english|past simple/.test(text)) {
+    return "Para estudar Inglês, começa por identificar a estrutura da frase. No Present Simple, usa-se normalmente «do/does» nas perguntas; no Past Simple, muitos verbos levam -ed, mas há irregulares, como «go → went». Se me deres uma frase, posso ajudar-te a analisá-la.";
+  }
+  if (/resumo|resumir/.test(text)) {
+    return "Claro! Envia o texto ou indica o tema e o ano escolar. Posso ajudar-te a organizar as ideias principais num resumo curto, com vocabulário simples e adequado ao teu nível.";
+  }
+  if (/exercício|exercicio|perguntas|teste|quiz/.test(text)) {
+    return "Vamos praticar! 1) Qual é o tema? 2) De que disciplina? 3) Queres perguntas de escolha múltipla ou exercícios com contas? Diz-me estes detalhes para preparar uma atividade.";
+  }
+  return "Posso ajudar-te a estudar, mas esta versão utiliza respostas locais de demonstração e não está ligada a uma IA online. Para te ajudar melhor, indica a disciplina, o ano escolar (" + data.profile.year + ".º ano) e o tema. Posso explicar conceitos básicos, apresentar exemplos ou criar perguntas de treino.";
+}
+
+function startVoiceInput() {
   const Recognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  $("voice-input").addEventListener("click", () => {
-    if (!Recognition) return alert(t("noVoice"));
-    try {
-      const recognition = new Recognition();
-      recognition.lang = ({ pt: "pt-PT", en: "en-GB", es: "es-ES", fr: "fr-FR" })[state.language] || "pt-PT";
-      recognition.onstart = () => $("voice-input").textContent = t("listening");
-      recognition.onresult = event => {
-        $("chat-input").value = event.results[0][0].transcript;
-        $("chat-input").focus();
-      };
-      recognition.onerror = () => $("voice-input").textContent = "🎙️ Falar";
-      recognition.onend = () => $("voice-input").textContent = "🎙️ Falar";
-      recognition.start();
-    } catch (_) { alert("Verifica as permissões do microfone no navegador."); }
-  });
-  $("stop-speaking").addEventListener("click", () => window.speechSynthesis?.cancel());
-
-  /* SONS AMBIENTE */
-  let audioContext = null, masterGain = null, noiseSource = null, oscillators = [];
-  function stopAudio() {
-    oscillators.forEach(o => { try { o.stop(); } catch (_) {} });
-    oscillators = [];
-    if (noiseSource) { try { noiseSource.stop(); } catch (_) {} noiseSource = null; }
-    document.querySelectorAll(".music-toggle").forEach(b => b.textContent = "Reproduzir");
-    $("music-status").textContent = "Som parado.";
+  if (!Recognition) {
+    alert("O reconhecimento de voz não está disponível neste navegador. Experimenta uma versão recente do Chrome.");
+    return;
   }
-  function makeNoise() {
+  const recognition = new Recognition();
+  recognition.lang = data.language === "pt" ? "pt-PT" : data.language;
+  recognition.onresult = event => {
+    $("chatInput").value += event.results[0][0].transcript;
+    $("chatInput").focus();
+  };
+  recognition.onerror = () => alert("Não foi possível reconhecer a voz. Verifica a permissão do microfone.");
+  recognition.start();
+}
+
+function speakText(text) {
+  if (!("speechSynthesis" in window)) {
+    alert("A leitura em voz alta não está disponível neste navegador.");
+    return;
+  }
+  speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = data.language === "pt" ? "pt-PT" : data.language;
+  speechSynthesis.speak(utterance);
+}
+
+function stopSpeech() {
+  if ("speechSynthesis" in window) speechSynthesis.cancel();
+}
+
+async function ensureAudio() {
+  const AudioCtx = window.AudioContext || window.webkitAudioContext;
+  if (!AudioCtx) {
+    alert("O áudio não é suportado neste navegador.");
+    return false;
+  }
+  if (!audioContext) audioContext = new AudioCtx();
+  if (audioContext.state === "suspended") await audioContext.resume();
+  return true;
+}
+
+async function playNoise(type) {
+  if (noiseSource) stopAmbient();
+  if (!await ensureAudio()) return;
+  ambientType = type;
+  if (type === "tone") {
+    const oscillator = audioContext.createOscillator();
+    noiseGain = audioContext.createGain();
+    oscillator.type = "sine";
+    oscillator.frequency.value = 220;
+    noiseGain.gain.value = 0.035;
+    oscillator.connect(noiseGain);
+    noiseGain.connect(audioContext.destination);
+    oscillator.start();
+    noiseSource = oscillator;
+  } else {
     const length = audioContext.sampleRate * 2;
     const buffer = audioContext.createBuffer(1, length, audioContext.sampleRate);
-    const data = buffer.getChannelData(0);
-    for (let i = 0; i < length; i++) data[i] = Math.random() * 2 - 1;
+    const channel = buffer.getChannelData(0);
+    for (let i = 0; i < length; i++) {
+      channel[i] = (Math.random() * 2 - 1) * (type === "rain" ? .45 : .22);
+    }
     const source = audioContext.createBufferSource();
-    source.buffer = buffer; source.loop = true;
-    return source;
+    source.buffer = buffer;
+    source.loop = true;
+    const filter = audioContext.createBiquadFilter();
+    filter.type = type === "rain" ? "lowpass" : "bandpass";
+    filter.frequency.value = type === "rain" ? 1500 : 500;
+    noiseGain = audioContext.createGain();
+    noiseGain.gain.value = type === "rain" ? .11 : .18;
+    source.connect(filter);
+    filter.connect(noiseGain);
+    noiseGain.connect(audioContext.destination);
+    source.start();
+    noiseSource = source;
   }
-  async function playSound(kind) {
-    stopAudio();
-    const AudioCtx = window.AudioContext || window.webkitAudioContext;
-    if (!AudioCtx) return alert("Este navegador não suporta áudio.");
-    if (!audioContext || audioContext.state === "closed") audioContext = new AudioCtx();
-    await audioContext.resume();
-    masterGain = audioContext.createGain();
-    masterGain.gain.value = Number($("music-volume").value) / 100 * .15;
-    masterGain.connect(audioContext.destination);
-    if (kind === "focus") {
-      noiseSource = makeNoise();
-      const filter = audioContext.createBiquadFilter();
-      filter.type = "lowpass"; filter.frequency.value = 900;
-      noiseSource.connect(filter); filter.connect(masterGain); noiseSource.start();
-    } else {
-      const frequencies = kind === "waves" ? [110, 165, 220] : [180, 240, 300];
-      frequencies.forEach((frequency, index) => {
-        const osc = audioContext.createOscillator();
-        const gain = audioContext.createGain();
-        osc.type = kind === "waves" ? "sine" : "triangle";
-        osc.frequency.value = frequency;
-        gain.gain.value = kind === "waves" ? .02 : .012 / (index + 1);
-        osc.connect(gain); gain.connect(masterGain); osc.start();
-        oscillators.push(osc);
-      });
-      if (kind === "rain") {
-        noiseSource = makeNoise();
-        const filter = audioContext.createBiquadFilter();
-        filter.type = "lowpass"; filter.frequency.value = 1500;
-        noiseSource.connect(filter); filter.connect(masterGain); noiseSource.start();
-      }
-    }
-    $("music-status").textContent = "Som ambiente em reprodução.";
-    document.querySelectorAll(".music-toggle").forEach(b =>
-      b.textContent = b.dataset.sound === kind ? "A reproduzir" : "Reproduzir"
-    );
-  }
-  document.querySelectorAll(".music-toggle").forEach(b =>
-    b.addEventListener("click", () => playSound(b.dataset.sound))
-  );
-  $("stop-music").addEventListener("click", stopAudio);
-  $("music-volume").addEventListener("input", () => {
-    if (masterGain && audioContext) {
-      masterGain.gain.setTargetAtTime(Number($("music-volume").value) / 100 * .15, audioContext.currentTime, .05);
-    }
-  });
+  $("soundToggle").textContent = "■ Parar som ambiente";
+}
 
-  $("download-sound").addEventListener("click", () => {
-    const sampleRate = 22050, duration = 5, count = sampleRate * duration;
-    const buffer = new ArrayBuffer(44 + count * 2), view = new DataView(buffer);
-    const write = (offset, str) => {
-      for (let i = 0; i < str.length; i++) view.setUint8(offset + i, str.charCodeAt(i));
-    };
-    write(0, "RIFF"); view.setUint32(4, 36 + count * 2, true);
-    write(8, "WAVE"); write(12, "fmt "); view.setUint32(16, 16, true);
-    view.setUint16(20, 1, true); view.setUint16(22, 1, true);
-    view.setUint32(24, sampleRate, true); view.setUint32(28, sampleRate * 2, true);
-    view.setUint16(32, 2, true); view.setUint16(34, 16, true);
-    write(36, "data"); view.setUint32(40, count * 2, true);
-    for (let i = 0; i < count; i++) {
-      const fade = Math.min(1, i / 500, (count - i) / 500);
-      view.setInt16(44 + i * 2, (Math.random() * 2 - 1) * .1 * fade * 32767, true);
-    }
-    const url = URL.createObjectURL(new Blob([buffer], { type: "audio/wav" }));
-    const link = document.createElement("a");
-    link.href = url; link.download = "study-ai-som-ambiente.wav";
-    link.click(); URL.revokeObjectURL(url);
-  });
-
-  /* INICIALIZAÇÃO */
-  fillSettings();
-  applyTheme();
-  renderStats();
-  displayTimer();
-  if (!state.chats.length) makeChat("Primeira conversa");
-  else {
-    if (!currentChat()) state.currentChat = state.chats[0].id;
-    updateChatSelect(); renderChat();
+function stopAmbient() {
+  try { noiseSource?.stop(); } catch {}
+  try { noiseSource?.disconnect(); } catch {}
+  noiseSource = null;
+  if (noiseGain) {
+    try { noiseGain.disconnect(); } catch {}
+    noiseGain = null;
   }
-  showPage("home");
-})();
+  $("soundToggle").textContent = "▶ Reproduzir som ambiente";
+}
+
+function toggleAmbient() {
+  if (noiseSource) {
+    stopAmbient();
+  } else {
+    playNoise(ambientType);
+  }
+}
+
+function clearProgress() {
+  if (!confirm("Tens a certeza de que queres apagar o progresso, as sessões e os pontos deste navegador?")) return;
+  data.minutes = 0;
+  data.points = 0;
+  data.answered = 0;
+  data.correct = 0;
+  data.sessions = [];
+  data.answers = [];
+  saveData();
+  refreshStats();
+  renderHistory();
+  alert("Progresso apagado.");
+}
+
+function initApp() {
+  applyDark();
+  applyLanguage();
+  updateProfileUI();
+  $("languageSelect").value = data.language;
+  $("weeklyGoal").value = String(data.weeklyGoal);
+  $("updatesToggle").checked = !!data.preferences.updates;
+  $("notificationsToggle").checked = !!data.preferences.notifications;
+  updateTimerDisplay();
+  refreshStats();
+  ensureChat();
+  renderChats();
+}
+
+document.addEventListener("DOMContentLoaded", initApp);
 </script>
 </body>
 </html>
+
