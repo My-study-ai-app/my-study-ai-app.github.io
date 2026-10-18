@@ -2372,9 +2372,6 @@ body: JSON.stringify({
 }),
 signal: AbortSignal.timeout(60000)
 
-      signal: AbortSignal.timeout(60000)
-    });
-
     if (!response.ok) throw new Error("Erro HTTP " + response.status);
 
     const result = await response.json();
