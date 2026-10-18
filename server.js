@@ -19,65 +19,98 @@ app.get("/api/health", (req, res) => {
 });
 
 app.get("/api/videos", async (req, res) => {
-  const query = String(req.query.q || "aulas escolares Portugal").slice(0, 150);
+  const query = String(req.query.q || "aulas escolares Portugal")
+    .slice(0, 150);
 
-  const instances = [
-    "https://invidious.nerdvpn.de",
-    "https://inv.nadeko.net",
-    "https://invidious.privacyredirect.com"
+  const sources = [
+    {
+      type: "invidious",
+      base: "https://inv.nadeko.net"
+    },
+    {
+      type: "invidious",
+      base: "https://invidious.nerdvpn.de"
+    },
+    {
+      type: "invidious",
+      base: "https://invidious.privacyredirect.com"
+    },
+    {
+      type: "piped",
+      base: "https://pipedapi.adminforge.de"
+    }
   ];
 
-  const errors = [];
-
-  for (const instance of instances) {
+  for (const source of sources) {
     try {
-      const url = new URL("/api/v1/search", instance);
+      const url = source.type === "invidious"
+        ? new URL("/api/v1/search", source.base)
+        : new URL("/search", source.base);
+
       url.searchParams.set("q", query);
-      url.searchParams.set("type", "video");
+
+      if (source.type === "invidious") {
+        url.searchParams.set("type", "video");
+      }
 
       const response = await fetch(url, {
-        signal: AbortSignal.timeout(8000),
+        signal: AbortSignal.timeout(7000),
         headers: { Accept: "application/json" }
       });
 
-      if (!response.ok) {
-        errors.push(`${instance}: HTTP ${response.status}`);
-        continue;
-      }
+      if (!response.ok) continue;
 
       const data = await response.json();
+      const items = Array.isArray(data)
+        ? data
+        : Array.isArray(data.items) ? data.items : [];
 
-      if (!Array.isArray(data)) {
-        errors.push(`${instance}: resposta inválida`);
-        continue;
+      const videos = items
+        .map(item => {
+          if (source.type === "invidious") {
+            if (!item.videoId) return null;
+
+            return {
+              id: item.videoId,
+              title: item.title || "Vídeo educativo",
+              description: item.description || "",
+              thumbnail: item.videoThumbnails?.[0]?.url || "",
+              url: `https://www.youtube.com/watch?v=${item.videoId}`,
+              embedUrl: `https://www.youtube.com/embed/${item.videoId}`,
+              channel: item.author || ""
+            };
+          }
+
+          const path = item.url || "";
+          const id = item.videoId ||
+            path.match(/[?&]v=([^&]+)/)?.[1] ||
+            path.match(/\/watch\/([^/?]+)/)?.[1];
+
+          if (!id || item.type === "channel") return null;
+
+          return {
+            id,
+            title: item.title || "Vídeo educativo",
+            description: item.shortDescription || "",
+            thumbnail: item.thumbnail || "",
+            url: `https://www.youtube.com/watch?v=${id}`,
+            embedUrl: `https://www.youtube.com/embed/${id}`,
+            channel: item.uploaderName || item.uploader || ""
+          };
+        })
+        .filter(Boolean)
+        .slice(0, 12);
+
+      if (videos.length > 0) {
+        return res.json({ videos, query });
       }
-
-      const videos = data
-        .filter(item => item.type === "video" && item.videoId)
-        .slice(0, 12)
-        .map(item => ({
-          id: item.videoId,
-          title: item.title || "Vídeo educativo",
-          description: item.description || "",
-          thumbnail:
-            item.videoThumbnails?.find(image => image.quality === "medium")?.url ||
-            item.videoThumbnails?.[0]?.url ||
-            "",
-          url: `https://www.youtube.com/watch?v=${item.videoId}`,
-          embedUrl: `https://www.youtube.com/embed/${item.videoId}`,
-          channel: item.author || ""
-        }));
-
-      return res.json({ videos, query });
     } catch (error) {
-      errors.push(`${instance}: ${error.message}`);
+      console.error(`Fonte indisponível: ${source.base}`);
     }
   }
 
-  console.error("Todas as pesquisas de vídeos falharam:", errors);
-
   return res.status(502).json({
-    error: "As fontes públicas de vídeos estão indisponíveis. Tenta novamente mais tarde.",
+    error: "As fontes públicas de vídeos não responderam. Tenta novamente mais tarde.",
     videos: []
   });
 });
