@@ -1,1697 +1,3855 @@
-
 <!DOCTYPE html>
 <html lang="pt-PT">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#2563eb">
-<title>Study AI — Aprende ao teu ritmo</title>
+<meta name="description" content="Study AI — aprende, pratica e acompanha a tua evolução escolar do 1.º ao 12.º ano.">
+<title>Study AI — Plataforma de Aprendizagem</title>
+
 <style>
+/* =========================================================
+   STUDY AI — DESIGN SYSTEM
+   Tema branco e azul, responsivo e acessível
+   ========================================================= */
+
 :root {
-  --blue: #2563eb;
-  --blue-dark: #1d4ed8;
-  --blue-light: #eff6ff;
-  --bg: #f5f8ff;
+  --primary: #2563eb;
+  --primary-dark: #1d4ed8;
+  --primary-deep: #1e40af;
+  --primary-light: #eff6ff;
+  --primary-soft: #dbeafe;
+  --accent: #38bdf8;
+  --background: #f4f7fc;
   --surface: #ffffff;
+  --surface-soft: #f8fafc;
   --text: #172033;
-  --muted: #68758b;
-  --border: #e3eaf5;
-  --green: #15803d;
-  --red: #dc2626;
-  --radius: 18px;
+  --text-secondary: #475569;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --border-strong: #cbd5e1;
+  --success: #15803d;
+  --success-bg: #dcfce7;
+  --danger: #b91c1c;
+  --danger-bg: #fee2e2;
+  --warning: #92400e;
+  --warning-bg: #fef3c7;
+  --purple: #7c3aed;
+  --shadow-sm: 0 2px 8px rgba(15, 23, 42, .04);
+  --shadow: 0 8px 24px rgba(15, 23, 42, .06);
+  --shadow-blue: 0 8px 28px rgba(37, 99, 235, .12);
+  --radius-sm: 9px;
+  --radius: 15px;
+  --radius-lg: 22px;
+  --sidebar-width: 255px;
+  --transition: 180ms ease;
 }
-* { box-sizing: border-box; }
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 90px;
+}
+
 body {
   margin: 0;
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, Arial, sans-serif;
-  background: var(--bg);
+  min-height: 100vh;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.55;
   color: var(--text);
+  background: var(--background);
+  -webkit-font-smoothing: antialiased;
 }
-button, input, select, textarea { font: inherit; }
-button, a { -webkit-tap-highlight-color: transparent; }
-button { cursor: pointer; }
-button:disabled { opacity: .55; cursor: not-allowed; }
-a { color: var(--blue); }
-.app { min-height: 100vh; }
+
+body, button, input, select, textarea {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+}
+
+button, input, select, textarea {
+  font-size: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid #93c5fd;
+  outline-offset: 3px;
+}
+
+a {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+img, video, iframe {
+  max-width: 100%;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* =========================================================
+   LAYOUT PRINCIPAL
+   ========================================================= */
+
+.app-shell {
+  min-height: 100vh;
+}
+
 .sidebar {
-  position: fixed; inset: 0 auto 0 0; width: 245px;
-  padding: 24px 16px; background: white;
+  position: fixed;
+  inset: 0 auto 0 0;
+  z-index: 50;
+  width: var(--sidebar-width);
+  padding: 23px 15px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  background: var(--surface);
   border-right: 1px solid var(--border);
-  display: flex; flex-direction: column; z-index: 10;
   overflow-y: auto;
+  transition: transform .24s ease;
 }
-.brand {
-  display: flex; align-items: center; gap: 11px;
-  font-size: 21px; font-weight: 850; margin: 0 8px 30px;
+
+.main-area {
+  min-width: 0;
+  min-height: 100vh;
+  margin-left: var(--sidebar-width);
 }
-.brand-icon {
-  display: grid; place-items: center; width: 40px; height: 40px;
-  border-radius: 13px; color: white; background: var(--blue);
-}
-.nav-label {
-  margin: 18px 10px 8px; font-size: 11px; font-weight: 800;
-  color: #8b97aa; letter-spacing: 1px; text-transform: uppercase;
-}
-.nav-btn {
-  width: 100%; border: 0; background: transparent; color: #5a667b;
-  display: flex; align-items: center; gap: 12px;
-  text-align: left; padding: 12px; border-radius: 12px;
-  margin: 2px 0; font-weight: 650;
-}
-.nav-btn:hover, .nav-btn.active { background: var(--blue-light); color: var(--blue); }
-.nav-icon { width: 23px; text-align: center; font-size: 18px; }
-.sidebar-bottom {
-  margin-top: auto; padding: 15px 12px 0; color: var(--muted);
-  font-size: 12px; line-height: 1.6;
-}
-.free-label {
-  background: var(--blue-light); color: var(--blue);
-  border-radius: 20px; padding: 5px 9px; display: inline-block;
-  font-weight: 750; margin-bottom: 7px;
-}
-.main { margin-left: 245px; min-height: 100vh; }
+
 .topbar {
-  height: 76px; background: rgba(255,255,255,.92);
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  min-height: 76px;
+  padding: 13px 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  background: rgba(255, 255, 255, .94);
   border-bottom: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 30px; position: sticky; top: 0; z-index: 5;
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(15px);
 }
-.topbar h1 { font-size: 20px; margin: 0; }
-.top-right { display: flex; align-items: center; gap: 12px; }
-.avatar {
-  display: grid; place-items: center; width: 38px; height: 38px;
-  background: var(--blue-light); color: var(--blue); border-radius: 50%;
+
+.topbar-left,
+.topbar-actions,
+.inline-row,
+.inline-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.topbar-left {
+  min-width: 0;
+}
+
+.topbar-title {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.3;
   font-weight: 800;
 }
-.menu-toggle {
-  display: none; border: 1px solid var(--border); background: white;
-  border-radius: 10px; padding: 8px 11px;
+
+.topbar-subtitle {
+  margin: 4px 0 0;
+  color: var(--muted);
+  font-size: 12px;
 }
-.content { max-width: 1250px; margin: auto; padding: 30px; }
-.page { display: none; }
-.page.active { display: block; animation: appear .18s ease-out; }
-@keyframes appear { from { opacity: .55; transform: translateY(4px); } to { opacity: 1; transform: none; } }
-h2 { margin: 0 0 12px; font-size: 25px; letter-spacing: -.5px; }
-h3 { margin: 0 0 10px; font-size: 17px; }
-p { line-height: 1.6; }
-.muted { color: var(--muted); }
-.small { font-size: 13px; }
-.hero {
-  border-radius: 24px; padding: 34px;
-  background: linear-gradient(120deg, #eaf2ff, #f7faff);
-  border: 1px solid #dce8ff; margin-bottom: 25px;
+
+.page-container {
+  width: 100%;
+  max-width: 1550px;
+  margin: 0 auto;
+  padding: 27px 29px 40px;
 }
-.hero h2 { font-size: clamp(27px, 4vw, 39px); max-width: 650px; }
-.hero p { color: #53647f; max-width: 650px; }
-.btn {
-  border: 1px solid var(--border); background: white; color: var(--text);
-  border-radius: 11px; padding: 10px 15px; font-weight: 700;
-  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  text-decoration: none; transition: .15s;
+
+.page {
+  display: none;
+  min-width: 0;
+  animation: page-enter .22s ease;
 }
-.btn:hover { border-color: #a9c4fb; transform: translateY(-1px); }
-.btn.primary { background: var(--blue); color: white; border-color: var(--blue); }
-.btn.primary:hover { background: var(--blue-dark); }
-.btn.soft { color: var(--blue); background: var(--blue-light); border-color: transparent; }
-.btn.danger { color: var(--red); }
-.btn-row { display: flex; gap: 10px; flex-wrap: wrap; }
-.grid { display: grid; gap: 18px; }
-.grid-2 { grid-template-columns: repeat(2, minmax(0,1fr)); }
-.grid-3 { grid-template-columns: repeat(3, minmax(0,1fr)); }
-.grid-4 { grid-template-columns: repeat(4, minmax(0,1fr)); }
-.card {
-  background: var(--surface); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 21px; min-width: 0;
+
+.page.active {
+  display: block;
 }
-.card p { margin: 7px 0; }
-.card-icon {
-  width: 44px; height: 44px; border-radius: 14px;
-  display: grid; place-items: center; background: var(--blue-light);
-  color: var(--blue); font-size: 22px; margin-bottom: 15px;
+
+@keyframes page-enter {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-.stat-number { font-size: 29px; font-weight: 850; margin: 7px 0; }
-.section-heading {
-  display: flex; align-items: center; justify-content: space-between;
-  gap: 12px; margin: 27px 0 15px;
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 0 7px;
 }
-.section-heading h2 { font-size: 20px; margin: 0; }
-.field { display: flex; flex-direction: column; gap: 7px; margin-bottom: 15px; }
-.field label { font-size: 13px; color: #536078; font-weight: 750; }
-.field input, .field select, .field textarea,
-.chat-input, .search-input {
-  width: 100%; padding: 12px 13px; border: 1px solid #d9e2f0;
-  background: white; color: var(--text); border-radius: 11px; outline: none;
+
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 47px;
+  height: 47px;
+  flex: 0 0 47px;
+  color: white;
+  font-size: 25px;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #1d4ed8, #60a5fa);
+  box-shadow: 0 6px 14px rgba(37, 99, 235, .2);
 }
-.field input:focus, .field select:focus, .field textarea:focus,
-.chat-input:focus, .search-input:focus {
-  border-color: var(--blue); box-shadow: 0 0 0 3px #2563eb18;
+
+.brand-name {
+  margin: 0;
+  color: var(--primary);
+  font-size: 22px;
+  line-height: 1.2;
+  font-weight: 900;
+  letter-spacing: -.7px;
 }
-.field textarea { min-height: 110px; resize: vertical; }
-.status { font-size: 13px; color: var(--muted); margin-top: 12px; white-space: pre-wrap; }
-.status.error { color: var(--red); }
-.status.success { color: var(--green); }
-.hidden { display: none !important; }
-.progress-track {
-  height: 9px; background: #e8eef8; border-radius: 20px; overflow: hidden;
+
+.brand-caption {
+  display: block;
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 11px;
 }
-.progress-fill { height: 100%; width: 0; background: var(--blue); transition: width .25s; }
-.feature-card { cursor: pointer; transition: .16s; }
-.feature-card:hover { transform: translateY(-3px); border-color: #b5cdfb; }
-.list { display: flex; flex-direction: column; gap: 10px; }
-.list-item {
-  border: 1px solid var(--border); padding: 13px;
-  border-radius: 12px; display: flex; align-items: center;
-  justify-content: space-between; gap: 12px; background: white;
+
+/* =========================================================
+   NAVEGAÇÃO LATERAL
+   ========================================================= */
+
+.nav-group {
+  display: grid;
+  gap: 6px;
 }
-.row { display: flex; align-items: center; gap: 10px; }
-.wrap { flex-wrap: wrap; }
-.chat-shell {
-  background: white; border: 1px solid var(--border);
-  border-radius: 20px; overflow: hidden;
+
+.nav-heading {
+  margin: 0 0 7px;
+  padding: 0 12px;
+  color: #94a3b8;
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 1.3px;
+  text-transform: uppercase;
 }
-.chat-messages {
-  min-height: 330px; max-height: 55vh; overflow-y: auto;
-  padding: 22px; display: flex; flex-direction: column; gap: 18px;
+
+.nav-button {
+  position: relative;
+  width: 100%;
+  min-height: 45px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 13px;
+  color: #475569;
+  text-align: left;
+  font-weight: 650;
+  background: transparent;
+  border: 0;
+  border-radius: 11px;
+  transition: background var(--transition), color var(--transition);
 }
-.chat-welcome { text-align: center; padding: 45px 10px; }
-.chat-welcome .star { font-size: 36px; color: var(--blue); }
-.message { display: flex; gap: 10px; align-items: flex-start; }
-.message.user { flex-direction: row-reverse; }
-.message-avatar {
-  flex: 0 0 34px; height: 34px; border-radius: 50%;
-  display: grid; place-items: center; background: var(--blue-light);
-  color: var(--blue); font-weight: 800;
+
+.nav-button:hover {
+  color: var(--primary);
+  background: #f1f5ff;
 }
-.bubble {
-  max-width: 85%; background: #f3f6fb; border-radius: 5px 16px 16px 16px;
-  padding: 12px 15px; white-space: pre-wrap; line-height: 1.65;
+
+.nav-button.active {
+  color: var(--primary);
+  background: var(--primary-light);
+}
+
+.nav-button.active::before {
+  content: "";
+  position: absolute;
+  top: 9px;
+  bottom: 9px;
+  left: 0;
+  width: 3px;
+  border-radius: 0 5px 5px 0;
+  background: var(--primary);
+}
+
+.nav-icon {
+  width: 25px;
+  flex: 0 0 25px;
+  text-align: center;
+  font-size: 19px;
+}
+
+.nav-count {
+  margin-left: auto;
+  min-width: 22px;
+  padding: 2px 6px;
+  color: var(--primary);
+  text-align: center;
+  font-size: 11px;
+  border-radius: 99px;
+  background: #dbeafe;
+}
+
+.sidebar-bottom {
+  margin-top: auto;
+  padding-top: 12px;
+}
+
+.free-notice {
+  padding: 14px;
+  color: #166534;
+  font-size: 12px;
+  font-weight: 750;
+  line-height: 1.6;
+  background: #f0fdf4;
+  border: 1px solid #dcfce7;
+  border-radius: 13px;
+}
+
+.sidebar-profile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  padding: 12px 7px 3px;
+  border-top: 1px solid var(--border);
+}
+
+.avatar {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  display: grid;
+  place-items: center;
+  color: var(--primary);
+  font-weight: 850;
+  border-radius: 50%;
+  background: var(--primary-soft);
+}
+
+.profile-name {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 750;
   overflow-wrap: anywhere;
 }
-.user .bubble { background: var(--blue); color: white; border-radius: 16px 5px 16px 16px; }
-.chat-compose {
-  padding: 13px; border-top: 1px solid var(--border);
-  display: flex; gap: 10px; align-items: flex-end;
+
+.profile-year {
+  display: block;
+  margin-top: 2px;
+  color: var(--muted);
+  font-size: 11px;
 }
-.chat-input { resize: none; min-height: 46px; max-height: 140px; }
-.player {
-  width: 100%; aspect-ratio: 16 / 9; background: #111827;
-  border-radius: 15px; overflow: hidden; display: grid; place-items: center;
+
+/* =========================================================
+   BOTÕES E CAMPOS
+   ========================================================= */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 10px 15px;
+  color: white;
+  font-weight: 750;
+  line-height: 1.25;
+  text-align: center;
+  border: 1px solid transparent;
+  border-radius: 11px;
+  background: var(--primary);
+  transition: transform var(--transition), background var(--transition),
+    box-shadow var(--transition);
 }
-.player iframe, .player video { width: 100%; height: 100%; border: 0; }
-.player img { max-width: 100%; max-height: 100%; object-fit: contain; }
+
+.btn:hover:not(:disabled) {
+  background: var(--primary-dark);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, .15);
+  transform: translateY(-1px);
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  color: var(--primary);
+  background: var(--primary-light);
+  border-color: #dbeafe;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  color: white;
+  background: var(--primary-dark);
+}
+
+.btn-outline {
+  color: var(--text-secondary);
+  background: white;
+  border-color: var(--border-strong);
+}
+
+.btn-outline:hover:not(:disabled) {
+  color: var(--primary);
+  background: var(--primary-light);
+  border-color: #93c5fd;
+}
+
+.btn-white {
+  color: var(--primary);
+  background: white;
+}
+
+.btn-white:hover:not(:disabled) {
+  color: var(--primary-dark);
+  background: #eff6ff;
+}
+
+.btn-danger {
+  color: var(--danger);
+  background: var(--danger-bg);
+}
+
+.btn-success {
+  color: var(--success);
+  background: var(--success-bg);
+}
+
+.btn-sm {
+  min-height: 33px;
+  padding: 7px 10px;
+  font-size: 12px;
+  border-radius: 9px;
+}
+
+.btn-lg {
+  min-height: 47px;
+  padding: 13px 20px;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+.icon-button {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  display: inline-grid;
+  place-items: center;
+  color: var(--text-secondary);
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+}
+
+.icon-button:hover {
+  color: var(--primary);
+  background: var(--primary-light);
+}
+
+.field {
+  min-width: 0;
+  display: grid;
+  gap: 7px;
+  margin-bottom: 16px;
+}
+
+.field label {
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 750;
+}
+
+.field input,
+.field select,
+.field textarea,
+.control-input {
+  width: 100%;
+  min-width: 0;
+  padding: 12px 13px;
+  color: var(--text);
+  background: white;
+  border: 1px solid var(--border-strong);
+  border-radius: 10px;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.field input:focus,
+.field select:focus,
+.field textarea:focus,
+.control-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px #dbeafe;
+}
+
+.field textarea {
+  min-height: 115px;
+  resize: vertical;
+}
+
+.field-help {
+  margin: -1px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.search-box {
+  position: relative;
+  width: min(360px, 100%);
+}
+
+.search-box input {
+  width: 100%;
+  min-height: 40px;
+  padding: 10px 13px 10px 39px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 11px;
+}
+
+.search-box .search-icon {
+  position: absolute;
+  top: 50%;
+  left: 13px;
+  color: var(--muted);
+  transform: translateY(-50%);
+}
+
+/* =========================================================
+   TÍTULOS E CARTÕES
+   ========================================================= */
+
+.page-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin: 0 0 21px;
+}
+
+.page-heading h2 {
+  margin: 0;
+  font-size: clamp(23px, 2.5vw, 29px);
+  font-weight: 850;
+  letter-spacing: -.6px;
+}
+
+.page-heading p {
+  margin: 7px 0 0;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.section-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  margin: 29px 0 15px;
+}
+
+.section-heading h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 820;
+}
+
+.section-heading p {
+  margin: 5px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.card {
+  min-width: 0;
+  padding: 21px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+
+.card h3 {
+  margin: 0 0 9px;
+  font-size: 17px;
+}
+
+.card p {
+  line-height: 1.7;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.card-header h3 {
+  margin: 0;
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 17px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+}
+
+.grid {
+  display: grid;
+  gap: 16px;
+}
+
+.grid-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.grid-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.grid-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.grid-5 {
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+.stat-card {
+  padding: 19px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  box-shadow: var(--shadow-sm);
+}
+
+.stat-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.stat-label {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.stat-icon {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  color: var(--primary);
+  font-size: 19px;
+  background: var(--primary-light);
+  border-radius: 11px;
+}
+
+.stat-value {
+  margin: 13px 0 4px;
+  color: var(--text);
+  font-size: 30px;
+  line-height: 1.15;
+  font-weight: 900;
+}
+
+.stat-caption {
+  color: var(--muted);
+  font-size: 11px;
+}
+
+/* =========================================================
+   ETIQUETAS E ESTADOS
+   ========================================================= */
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 9px;
+  color: var(--primary);
+  font-size: 11px;
+  line-height: 1.35;
+  font-weight: 800;
+  border-radius: 999px;
+  background: var(--primary-light);
+}
+
+.badge-green {
+  color: #166534;
+  background: #dcfce7;
+}
+
+.badge-yellow {
+  color: #92400e;
+  background: #fef3c7;
+}
+
+.badge-red {
+  color: #991b1b;
+  background: #fee2e2;
+}
+
+.badge-purple {
+  color: #6d28d9;
+  background: #ede9fe;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.small-text {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.divider {
+  height: 1px;
+  margin: 19px 0;
+  background: var(--border);
+}
+
+.notice {
+  padding: 14px 16px;
+  color: #1e40af;
+  line-height: 1.65;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 12px;
+}
+
+.notice-warning {
+  color: #92400e;
+  background: #fffbeb;
+  border-color: #fde68a;
+}
+
+.notice-success {
+  color: #166534;
+  background: #f0fdf4;
+  border-color: #bbf7d0;
+}
+
+.empty-state {
+  padding: 35px 20px;
+  text-align: center;
+  color: var(--muted);
+  background: #ffffffb8;
+  border: 1px dashed var(--border-strong);
+  border-radius: 15px;
+}
+
+.empty-icon {
+  margin-bottom: 12px;
+  font-size: 39px;
+}
+
+.empty-state h3 {
+  margin: 0 0 7px;
+  color: var(--text);
+}
+
+.empty-state p {
+  max-width: 470px;
+  margin: 0 auto 17px;
+  line-height: 1.7;
+}
+
+/* =========================================================
+   PÁGINA INICIAL
+   ========================================================= */
+
+.welcome-hero {
+  position: relative;
+  min-height: 245px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 31px;
+  color: white;
+  overflow: hidden;
+  background: linear-gradient(120deg, #1d4ed8, #3b82f6 62%, #60a5fa);
+  border-radius: 23px;
+  box-shadow: var(--shadow-blue);
+}
+
+.welcome-hero::after {
+  content: "";
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  top: -140px;
+  right: -60px;
+  border: 38px solid rgba(255, 255, 255, .09);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 15px;
+  padding: 6px 10px;
+  color: white;
+  font-size: 11px;
+  font-weight: 800;
+  border: 1px solid #ffffff45;
+  border-radius: 99px;
+  background: #ffffff18;
+}
+
+.hero-title {
+  margin: 0 0 13px;
+  font-size: clamp(27px, 3.6vw, 42px);
+  line-height: 1.15;
+  font-weight: 900;
+  letter-spacing: -1px;
+}
+
+.hero-description {
+  max-width: 600px;
+  margin: 0 0 23px;
+  color: #eff6ff;
+  line-height: 1.8;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.hero-illustration {
+  position: relative;
+  z-index: 1;
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 150px;
+  height: 150px;
+  font-size: 83px;
+  border: 1px solid #ffffff30;
+  border-radius: 34px;
+  background: #ffffff16;
+  transform: rotate(3deg);
+}
+
+.quick-action {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px;
+  text-align: left;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition), border-color var(--transition);
+}
+
+.quick-action:hover {
+  border-color: #93c5fd;
+  transform: translateY(-2px);
+}
+
+.quick-action-icon {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
+  display: grid;
+  place-items: center;
+  font-size: 24px;
+  border-radius: 14px;
+  background: var(--primary-light);
+}
+
+.quick-action strong {
+  display: block;
+  font-size: 14px;
+}
+
+.quick-action small {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* =========================================================
+   DISCIPLINAS
+   ========================================================= */
+
+.subject-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 15px;
+}
+
+.subject-tile {
+  --subject-color: var(--primary);
+  position: relative;
+  min-width: 0;
+  min-height: 139px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  background: white;
+  border: 1px solid var(--border);
+  border-left: 5px solid var(--subject-color);
+  border-radius: 15px;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition), box-shadow var(--transition),
+    border-color var(--transition);
+}
+
+.subject-tile:hover {
+  transform: translateY(-3px);
+  border-top-color: var(--subject-color);
+  border-right-color: var(--subject-color);
+  border-bottom-color: var(--subject-color);
+  box-shadow: var(--shadow);
+}
+
+.subject-icon {
+  width: 43px;
+  height: 43px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 12px;
+  color: var(--subject-color);
+  font-size: 23px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--subject-color) 11%, white);
+}
+
+.subject-name {
+  display: block;
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.4;
+  font-weight: 820;
+}
+
+.subject-meta {
+  display: block;
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.subject-open {
+  margin-top: auto;
+  padding-top: 12px;
+  color: var(--subject-color);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+/* Cores por disciplina */
+
+.subject-portuguese { --subject-color: #2563eb; }
+.subject-math { --subject-color: #dc2626; }
+.subject-english { --subject-color: #1e3a8a; }
+.subject-spanish { --subject-color: #ea580c; }
+.subject-french { --subject-color: #1d4ed8; }
+.subject-science { --subject-color: #15803d; }
+.subject-physics { --subject-color: #0891b2; }
+.subject-history { --subject-color: #ca8a04; }
+.subject-geography { --subject-color: #0f766e; }
+.subject-pe { --subject-color: #38bdf8; }
+.subject-philosophy { --subject-color: #7c3aed; }
+.subject-art { --subject-color: #db2777; }
+.subject-it { --subject-color: #475569; }
+.subject-economics { --subject-color: #9333ea; }
+
+/* =========================================================
+   CAPÍTULOS E MATÉRIA
+   ========================================================= */
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin: 0 0 18px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.breadcrumb button {
+  padding: 0;
+  color: var(--primary);
+  font-weight: 750;
+  background: transparent;
+  border: 0;
+}
+
+.breadcrumb button:hover {
+  text-decoration: underline;
+}
+
+.subject-banner {
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: 17px;
+  background: white;
+  box-shadow: var(--shadow-sm);
+}
+
+.subject-banner h2 {
+  margin: 12px 0 7px;
+  font-size: 27px;
+}
+
+.subject-banner p {
+  max-width: 850px;
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.chapter-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 19px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 15px;
+  box-shadow: var(--shadow-sm);
+  transition: border-color var(--transition), transform var(--transition);
+}
+
+.chapter-card:hover {
+  border-color: #93c5fd;
+  transform: translateY(-2px);
+}
+
+.chapter-number {
+  width: 37px;
+  height: 37px;
+  display: grid;
+  place-items: center;
+  color: var(--primary);
+  font-weight: 900;
+  border-radius: 11px;
+  background: var(--primary-light);
+}
+
+.chapter-card h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.chapter-card p {
+  flex: 1;
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.chapter-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding-top: 11px;
+  border-top: 1px solid var(--border);
+}
+
+.lesson-article {
+  padding: clamp(18px, 3vw, 32px);
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 17px;
+  box-shadow: var(--shadow-sm);
+}
+
+.lesson-article h2 {
+  margin: 13px 0 8px;
+  font-size: clamp(23px, 3vw, 31px);
+  line-height: 1.3;
+}
+
+.lesson-intro {
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.lesson-body {
+  font-size: 16px;
+  line-height: 1.9;
+  overflow-wrap: anywhere;
+}
+
+.lesson-body h3 {
+  margin: 27px 0 10px;
+  font-size: 20px;
+  line-height: 1.4;
+}
+
+.lesson-body h4 {
+  margin: 21px 0 8px;
+  font-size: 16px;
+}
+
+.lesson-body p {
+  margin: 11px 0;
+}
+
+.lesson-body ul,
+.lesson-body ol {
+  padding-left: 25px;
+}
+
+.lesson-body li {
+  margin: 7px 0;
+}
+
+.lesson-example {
+  margin: 17px 0;
+  padding: 17px;
+  background: #f8fafc;
+  border-left: 4px solid var(--primary);
+  border-radius: 0 12px 12px 0;
+}
+
+.lesson-example strong {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.lesson-summary {
+  margin-top: 23px;
+  padding: 18px;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 13px;
+}
+
+.lesson-summary h3 {
+  margin-top: 0;
+}
+
+.formula-box {
+  margin: 15px 0;
+  padding: 17px;
+  color: #1e40af;
+  text-align: center;
+  font-size: 19px;
+  font-weight: 850;
+  background: #eff6ff;
+  border-radius: 12px;
+  overflow-wrap: anywhere;
+}
+
+/* =========================================================
+   VÍDEOS E RECURSOS
+   ========================================================= */
+
+.resource-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.resource-card {
+  min-width: 0;
+  padding: 17px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+
+.resource-icon {
+  width: 43px;
+  height: 43px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 12px;
+  font-size: 23px;
+  background: var(--primary-light);
+  border-radius: 12px;
+}
+
+.resource-card h3 {
+  margin: 0 0 7px;
+  font-size: 15px;
+}
+
+.resource-card p {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.video-frame {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  border-radius: 12px;
+  background: #e2e8f0;
+}
+
+.video-placeholder {
+  min-height: 160px;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  text-align: center;
+  background: #eff6ff;
+  border-radius: 12px;
+}
+
+.video-placeholder span {
+  display: block;
+  font-size: 35px;
+}
+
+/* =========================================================
+   QUIZZES E DESAFIOS
+   ========================================================= */
+
+.quiz-card {
+  padding: 22px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-sm);
+}
+
+.quiz-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.quiz-progress {
+  height: 8px;
+  margin: 12px 0 22px;
+  overflow: hidden;
+  background: #e2e8f0;
+  border-radius: 99px;
+}
+
+.quiz-progress-fill {
+  width: 0;
+  height: 100%;
+  background: var(--primary);
+  border-radius: inherit;
+  transition: width .25s ease;
+}
+
+.quiz-question {
+  margin: 0 0 19px;
+  font-size: 20px;
+  line-height: 1.55;
+  font-weight: 820;
+}
+
+.quiz-options {
+  display: grid;
+  gap: 10px;
+}
+
 .quiz-option {
-  display: flex; align-items: center; gap: 10px; padding: 13px;
-  border: 1px solid var(--border); border-radius: 12px; cursor: pointer;
-  margin: 9px 0;
+  width: 100%;
+  padding: 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  color: var(--text);
+  text-align: left;
+  line-height: 1.6;
+  background: white;
+  border: 1px solid var(--border-strong);
+  border-radius: 12px;
+  transition: background var(--transition), border-color var(--transition);
 }
-.quiz-option:hover { border-color: #a9c4fb; background: #f8faff; }
-.quiz-option input { accent-color: var(--blue); }
-.quiz-feedback { padding: 12px; background: var(--blue-light); border-radius: 12px; margin: 12px 0; }
+
+.quiz-option:hover:not(:disabled) {
+  background: var(--primary-light);
+  border-color: #93c5fd;
+}
+
+.quiz-option.selected {
+  background: var(--primary-light);
+  border: 2px solid var(--primary);
+}
+
+.quiz-option.correct {
+  background: var(--success-bg);
+  border-color: #86efac;
+}
+
+.quiz-option.incorrect {
+  background: var(--danger-bg);
+  border-color: #fca5a5;
+}
+
+.option-letter {
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+  display: grid;
+  place-items: center;
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 850;
+  background: var(--surface-soft);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.quiz-feedback {
+  margin-top: 17px;
+  padding: 15px;
+  line-height: 1.7;
+  border-radius: 12px;
+}
+
+.quiz-feedback.correct {
+  color: #166534;
+  background: var(--success-bg);
+}
+
+.quiz-feedback.incorrect {
+  color: #991b1b;
+  background: var(--danger-bg);
+}
+
+.quiz-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.quiz-result {
+  padding: 27px 20px;
+  text-align: center;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 17px;
+}
+
+.quiz-result-score {
+  margin: 14px 0;
+  color: var(--primary);
+  font-size: 47px;
+  line-height: 1.1;
+  font-weight: 950;
+}
+
+.timer {
+  color: var(--primary);
+  font-size: 15px;
+  font-weight: 850;
+  font-variant-numeric: tabular-nums;
+}
+
+/* =========================================================
+   PROGRESSO
+   ========================================================= */
+
+.progress-track {
+  width: 100%;
+  height: 9px;
+  overflow: hidden;
+  background: #e2e8f0;
+  border-radius: 99px;
+}
+
+.progress-fill {
+  width: 0;
+  height: 100%;
+  background: linear-gradient(90deg, #2563eb, #60a5fa);
+  border-radius: inherit;
+  transition: width .3s ease;
+}
+
+.activity-row {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.activity-row:last-child {
+  border-bottom: 0;
+}
+
+.activity-icon {
+  width: 40px;
+  height: 40px;
+  flex: 0 0 40px;
+  display: grid;
+  place-items: center;
+  background: var(--primary-light);
+  border-radius: 12px;
+}
+
+.activity-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.activity-content strong {
+  display: block;
+  overflow-wrap: anywhere;
+  font-size: 13px;
+}
+
+.activity-content small {
+  display: block;
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+/* =========================================================
+   FAVORITOS
+   ========================================================= */
+
+.favorite-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  padding: 17px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+
+.favorite-star {
+  width: 42px;
+  height: 42px;
+  flex: 0 0 42px;
+  display: grid;
+  place-items: center;
+  color: #b45309;
+  font-size: 21px;
+  background: #fef3c7;
+  border-radius: 12px;
+}
+
+.favorite-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.favorite-content h3 {
+  margin: 0 0 6px;
+  font-size: 15px;
+}
+
+.favorite-content p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+/* =========================================================
+   MÚSICA
+   ========================================================= */
+
+.music-card {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+}
+
+.music-art {
+  min-height: 115px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 16px;
+  font-size: 42px;
+  border-radius: 13px;
+  background: linear-gradient(135deg, #dbeafe, #eff6ff);
+}
+
+.music-card h3 {
+  margin: 0 0 6px;
+  font-size: 16px;
+}
+
+.music-card p {
+  flex: 1;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.audio-player {
+  width: 100%;
+  margin: 12px 0;
+}
+
+/* =========================================================
+   PROFESSOR IA
+   ========================================================= */
+
+.chat-layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 470px;
+  overflow: hidden;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 17px;
+}
+
+.chat-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 17px;
+  border-bottom: 1px solid var(--border);
+}
+
+.chat-avatar {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  color: white;
+  font-size: 22px;
+  background: linear-gradient(135deg, #2563eb, #60a5fa);
+  border-radius: 14px;
+}
+
+.chat-header h3 {
+  margin: 0;
+  font-size: 15px;
+}
+
+.chat-header p {
+  margin: 3px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.chat-messages {
+  flex: 1;
+  min-height: 240px;
+  max-height: 500px;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+  padding: 20px;
+  overflow-y: auto;
+  background: #f8fafc;
+}
+
+.chat-message {
+  max-width: 88%;
+  padding: 12px 15px;
+  line-height: 1.75;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  border-radius: 14px;
+}
+
+.chat-message.assistant {
+  align-self: flex-start;
+  background: white;
+  border: 1px solid var(--border);
+}
+
+.chat-message.user {
+  align-self: flex-end;
+  color: white;
+  background: var(--primary);
+}
+
+.chat-form {
+  padding: 15px;
+  border-top: 1px solid var(--border);
+}
+
+.chat-form-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.chat-form textarea {
+  flex: 1;
+  min-width: 0;
+  min-height: 48px;
+  max-height: 150px;
+  padding: 13px;
+  resize: vertical;
+  border: 1px solid var(--border-strong);
+  border-radius: 12px;
+}
+
+/* =========================================================
+   DEFINIÇÕES
+   ========================================================= */
+
+.settings-layout {
+  display: grid;
+  grid-template-columns: 215px minmax(0, 1fr);
+  gap: 19px;
+}
+
+.settings-menu {
+  align-self: start;
+  display: grid;
+  gap: 5px;
+  padding: 10px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+
+.settings-tab {
+  padding: 11px 12px;
+  color: var(--text-secondary);
+  text-align: left;
+  font-weight: 700;
+  background: transparent;
+  border: 0;
+  border-radius: 9px;
+}
+
+.settings-tab:hover,
+.settings-tab.active {
+  color: var(--primary);
+  background: var(--primary-light);
+}
+
+.settings-panel {
+  min-width: 0;
+  padding: 23px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 15px;
+}
+
+.settings-panel h3 {
+  margin: 0 0 8px;
+}
+
+.settings-panel > p {
+  margin-top: 0;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+/* =========================================================
+   MODAIS E NOTIFICAÇÕES
+   ========================================================= */
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(15, 23, 42, .48);
+  backdrop-filter: blur(4px);
+}
+
+.modal {
+  width: min(540px, 100%);
+  max-height: 90vh;
+  padding: 24px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 19px;
+  box-shadow: 0 25px 70px rgba(15, 23, 42, .2);
+}
+
+.modal h2 {
+  margin: 0 0 9px;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 20px;
+}
+
+.toast-container {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 200;
+  display: grid;
+  gap: 10px;
+  width: min(360px, calc(100vw - 40px));
+}
+
 .toast {
-  position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-  padding: 12px 18px; color: white; background: #172033;
-  border-radius: 12px; z-index: 100; box-shadow: 0 8px 35px #0002;
-  max-width: calc(100vw - 30px);
+  padding: 14px 16px;
+  color: white;
+  line-height: 1.55;
+  background: #1e293b;
+  border-radius: 12px;
+  box-shadow: var(--shadow);
+  animation: page-enter .2s ease;
 }
-.empty { padding: 25px; text-align: center; color: var(--muted); }
-@media(max-width:1000px) {
-  .grid-4 { grid-template-columns: repeat(2,minmax(0,1fr)); }
-  .grid-3 { grid-template-columns: repeat(2,minmax(0,1fr)); }
+
+.toast.success {
+  background: #166534;
 }
-@media(max-width:760px) {
-  .sidebar { transform: translateX(-105%); transition: transform .2s; box-shadow: 0 0 30px #0001; }
-  .sidebar.open { transform: translateX(0); }
-  .main { margin-left: 0; }
-  .menu-toggle { display: inline-flex; }
-  .topbar { padding: 0 16px; height: 65px; }
-  .content { padding: 18px 14px; }
-  .hero { padding: 23px; }
-  .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
-  .chat-messages { padding: 14px; }
+
+.toast.error {
+  background: #991b1b;
+}
+
+/* =========================================================
+   TABELAS E LISTAS
+   ========================================================= */
+
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.data-table th,
+.data-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+}
+
+.data-table th {
+  color: var(--muted);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  background: #f8fafc;
+}
+
+.data-table tr:last-child td {
+  border-bottom: 0;
+}
+
+/* =========================================================
+   ACESSIBILIDADE
+   ========================================================= */
+
+.skip-link {
+  position: fixed;
+  top: -100px;
+  left: 15px;
+  z-index: 300;
+  padding: 12px 16px;
+  color: white;
+  background: var(--primary);
+  border-radius: 9px;
+}
+
+.skip-link:focus {
+  top: 15px;
+}
+
+body.large-text {
+  font-size: 18px;
+}
+
+body.large-text .lesson-body {
+  font-size: 19px;
+}
+
+body.high-contrast {
+  --text: #000000;
+  --text-secondary: #111827;
+  --muted: #334155;
+  --border: #64748b;
+}
+
+body.reduce-motion *,
+body.reduce-motion *::before,
+body.reduce-motion *::after {
+  scroll-behavior: auto !important;
+  animation-duration: .01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: .01ms !important;
+}
+
+/* =========================================================
+   RESPONSIVIDADE
+   ========================================================= */
+
+.mobile-menu-button {
+  display: none;
+}
+
+.mobile-overlay {
+  display: none;
+}
+
+@media (max-width: 1250px) {
+  .grid-5 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .grid-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .subject-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .resource-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  :root {
+    --sidebar-width: 240px;
+  }
+
+  .sidebar {
+    transform: translateX(-105%);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .main-area {
+    margin-left: 0;
+  }
+
+  .mobile-menu-button {
+    display: inline-grid;
+  }
+
+  .mobile-overlay.visible {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    display: block;
+    background: rgba(15, 23, 42, .42);
+  }
+
+  .page-container {
+    padding: 22px 19px 35px;
+  }
+
+  .topbar {
+    padding: 12px 18px;
+  }
+
+  .settings-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .settings-menu {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .settings-tab {
+    text-align: center;
+  }
+}
+
+@media (max-width: 650px) {
+  .topbar {
+    min-height: 65px;
+    gap: 8px;
+  }
+
+  .topbar-title {
+    font-size: 17px;
+  }
+
+  .topbar-subtitle {
+    display: none;
+  }
+
+  .topbar-actions .desktop-only {
+    display: none;
+  }
+
+  .page-container {
+    padding: 17px 13px 28px;
+  }
+
+  .welcome-hero {
+    min-height: auto;
+    padding: 23px;
+    border-radius: 18px;
+  }
+
+  .hero-illustration {
+    display: none;
+  }
+
+  .hero-title {
+    font-size: 29px;
+  }
+
+  .hero-description {
+    font-size: 13px;
+  }
+
+  .grid-2,
+  .grid-3,
+  .grid-4,
+  .grid-5 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 11px;
+  }
+
+  .subject-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .subject-tile {
+    min-height: 125px;
+    padding: 13px;
+  }
+
+  .subject-icon {
+    width: 37px;
+    height: 37px;
+    font-size: 20px;
+  }
+
+  .subject-name {
+    font-size: 13px;
+  }
+
+  .subject-meta {
+    font-size: 10px;
+  }
+
+  .stat-card {
+    padding: 13px;
+  }
+
+  .stat-value {
+    font-size: 24px;
+  }
+
+  .stat-label {
+    font-size: 10px;
+  }
+
+  .stat-icon {
+    width: 31px;
+    height: 31px;
+    font-size: 16px;
+  }
+
+  .card {
+    padding: 16px;
+  }
+
+  .section-heading {
+    align-items: flex-start;
+    margin-top: 23px;
+  }
+
+  .section-heading h2 {
+    font-size: 17px;
+  }
+
+  .resource-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .chat-form-row {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .chat-form-row .btn {
+    align-self: flex-end;
+  }
+
+  .settings-menu {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .page-heading {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 390px) {
+  .grid-2,
+  .grid-3,
+  .grid-4,
+  .grid-5 {
+    grid-template-columns: 1fr;
+  }
+
+  .subject-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .subject-tile {
+    min-height: 100px;
+  }
+
+  .hero-actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .hero-actions .btn {
+    width: 100%;
+  }
+}
+
+@media print {
+  .sidebar,
+  .topbar,
+  .btn,
+  .mobile-menu-button,
+  .toast-container {
+    display: none !important;
+  }
+
+  .main-area {
+    margin: 0;
+  }
+
+  .page-container {
+    max-width: none;
+    padding: 0;
+  }
+
+  .page {
+    display: none !important;
+  }
+
+  .page.active {
+    display: block !important;
+  }
+
+  body {
+    color: black;
+    background: white;
+  }
+
+  .card,
+  .lesson-article {
+    box-shadow: none;
+    break-inside: avoid;
+  }
 }
 </style>
 </head>
+
 <body>
-<div class="app">
-  <aside class="sidebar" id="sidebar">
-    <div class="brand"><span class="brand-icon">✦</span><span>Study AI</span></div>
+<a href="#mainContent" class="skip-link">Saltar para o conteúdo principal</a>
 
-    <div class="nav-label">Aprendizagem</div>
-    <button class="nav-btn active" data-page="home"><span class="nav-icon">⌂</span>Início</button>
-    <button class="nav-btn" data-page="study"><span class="nav-icon">📚</span>Estudar</button>
-    <button class="nav-btn" data-page="videos"><span class="nav-icon">▶</span>Vídeos-aula</button>
-    <button class="nav-btn" data-page="exercises"><span class="nav-icon">✓</span>Exercícios</button>
+<div class="app-shell" id="appShell">
 
-    <div class="nav-label">Inteligência artificial</div>
-    <button class="nav-btn" data-page="professor"><span class="nav-icon">✦</span>Professor IA</button>
-    <button class="nav-btn" data-page="images"><span class="nav-icon">▧</span>Imagens IA</button>
+  <!-- NAVEGAÇÃO LATERAL -->
+  <aside class="sidebar" id="sidebar" aria-label="Menu principal">
 
-    <div class="nav-label">A tua atividade</div>
-    <button class="nav-btn" data-page="music"><span class="nav-icon">♫</span>Música</button>
-    <button class="nav-btn" data-page="progress"><span class="nav-icon">▥</span>Progresso</button>
-    <button class="nav-btn" data-page="favorites"><span class="nav-icon">♡</span>Favoritos</button>
-    <button class="nav-btn" data-page="settings"><span class="nav-icon">⚙</span>Definições</button>
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">📘</div>
+      <div>
+        <h1 class="brand-name">Study AI</h1>
+        <span class="brand-caption">A tua escola digital</span>
+      </div>
+    </div>
+
+    <div class="nav-group">
+      <p class="nav-heading">Principal</p>
+
+      <button class="nav-button active" data-page="home">
+        <span class="nav-icon">🏠</span>
+        <span>Início</span>
+      </button>
+
+      <button class="nav-button" data-page="study">
+        <span class="nav-icon">📚</span>
+        <span>Estudar</span>
+      </button>
+
+      <button class="nav-button" data-page="challenges">
+        <span class="nav-icon">🎯</span>
+        <span>Desafios e quizzes</span>
+      </button>
+
+      <button class="nav-button" data-page="progress">
+        <span class="nav-icon">📊</span>
+        <span>O meu progresso</span>
+      </button>
+
+      <button class="nav-button" data-page="favorites">
+        <span class="nav-icon">⭐</span>
+        <span>Favoritos</span>
+        <span class="nav-count" id="favoriteCount">0</span>
+      </button>
+    </div>
+
+    <div class="nav-group">
+      <p class="nav-heading">Aprendizagem</p>
+
+      <button class="nav-button" data-page="resources">
+        <span class="nav-icon">🎬</span>
+        <span>Vídeos e recursos</span>
+      </button>
+
+      <button class="nav-button" data-page="music">
+        <span class="nav-icon">🎵</span>
+        <span>Música de estudo</span>
+      </button>
+
+      <button class="nav-button" data-page="professor">
+        <span class="nav-icon">💬</span>
+        <span>Professor IA</span>
+      </button>
+    </div>
+
+    <div class="nav-group">
+      <p class="nav-heading">Personalização</p>
+
+      <button class="nav-button" data-page="settings">
+        <span class="nav-icon">⚙️</span>
+        <span>Definições</span>
+      </button>
+    </div>
 
     <div class="sidebar-bottom">
-      <span class="free-label">100% gratuito</span><br>
-      Aprende ao teu ritmo com o Study AI.
+      <div class="free-notice">
+        ✓ Study AI gratuito
+        <br>
+        Aprende ao teu ritmo, sem Premium.
+      </div>
+
+      <div class="sidebar-profile">
+        <div class="avatar" id="profileAvatar">E</div>
+        <div>
+          <p class="profile-name" id="profileName">Estudante</p>
+          <span class="profile-year" id="profileYear">Ano não selecionado</span>
+        </div>
+      </div>
     </div>
   </aside>
 
-  <main class="main">
+  <div class="mobile-overlay" id="mobileOverlay"></div>
+
+  <!-- ÁREA PRINCIPAL -->
+  <main class="main-area" id="mainContent">
+
     <header class="topbar">
-      <div class="row">
-        <button class="menu-toggle" id="mobileMenu" aria-label="Abrir menu">☰</button>
-        <h1 id="topTitle">Início</h1>
+      <div class="topbar-left">
+        <button
+          class="icon-button mobile-menu-button"
+          id="mobileMenuButton"
+          type="button"
+          aria-label="Abrir menu"
+          aria-expanded="false"
+        >☰</button>
+
+        <div>
+          <h2 class="topbar-title" id="topbarTitle">Início</h2>
+          <p class="topbar-subtitle" id="topbarSubtitle">
+            Bem-vindo ao teu espaço de aprendizagem.
+          </p>
+        </div>
       </div>
-      <div class="top-right">
-        <span class="muted small" id="topUser">Estudante</span>
-        <div class="avatar" id="avatar">E</div>
+
+      <div class="topbar-actions">
+        <span class="badge" id="currentYearBadge">Seleciona o teu ano</span>
+        <button
+          class="icon-button"
+          type="button"
+          data-page="settings"
+          aria-label="Abrir definições"
+          title="Definições"
+        >⚙️</button>
       </div>
     </header>
 
-    <div class="content">
-      <section class="page active" id="page-home">
-        <div class="hero">
-          <p class="small">O TEU ESPAÇO DE APRENDIZAGEM</p>
-          <h2 id="greeting">Olá! Vamos aprender?</h2>
-          <p>Estuda, pratica e esclarece dúvidas com ferramentas criadas para te ajudar a aprender melhor.</p>
-          <div class="btn-row">
-            <button class="btn primary" data-go="study">Começar a estudar →</button>
-            <button class="btn" data-go="professor">Perguntar ao Professor IA</button>
+    <div class="page-container">
+
+      <!-- ===================================================
+           PÁGINA: INÍCIO
+           =================================================== -->
+      <section class="page active" id="page-home" data-title="Início">
+
+        <div class="welcome-hero">
+          <div class="hero-content">
+            <span class="hero-eyebrow">✦ O teu espaço para aprender</span>
+
+            <h2 class="hero-title">
+              Aprende mais.<br>
+              Conquista os teus objetivos.
+            </h2>
+
+            <p class="hero-description">
+              Estuda por capítulos, aprende a matéria, pratica com
+              exercícios e acompanha a tua evolução escolar num único lugar.
+            </p>
+
+            <div class="hero-actions">
+              <button class="btn btn-white btn-lg" type="button" data-page="study">
+                📚 Começar a estudar
+              </button>
+
+              <button class="btn btn-outline btn-lg" type="button" data-page="challenges">
+                🎯 Fazer um desafio
+              </button>
+            </div>
           </div>
+
+          <div class="hero-illustration" aria-hidden="true">🎓</div>
+        </div>
+
+        <div class="section-heading">
+          <div>
+            <h2>Resumo da tua aprendizagem</h2>
+            <p>Os teus resultados neste dispositivo.</p>
+          </div>
+
+          <button class="btn btn-outline btn-sm" type="button" data-page="progress">
+            Ver detalhes →
+          </button>
         </div>
 
         <div class="grid grid-4">
-          <div class="card">
-            <div class="muted small">Tempo de estudo</div>
-            <div class="stat-number" id="statMinutes">0 min</div>
-            <div class="muted small">Minutos registados</div>
-          </div>
-          <div class="card">
-            <div class="muted small">Respostas</div>
-            <div class="stat-number" id="statQuizzes">0</div>
-            <div class="muted small">Exercícios respondidos</div>
-          </div>
-          <div class="card">
-            <div class="muted small">Precisão</div>
-            <div class="stat-number" id="statAccuracy">—</div>
-            <div class="muted small">Respostas corretas</div>
-          </div>
-          <div class="card">
-            <div class="muted small">Dias ativos</div>
-            <div class="stat-number" id="statDays">0</div>
-            <div class="muted small">Dias em que estudaste</div>
+          <article class="stat-card">
+            <div class="stat-top">
+              <span class="stat-label">Perguntas respondidas</span>
+              <span class="stat-icon">✏️</span>
+            </div>
+            <div class="stat-value" id="homeAnswered">0</div>
+            <div class="stat-caption">Todas as sessões registadas</div>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-top">
+              <span class="stat-label">Respostas corretas</span>
+              <span class="stat-icon">✅</span>
+            </div>
+            <div class="stat-value" id="homeCorrect">0</div>
+            <div class="stat-caption">Respostas certas</div>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-top">
+              <span class="stat-label">Taxa de acerto</span>
+              <span class="stat-icon">📈</span>
+            </div>
+            <div class="stat-value" id="homeAccuracy">0%</div>
+            <div class="stat-caption">Precisão nas respostas</div>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-top">
+              <span class="stat-label">Capítulos favoritos</span>
+              <span class="stat-icon">⭐</span>
+            </div>
+            <div class="stat-value" id="homeFavorites">0</div>
+            <div class="stat-caption">Conteúdos guardados</div>
+          </article>
+        </div>
+
+        <div class="section-heading">
+          <div>
+            <h2>Atalhos de aprendizagem</h2>
+            <p>Vai diretamente para aquilo de que precisas.</p>
           </div>
         </div>
 
-        <div class="section-heading"><h2>O que queres fazer?</h2></div>
         <div class="grid grid-3">
-          <div class="card feature-card" data-go="professor">
-            <div class="card-icon">✦</div><h3>Professor IA</h3>
-            <p class="muted small">Faz perguntas e pede explicações passo a passo.</p>
-          </div>
-          <div class="card feature-card" data-go="videos">
-            <div class="card-icon">▶</div><h3>Vídeos-aula</h3>
-            <p class="muted small">Procura aulas e reproduz os vídeos disponíveis.</p>
-          </div>
-          <div class="card feature-card" data-go="exercises">
-            <div class="card-icon">✓</div><h3>Desafios</h3>
-            <p class="muted small">Pratica matérias com perguntas interativas.</p>
-          </div>
-          <div class="card feature-card" data-go="images">
-            <div class="card-icon">▧</div><h3>Imagens IA</h3>
-            <p class="muted small">Cria imagens a partir das tuas descrições.</p>
-          </div>
-          <div class="card feature-card" data-go="music">
-            <div class="card-icon">♫</div><h3>Música de estudo</h3>
-            <p class="muted small">Encontra música para te concentrares.</p>
-          </div>
-          <div class="card feature-card" data-go="progress">
-            <div class="card-icon">▥</div><h3>O teu progresso</h3>
-            <p class="muted small">Acompanha as tuas respostas e sessões.</p>
-          </div>
-        </div>
-        <p class="muted small" id="profileSummary">Configura o teu ano escolar nas Definições.</p>
-      </section>
+          <button class="quick-action" type="button" data-page="study">
+            <span class="quick-action-icon">📖</span>
+            <span>
+              <strong>Estudar matéria</strong>
+              <small>Disciplinas, capítulos e explicações.</small>
+            </span>
+          </button>
 
-      <section class="page" id="page-study">
-        <div class="section-heading"><h2>Sessão de estudo</h2></div>
-        <div class="grid grid-2">
-          <div class="card">
-            <h3>Define o teu tempo</h3>
-            <p class="muted small">Escolhe uma duração e começa a tua sessão.</p>
-            <div class="field">
-              <label for="duration">Duração</label>
-              <select id="duration">
-                <option value="5">5 minutos</option>
-                <option value="15" selected>15 minutos</option>
-                <option value="25">25 minutos</option>
-                <option value="45">45 minutos</option>
-                <option value="60">60 minutos</option>
-              </select>
-            </div>
-            <div class="field">
-              <label for="studyYear">Ano escolar</label>
-              <select id="studyYear">
-                <option value="">Selecionar ano</option>
-                <option>1.º ano</option><option>2.º ano</option>
-                <option>3.º ano</option><option>4.º ano</option>
-                <option>5.º ano</option><option>6.º ano</option>
-                <option>7.º ano</option><option>8.º ano</option>
-                <option>9.º ano</option><option>10.º ano</option>
-                <option>11.º ano</option><option>12.º ano</option>
-              </select>
-            </div>
-            <div class="stat-number" id="timerDisplay">15:00</div>
-            <div class="progress-track"><div class="progress-fill" id="timerProgress"></div></div>
-            <p class="muted small" id="timerLabel">Pronto para começar.</p>
-            <div class="btn-row">
-              <button class="btn primary" id="timerStart">▶ Iniciar</button>
-              <button class="btn" id="timerPause" disabled>Ⅱ Pausar</button>
-              <button class="btn" id="timerReset">Reiniciar</button>
-            </div>
-          </div>
-          <div class="card">
-            <h3>Notas da sessão</h3>
-            <p class="muted small">Regista o que aprendeste ou aquilo que tens de rever.</p>
-            <div class="field">
-              <label for="studyNotes">As tuas notas</label>
-              <textarea id="studyNotes" placeholder="Hoje aprendi…"></textarea>
-            </div>
-            <button class="btn primary" id="saveNotes">Guardar notas</button>
-          </div>
-        </div>
-      </section>
+          <button class="quick-action" type="button" data-page="challenges">
+            <span class="quick-action-icon">🧠</span>
+            <span>
+              <strong>Treinar conhecimentos</strong>
+              <small>Quizzes e desafios interativos.</small>
+            </span>
+          </button>
 
-      <section class="page" id="page-videos">
-        <div class="section-heading"><h2>Vídeos-aula</h2></div>
-        <div class="card">
-          <p class="muted">Procura aulas educativas. A reprodução depende dos vídeos e endereços disponibilizados pelo servidor.</p>
-          <div class="grid grid-2">
-            <div class="field">
-              <label for="videoQuery">Tema a estudar</label>
-              <input id="videoQuery" class="search-input" placeholder="Ex.: frações, sistema solar…">
-            </div>
-            <div class="field">
-              <label for="videoSubject">Disciplina</label>
-              <select id="videoSubject">
-                <option value="">Todas as disciplinas</option>
-                <option>Matemática</option><option>Português</option>
-                <option>Ciências Naturais</option><option>Físico-Química</option>
-                <option>História</option><option>Geografia</option>
-                <option>Inglês</option>
-              </select>
-            </div>
-          </div>
-          <button class="btn primary" id="searchVideos">⌕ Procurar aulas</button>
-          <div class="status" id="videoStatus" role="status"></div>
+          <button class="quick-action" type="button" data-page="resources">
+            <span class="quick-action-icon">🎬</span>
+            <span>
+              <strong>Ver recursos educativos</strong>
+              <small>Encontrar vídeos e explicações.</small>
+            </span>
+          </button>
         </div>
-        <div class="grid grid-2" style="margin-top:18px">
-          <div class="card">
-            <h3 id="currentVideoTitle">Escolhe uma aula</h3>
-            <p class="muted small" id="currentVideoDesc">O vídeo selecionado aparecerá aqui.</p>
-            <div class="player" id="videoPlayer"><span style="color:white">▶</span></div>
-          </div>
-          <div class="card">
-            <h3>Aulas encontradas</h3>
-            <div class="list" id="videoResults"><p class="muted small">Pesquisa um tema para começar.</p></div>
-          </div>
-        </div>
-      </section>
 
-      <section class="page" id="page-exercises">
         <div class="section-heading">
-          <h2>Desafios e exercícios</h2>
-          <button class="btn" id="newQuiz">↻ Novo conjunto</button>
-        </div>
-        <div class="card">
-          <div class="row wrap" style="justify-content:space-between">
-            <span class="muted small" id="quizCounter">Pergunta 1</span>
-            <span class="muted small" id="quizScore">Pontuação: 0</span>
+          <div>
+            <h2>As tuas disciplinas</h2>
+            <p id="homeSubjectsSubtitle">Escolhe o teu ano nas definições para personalizar a lista.</p>
           </div>
-          <div id="quizContent" style="margin-top:20px"></div>
-          <div id="quizFeedback" class="quiz-feedback hidden" role="status"></div>
-          <div class="btn-row" style="margin-top:18px">
-            <button class="btn primary" id="checkAnswer">Confirmar resposta</button>
-            <button class="btn primary hidden" id="nextQuestion">Próxima pergunta →</button>
+
+          <button class="btn btn-secondary btn-sm" type="button" data-page="study">
+            Ver todas →
+          </button>
+        </div>
+
+        <div class="subject-grid" id="homeSubjectGrid"></div>
+
+        <div class="section-heading">
+          <div>
+            <h2>Retomar a aprendizagem</h2>
+            <p>Continua a partir dos teus conteúdos recentes.</p>
+          </div>
+        </div>
+
+        <div class="card" id="recentLessons">
+          <div class="empty-state">
+            <div class="empty-icon">📘</div>
+            <h3>A tua próxima sessão começa aqui</h3>
+            <p>Quando abrires capítulos e estudares matéria, os teus conteúdos recentes aparecerão nesta área.</p>
+            <button class="btn" type="button" data-page="study">Escolher disciplina</button>
           </div>
         </div>
       </section>
 
-      <section class="page" id="page-professor">
-        <div class="section-heading">
-          <div><h2>Professor IA</h2><p class="muted small">Um assistente para esclarecer dúvidas e estudar.</p></div>
-          <button class="btn" id="clearChat">Nova conversa</button>
-        </div>
-        <div class="chat-shell">
-          <div class="chat-messages" id="chatMessages" aria-live="polite">
-            <div class="chat-welcome" id="chatWelcome">
-              <div class="star">✦</div>
-              <h2>Em que posso ajudar?</h2>
-              <p class="muted">Pede explicações, exemplos ou ajuda com os teus exercícios.</p>
-              <div class="btn-row" style="justify-content:center">
-                <button class="btn soft" data-prompt="Explica-me as frações com exemplos simples.">Explicar uma matéria</button>
-                <button class="btn soft" data-prompt="Faz-me cinco perguntas de Matemática para estudar.">Fazer perguntas</button>
-                <button class="btn soft" data-prompt="Ajuda-me a resolver um exercício passo a passo.">Resolver um exercício</button>
+      <!-- ===================================================
+           PÁGINA: ESTUDAR
+           =================================================== -->
+      <section class="page" id="page-study" data-title="Estudar">
+
+        <div id="studyChooser">
+          <div class="page-heading">
+            <div>
+              <h2>Biblioteca de estudo</h2>
+              <p>
+                Escolhe o teu ano, seleciona uma disciplina e explora
+                a matéria organizada por capítulos.
+              </p>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="grid grid-2">
+              <div class="field">
+                <label for="studyYear">Ano de escolaridade</label>
+                <select id="studyYear">
+                  <option value="">A carregar anos...</option>
+                </select>
+                <p class="field-help">Do 1.º ao 12.º ano.</p>
+              </div>
+
+              <div class="field">
+                <label for="studyCourse">Curso ou percurso</label>
+                <select id="studyCourse">
+                  <option value="">Seleciona se estiveres no secundário</option>
+                  <option value="ct">Ciências e Tecnologias</option>
+                  <option value="lh">Línguas e Humanidades</option>
+                  <option value="cse">Ciências Socioeconómicas</option>
+                  <option value="av">Artes Visuais</option>
+                  <option value="prof">Curso Profissional</option>
+                  <option value="other">Outro percurso</option>
+                </select>
+                <p class="field-help">A lista de disciplinas depende do percurso escolhido.</p>
               </div>
             </div>
-          </div>
-          <form class="chat-compose" id="chatForm">
-            <textarea class="chat-input" id="chatInput" rows="1" placeholder="Pergunta o que quiseres…" aria-label="Mensagem para o Professor IA"></textarea>
-            <button class="btn primary" id="sendChat" type="submit" aria-label="Enviar mensagem">↑</button>
-          </form>
-        </div>
-        <div class="status" id="chatStatus" role="status"></div>
-      </section>
 
-      <section class="page" id="page-images">
-        <div class="section-heading"><h2>Imagens IA</h2></div>
-        <div class="card">
-          <p class="muted">Descreve a imagem que queres criar. A geração real requer um serviço de imagens configurado no servidor.</p>
-          <div class="field">
-            <label for="imagePrompt">Descrição da imagem</label>
-            <textarea id="imagePrompt" placeholder="Ex.: ilustração educativa do sistema solar, com os planetas identificados…"></textarea>
-          </div>
-          <button class="btn primary" id="generateImage">✦ Gerar imagem</button>
-          <div class="status" id="imageStatus" role="status"></div>
-          <div id="imageOutput" style="margin-top:20px"></div>
-        </div>
-      </section>
-
-      <section class="page" id="page-music">
-        <div class="section-heading"><h2>Música de estudo</h2></div>
-        <div class="card">
-          <h3 id="musicNow">Escolhe uma faixa</h3>
-          <audio id="musicPlayer" controls preload="none" style="width:100%;margin:12px 0"></audio>
-          <div class="list" id="musicList">
-            <p class="muted small">As faixas disponíveis aparecerão aqui.</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="page" id="page-progress">
-        <div class="section-heading"><h2>O teu progresso</h2></div>
-        <div class="grid grid-3">
-          <div class="card"><div class="muted small">Minutos estudados</div><div class="stat-number" id="progressMinutes">0 min</div></div>
-          <div class="card"><div class="muted small">Respostas dadas</div><div class="stat-number" id="progressCompleted">0</div></div>
-          <div class="card"><div class="muted small">Precisão</div><div class="stat-number" id="progressAccuracy">—</div></div>
-        </div>
-        <div class="card" style="margin-top:18px">
-          <h3>Respostas corretas</h3>
-          <div class="progress-track"><div class="progress-fill" id="accuracyBar"></div></div>
-          <p class="muted small" id="correctSummary">0</p>
-          <p class="muted small">Sessões concluídas: <strong id="sessionSummary">0</strong></p>
-        </div>
-        <div id="activityHistory"></div>
-      </section>
-
-      <section class="page" id="page-favorites">
-        <div class="section-heading"><h2>Favoritos</h2></div>
-        <div class="card">
-          <div id="favoritesList" class="list">
-            <p class="muted">Ainda não guardaste favoritos.</p>
-          </div>
-        </div>
-      </section>
-
-      <section class="page" id="page-settings">
-        <div class="section-heading"><h2>Definições</h2></div>
-        <div class="grid grid-2">
-          <div class="card">
-            <h3>Perfil de estudante</h3>
-            <div class="field"><label for="userName">Nome</label><input id="userName" autocomplete="name" placeholder="O teu nome"></div>
-            <div class="field"><label for="userEmail">Email (opcional)</label><input id="userEmail" type="email" autocomplete="email" placeholder="nome@exemplo.com"></div>
-            <div class="field">
-              <label for="userYear">Ano escolar</label>
-              <select id="userYear">
-                <option value="">Selecionar ano</option>
-                <option>1.º ano</option><option>2.º ano</option><option>3.º ano</option><option>4.º ano</option>
-                <option>5.º ano</option><option>6.º ano</option><option>7.º ano</option><option>8.º ano</option>
-                <option>9.º ano</option><option>10.º ano</option><option>11.º ano</option><option>12.º ano</option>
-              </select>
+            <div class="field" id="professionalCourseRow" hidden>
+              <label for="professionalCourse">Nome do curso profissional</label>
+              <input
+                id="professionalCourse"
+                type="text"
+                maxlength="120"
+                placeholder="Ex.: Técnico de Gestão e Programação de Sistemas Informáticos"
+              >
             </div>
-            <div class="field"><label for="targetGrade">Objetivo de nota</label>
-              <select id="targetGrade">
-                <option value="">Escolher objetivo</option><option>3</option><option>4</option><option>5</option>
-                <option>10</option><option>12</option><option>14</option><option>16</option><option>18</option><option>20</option>
-              </select>
-            </div>
-            <div class="field"><label for="language">Idioma</label>
-              <select id="language">
-                <option value="pt-PT">Português (Portugal)</option>
-                <option value="en">English</option>
-                <option value="es">Español</option>
-                <option value="fr">Français</option>
-              </select>
+
+            <div class="inline-actions">
+              <button class="btn" id="applyStudySelection" type="button">
+                Mostrar disciplinas
+              </button>
+              <span class="small-text" id="studySelectionStatus" aria-live="polite"></span>
             </div>
           </div>
-          <div class="card">
-            <h3>Ligação ao servidor</h3>
-            <p class="muted small">O endereço do servidor é usado para pedir respostas e outros serviços. A chave da API deve ficar no servidor, nunca neste ficheiro.</p>
-            <div class="field"><label for="backendUrl">Endereço do backend</label><input id="backendUrl" type="url" placeholder="https://teu-servidor.onrender.com"></div>
-            <button class="btn" id="testBackend">Testar servidor</button>
-            <div class="status" id="settingsStatus" role="status"></div>
-            <hr style="border:0;border-top:1px solid var(--border);margin:20px 0">
-            <label class="row" style="margin:12px 0"><input id="prefNotifications" type="checkbox"> Ativar notificações</label>
-            <label class="row" style="margin:12px 0"><input id="prefUpdates" type="checkbox" checked> Receber novidades</label>
-            <button class="btn primary" id="saveSettings">Guardar definições</button>
-            <button class="btn danger" id="resetData" style="margin-top:10px">Apagar dados locais</button>
+
+          <div class="section-heading">
+            <div>
+              <h2>Seleciona uma disciplina</h2>
+              <p id="studySubjectsSubtitle">As disciplinas disponíveis aparecerão aqui.</p>
+            </div>
+
+            <div class="search-box">
+              <span class="search-icon" aria-hidden="true">⌕</span>
+              <input
+                id="subjectSearch"
+                type="search"
+                placeholder="Pesquisar disciplina..."
+                aria-label="Pesquisar disciplina"
+              >
+            </div>
+          </div>
+
+          <div class="subject-grid" id="studySubjectGrid"></div>
+        </div>
+
+        <!-- Vista de uma disciplina -->
+        <div id="subjectDetailView" hidden>
+          <div class="breadcrumb">
+            <button type="button" id="backToSubjectList">← Disciplinas</button>
+            <span>›</span>
+            <span id="subjectBreadcrumb">Disciplina</span>
+          </div>
+
+          <div class="subject-banner" id="subjectBanner">
+            <span class="badge" id="subjectYearBadge"></span>
+            <h2 id="subjectDetailTitle">Disciplina</h2>
+            <p id="subjectDetailDescription"></p>
+          </div>
+
+          <div class="section-heading">
+            <div>
+              <h2>Capítulos</h2>
+              <p>Seleciona um capítulo para abrir a matéria.</p>
+            </div>
+            <span class="badge" id="chapterCountBadge">0 capítulos</span>
+          </div>
+
+          <div class="grid grid-2" id="chapterGrid"></div>
+
+          <div class="section-heading">
+            <div>
+              <h2>Prática desta disciplina</h2>
+              <p>Testa os conhecimentos que adquiriste.</p>
+            </div>
+          </div>
+
+          <div class="grid grid-2">
+            <article class="card">
+              <h3>🧠 Quiz da disciplina</h3>
+              <p class="muted">Responde a perguntas relacionadas com esta disciplina.</p>
+              <button class="btn" type="button" id="startSubjectQuiz">
+                Começar quiz
+              </button>
+            </article>
+
+            <article class="card">
+              <h3>🎬 Recursos educativos</h3>
+              <p class="muted">Procura vídeos e materiais de estudo sobre esta disciplina.</p>
+              <button class="btn btn-secondary" type="button" id="openSubjectResources">
+                Ver recursos
+              </button>
+            </article>
           </div>
         </div>
-      </section>
+
+        <!-- Vista de um capítulo -->
+        <div id="lessonDetailView" hidden>
+          <div class="breadcrumb">
+            <button type="button" id="backToChapterList">← Capítulos</button>
+            <span>›</span>
+            <span id="lessonBreadcrumb">Matéria</span>
+          </div>
+
+          <article class="lesson-article">
+            <div class="inline-row" style="flex-wrap:wrap">
+              <span class="badge" id="lessonSubjectBadge">Disciplina</span>
+              <span class="badge badge-purple" id="lessonDifficultyBadge">Matéria</span>
+            </div>
+
+            <h2 id="lessonTitle">Título do capítulo</h2>
+            <p class="lesson-intro" id="lessonIntroduction"></p>
+
+            <div class="divider"></div>
+
+            <div class="lesson-body" id="lessonBody"></div>
+
+            <div class="lesson-summary" id="lessonSummary">
+              <h3>📝 Res
+                
+<!-- =========================
+     STUDY AI — PARTE 2/3
+     Páginas e funcionalidades
+========================= -->
+
+<section id="page-videos" class="page section" hidden>
+  <div class="page-heading">
+    <div>
+      <span class="eyebrow">APRENDER A VER</span>
+      <h1>Vídeos educativos</h1>
+      <p>Encontra explicações em vídeo para as matérias que estás a estudar.</p>
     </div>
-  </main>
-</div>
+  </div>
 
-<div id="toast" class="toast hidden" role="status"></div>
+  <div class="panel">
+    <label for="videoYear">Ano de escolaridade</label>
+    <select id="videoYear">
+      <option value="8">8.º ano</option>
+    </select>
+    <label for="videoSubject">Disciplina</label>
+    <select id="videoSubject">
+      <option value="Matemática">Matemática</option>
+      <option value="Português">Português</option>
+      <option value="Inglês">Inglês</option>
+      <option value="Ciências Naturais">Ciências Naturais</option>
+      <option value="Físico-Química">Físico-Química</option>
+      <option value="História">História</option>
+      <option value="Geografia">Geografia</option>
+    </select>
+    <label for="videoTopic">Matéria a pesquisar</label>
+    <input id="videoTopic" type="search" placeholder="Ex.: equações do 1.º grau">
+    <button id="searchVideos" class="primary-button">Procurar vídeos</button>
+  </div>
 
-<!-- A PARTE 2 CONTINUA AQUI -->
+  <div class="resource-links">
+    <a href="https://www.rtp.pt/play/estudo" target="_blank" rel="noopener noreferrer">RTP Ensina</a>
+    <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer">YouTube</a>
+  </div>
+  <div id="videoResults" class="resource-grid" aria-live="polite">
+    <p>Escolhe uma disciplina e uma matéria para começar.</p>
+  </div>
+</section>
+
+<section id="page-images" class="page section" hidden>
+  <div class="page-heading">
+    <div>
+      <span class="eyebrow">APRENDER VISUALMENTE</span>
+      <h1>Imagens educativas</h1>
+      <p>Procura imagens e esquemas que ajudem a compreender a matéria.</p>
+    </div>
+  </div>
+
+  <div class="panel">
+    <label for="imageQuery">O que queres encontrar?</label>
+    <input id="imageQuery" type="search" placeholder="Ex.: sistema solar, células, geometria">
+    <button id="searchImages" class="primary-button">Pesquisar imagens</button>
+    <p class="muted">As imagens podem ter licenças diferentes. Confirma as condições antes de as reutilizares num trabalho.</p>
+  </div>
+  <div id="imageResults" class="resource-grid" aria-live="polite"></div>
+</section>
+
+<section id="page-exercises" class="page section" hidden>
+  <div class="page-heading">
+    <div>
+      <span class="eyebrow">PRATICAR PARA MELHORAR</span>
+      <h1>Exercícios e desafios</h1>
+      <p>Testa os teus conhecimentos e consulta a correção depois de responderes.</p>
+    </div>
+  </div>
+
+  <div class="panel exercise-settings">
+    <label for="exerciseYear">Ano</label>
+    <select id="exerciseYear">
+      <option value="8">8.º ano</option>
+    </select>
+
+    <label for="exerciseSubject">Disciplina</label>
+    <select id="exerciseSubject">
+      <option>Matemática</option>
+      <option>Português</option>
+      <option>Inglês</option>
+      <option>Ciências Naturais</option>
+      <option>Físico-Química</option>
+      <option>História</option>
+      <option>Geografia</option>
+    </select>
+
+    <label for="exerciseDifficulty">Dificuldade</label>
+    <select id="exerciseDifficulty">
+      <option value="Fácil">Fácil</option>
+      <option value="Média" selected>Média</option>
+      <option value="Difícil">Difícil</option>
+    </select>
+    <button id="startChallenge" class="primary-button">Começar desafio</button>
+  </div>
+
+  <div id="challengeArea" class="panel" aria-live="polite">
+    <h2>Preparado para testar os teus conhecimentos?</h2>
+    <p>Seleciona as opções acima e começa um desafio.</p>
+  </div>
+</section>
+
+<section id="page-professor" class="page section" hidden>
+  <div class="page-heading">
+    <div>
+      <span class="eyebrow">APOIO AO ESTUDO</span>
+      <h1>Professor IA</h1>
+      <p>Pede ajuda para compreender a matéria, resolver exercícios ou organizar o estudo.</p>
+    </div>
+    <button id="newChat" class="secondary-button">Nova conversa</button>
+  </div>
+
+  <div class="chat-layout">
+    <aside class="panel chat-sidebar">
+      <h2>Conversas</h2>
+      <div id="chatHistory"></div>
+      <p class="muted">As conversas guardadas neste dispositivo podem ser apagadas ao limpar os dados do navegador.</p>
+    </aside>
+
+    <div class="panel chat-panel">
+      <div id="chatMessages" class="chat-messages" aria-live="polite">
+        <div class="chat-message assistant">
+          <strong>Professor IA</strong>
+          <p>Olá! Que matéria queres estudar hoje?</p>
+        </div>
+      </div>
+
+      <form id="chatForm" class="chat-form">
+        <label for="chatInput">A tua pergunta</label>
+        <textarea id="chatInput" rows="3" maxlength="5000"
+          placeholder="Escreve a tua dúvida..." required></textarea>
+        <div class="chat-actions">
+          <button type="submit" class="primary-button" id="sendChat">Enviar pergunta</button>
+        </div>
+      </form>
+
+      <div class="panel generation-panel">
+        <h2>Criação de conteúdos</h2>
+        <p>Se o backend tiver um serviço de geração configurado, podes pedir a criação de um recurso.</p>
+        <label for="generationType">Tipo de conteúdo</label>
+        <select id="generationType">
+          <option value="image">Imagem educativa</option>
+          <option value="video">Vídeo educativo</option>
+        </select>
+        <label for="generationPrompt">Descreve o que pretendes</label>
+        <textarea id="generationPrompt" rows="3"
+          placeholder="Ex.: uma ilustração educativa das fases da Lua"></textarea>
+        <button id="generateContent" type="button" class="secondary-button">Pedir criação</button>
+        <div id="generationResult" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="page-music" class="page section" hidden>
+  <div class="page-heading">
+    <div>
+      <span class="eyebrow">CONCENTRAÇÃO</span>
+      <h1>Música para estudar</h1>
+      <p>Escolhe música disponibilizada publicamente e confirma a respetiva licença.</p>
+    </div>
+  </div>
+
+  <div class="resource-grid">
+    <article class="panel music-card">
+      <h2>Música ambiente</h2>
+      <p>Procura faixas de ambiente e concentração em fontes com informação de licença.</p>
+      <a href="https://commons.wikimedia.org/" target="_blank" rel="noopener noreferrer">Explorar Wikimedia Commons</a>
+    </article>
+    <article class="panel music-card">
+      <h2>Arquivo de áudio</h2>
+      <p>Procura gravações disponibilizadas para ouvir ou descarregar, respeitando as condições de cada ficheiro.</p>
+      <a href="https://archive.org/" target="_blank" rel="noopener noreferrer">Explorar Internet Archive</a>
+    </article>
+  </div>
+
+  <div class="panel">
+    <h2>Reproduzir uma faixa</h2>
+    <label for="musicUrl">Endereço direto de um ficheiro de áudio</label>
+    <input id="musicUrl" type="url" placeholder="https://.../musica.mp3">
+    <button id="loadMusic" class="primary-button">Carregar áudio</button>
+    <audio id="musicPlayer" controls preload="none"></audio>
+    <p id="musicStatus" class="muted" aria-live="polite">O áudio só será reproduzido se o endereço permitir acesso direto.</p>
+  </div>
+</section>
+
+<section id="page-progress" class="page section" hidden>
+  <div class="page-heading">
+    <div>
+      <span class="eyebrow">O TEU PERCURSO</span>
+      <h1>O meu progresso</h1>
+      <p>Acompanha os exercícios respondidos e os teus resultados neste dispositivo.</p>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <article class="panel stat-card">
+      <span>Respostas</span>
+      <strong id="progressAnswered">0</strong>
+    </article>
+    <article class="panel stat-card">
+      <span>Respostas corretas</span>
+      <strong id="progressCorrect">0</strong>
+    </article>
+    <article class="panel stat-card">
+      <span>Precisão</span>
+      <strong id="progressAccuracy">0%</strong>
+    </article>
+    <article class="panel stat-card">
+      <span>Tempo de estudo</span>
+      <strong id="progressStudyTime">0 min</strong>
+    </article>
+  </div>
+
+  <div class="panel">
+    <h2>Atividade recente</h2>
+    <div id="historyList">
+      <p>Ainda não existem atividades registadas.</p>
+    </div>
+  </div>
+  <div class="panel">
+    <h2>Progresso por disciplina</h2>
+    <div id="progressSubjects"></div>
+  </div>
+  <button id="resetProgress" class="danger-button" type="button">Apagar progresso deste dispositivo</button>
+</section>
+
+<section id="page-favorites" class="page section" hidden>
+  <div class="page-heading">
+    <div>
+      <span class="eyebrow">GUARDADO PARA MAIS TARDE</span>
+      <h1>Favoritos</h1>
+      <p>Reúne aqui as matérias que queres rever.</p>
+    </div>
+  </div>
+  <div id="favoritesList" class="resource-grid">
+    <p>Ainda não guardaste matérias favoritas.</p>
+  </div>
+</section>
+
+<section id="page-settings" class="page section" hidden>
+  <div class="page-heading">
+    <div>
+      <span class="eyebrow">PERSONALIZAÇÃO</span>
+      <h1>Definições</h1>
+      <p>Configura o teu perfil e a forma como utilizas o Study AI.</p>
+    </div>
+  </div>
+
+  <form id="settingsForm" class="panel settings-form">
+    <label for="settingsName">Nome</label>
+    <input id="settingsName" type="text" maxlength="80" placeholder="O teu nome">
+
+    <label for="settingsEmail">E-mail (opcional)</label>
+    <input id="settingsEmail" type="email" maxlength="160" placeholder="nome@exemplo.pt">
+
+    <label for="settingsYear">Ano de escolaridade</label>
+    <select id="settingsYear"></select>
+
+    <div id="settingsCourseRow" hidden>
+      <label for="settingsCourse">Curso do secundário</label>
+      <select id="settingsCourse">
+        <option value="">Seleciona o curso</option>
+        <option value="Ciências e Tecnologias">Ciências e Tecnologias</option>
+        <option value="Línguas e Humanidades">Línguas e Humanidades</option>
+        <option value="Ciências Socioeconómicas">Ciências Socioeconómicas</option>
+        <option value="Artes Visuais">Artes Visuais</option>
+        <option value="Curso Profissional">Curso Profissional</option>
+        <option value="Outro">Outro percurso</option>
+      </select>
+    </div>
+
+    <div id="settingsProfessionalRow" hidden>
+      <label for="settingsProfessionalName">Nome do curso profissional</label>
+      <input id="settingsProfessionalName" type="text" maxlength="120">
+    </div>
+
+    <label for="settingsLanguage">Idioma</label>
+    <select id="settingsLanguage">
+      <option value="pt-PT">Português (Portugal)</option>
+      <option value="en">English</option>
+      <option value="es">Español</option>
+      <option value="fr">Français</option>
+    </select>
+
+    <label class="check-row">
+      <input id="settingsNotifications" type="checkbox">
+      Ativar lembretes de estudo nesta aplicação
+    </label>
+
+    <button type="submit" class="primary-button">Guardar definições</button>
+    <p id="settingsStatus" aria-live="polite"></p>
+  </form>
+
+  <div class="panel">
+    <h2>Acessibilidade</h2>
+    <label for="textScale">Tamanho do texto</label>
+    <select id="textScale">
+      <option value="normal">Normal</option>
+      <option value="large">Grande</option>
+      <option value="larger">Muito grande</option>
+    </select>
+    <button id="applyTextScale" class="secondary-button" type="button">Aplicar tamanho</button>
+  </div>
+
+  <div class="panel">
+    <h2>Dados locais</h2>
+    <p>O perfil, os favoritos e parte do progresso são guardados no navegador deste dispositivo.</p>
+    <button id="exportData" type="button" class="secondary-button">Exportar os meus dados</button>
+  </div>
+</section>
+
+<!-- Fim das páginas adicionais da Parte 2.
+     A Parte 3 começa com o JavaScript. -->
+
+<!-- =========================
+     STUDY AI — PARTE 3/3
+     Funcionalidades JavaScript
+========================= -->
+</main>
 
 <script>
 "use strict";
 
-const DEFAULT_BACKEND = "https://my-study-ai-app-github-io.onrender.com";
+/* Endereço do backend do Study AI */
+const API_BASE_URL = "https://my-study-ai-app-github-io.onrender.com";
+
+/* Armazenamento local */
+const STORAGE_KEYS = {
+  settings: "studyAI.settings.v3",
+  progress: "studyAI.progress.v3",
+  favorites: "studyAI.favorites.v3",
+  chats: "studyAI.chats.v3"
+};
+
+function readStore(key, fallback) {
+  try {
+    const value = localStorage.getItem(key);
+    return value ? JSON.parse(value) : fallback;
+  } catch (error) {
+    console.warn("Não foi possível ler os dados locais.", error);
+    return fallback;
+  }
+}
+
+function writeStore(key, value) {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+    return true;
+  } catch (error) {
+    console.error("Não foi possível guardar os dados.", error);
+    return false;
+  }
+}
+
+let settings = readStore(STORAGE_KEYS.settings, {
+  name: "",
+  email: "",
+  year: "8",
+  course: "",
+  professionalName: "",
+  language: "pt-PT",
+  notifications: false,
+  textScale: "normal"
+});
+
+let progress = readStore(STORAGE_KEYS.progress, {
+  answered: 0,
+  correct: 0,
+  studySeconds: 0,
+  history: [],
+  subjects: {}
+});
+
+let favorites = readStore(STORAGE_KEYS.favorites, []);
+let chats = readStore(STORAGE_KEYS.chats, []);
+let activeChatId = null;
+let currentChallenge = [];
+let challengeIndex = 0;
+let challengeCorrect = 0;
+let challengeAnswered = false;
+let studyTimerStart = null;
+
+/* Utilitários de interface */
 const $ = id => document.getElementById(id);
 
-const pageNames = {
-  home: "Início", study: "Estudar", videos: "Vídeos-aula",
-  exercises: "Exercícios", professor: "Professor IA",
-  images: "Imagens IA", music: "Música",
-  progress: "Progresso", favorites: "Favoritos", settings: "Definições"
-};
-
-let profile = {
-  name: "", email: "", year: "", target: "",
-  language: "pt-PT", backend: DEFAULT_BACKEND,
-  notifications: false, updates: true
-};
-
-let data = {
-  minutes: 0, answers: 0, correct: 0, sessions: 0,
-  days: [], favorites: [], notes: "", history: []
-};
-
-let chatHistory = [];
-let chatBusy = false;
-let quizQuestions = [];
-let quizIndex = 0;
-let quizScore = 0;
-let quizAnswered = false;
-let timerRemaining = 900;
-let timerTotal = 900;
-let timerInterval = null;
-let timerRunning = false;
-let sessionCounted = false;
-let musicLoaded = false;
-
-/* DADOS LOCAIS */
-
-function loadData() {
-  try {
-    const p = JSON.parse(localStorage.getItem("studyAI_profile") || "{}");
-    const d = JSON.parse(localStorage.getItem("studyAI_data") || "{}");
-    profile = { ...profile, ...p };
-    data = { ...data, ...d };
-  } catch (e) {
-    console.warn("Os dados guardados não puderam ser carregados.", e);
-  }
+function setText(id, value) {
+  const element = $(id);
+  if (element) element.textContent = value;
 }
 
-function saveData() {
-  try {
-    localStorage.setItem("studyAI_profile", JSON.stringify(profile));
-    localStorage.setItem("studyAI_data", JSON.stringify(data));
-  } catch (e) {
-    showToast("Não foi possível guardar os dados no navegador.");
-  }
+function setStatus(id, message) {
+  setText(id, message);
 }
 
-function backend() {
-  return ( $("backendUrl")?.value.trim() || profile.backend || DEFAULT_BACKEND )
-    .replace(/\/+$/, "");
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
 }
 
-/* AVISOS */
-
-let toastTimer;
-
-function showToast(message) {
-  const toast = $("toast");
-  toast.textContent = message;
-  toast.classList.remove("hidden");
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => toast.classList.add("hidden"), 3000);
+function saveAll() {
+  writeStore(STORAGE_KEYS.settings, settings);
+  writeStore(STORAGE_KEYS.progress, progress);
+  writeStore(STORAGE_KEYS.favorites, favorites);
+  writeStore(STORAGE_KEYS.chats, chats);
 }
 
-function status(id, message, type = "") {
-  const el = $(id);
-  if (!el) return;
-  el.textContent = message;
-  el.classList.remove("error", "success");
-  if (type) el.classList.add(type);
+function safeDate(value) {
+  const date = new Date(value);
+  return Number.isNaN(date.getTime())
+    ? "Data desconhecida"
+    : date.toLocaleString("pt-PT");
 }
 
-function clearStatus(id) {
-  const el = $(id);
-  if (el) {
-    el.textContent = "";
-    el.classList.remove("error", "success");
-  }
-}
-
-/* NAVEGAÇÃO */
-
-function goTo(page) {
-  if (!pageNames[page]) return;
-
-  document.querySelectorAll(".page").forEach(el => {
-    el.classList.toggle("active", el.id === "page-" + page);
+/* Navegação entre páginas sem recarregar o site */
+function go(pageName) {
+  document.querySelectorAll(".page.section, section.page").forEach(section => {
+    section.hidden = true;
   });
 
-  document.querySelectorAll(".nav-btn").forEach(el => {
-    el.classList.toggle("active", el.dataset.page === page);
+  const target = $("page-" + pageName);
+  if (target) target.hidden = false;
+
+  document.querySelectorAll("[data-page]").forEach(button => {
+    const active = button.dataset.page === pageName;
+    button.classList.toggle("active", active);
+    if (active) button.setAttribute("aria-current", "page");
+    else button.removeAttribute("aria-current");
   });
 
-  $("topTitle").textContent = pageNames[page];
-  $("sidebar").classList.remove("open");
-
-  if (page === "progress") renderProgress();
-  if (page === "favorites") renderFavorites();
-  if (page === "music") loadMusic();
-
-  window.scrollTo({ top: 0, behavior: "smooth" });
+  if (pageName === "progress") renderProgress();
+  if (pageName === "favorites") renderFavorites();
+  if (pageName === "professor") renderChat();
 }
-
-document.querySelectorAll("[data-page]").forEach(button => {
-  button.addEventListener("click", () => goTo(button.dataset.page));
-});
-
-document.querySelectorAll("[data-go]").forEach(button => {
-  button.addEventListener("click", () => goTo(button.dataset.go));
-});
-
-$("mobileMenu").addEventListener("click", () => {
-  $("sidebar").classList.toggle("open");
-});
 
 document.addEventListener("click", event => {
-  if (
-    window.innerWidth <= 760 &&
-    $("sidebar").classList.contains("open") &&
-    !$("sidebar").contains(event.target) &&
-    !$("mobileMenu").contains(event.target)
-  ) {
-    $("sidebar").classList.remove("open");
-  }
-});
-
-/* IDIOMAS */
-
-const dictionaries = {
-  "pt-PT": {
-    home:"Início", study:"Estudar", videos:"Vídeos-aula",
-    exercises:"Exercícios", professor:"Professor IA",
-    images:"Imagens IA", music:"Música", progress:"Progresso",
-    favorites:"Favoritos", settings:"Definições",
-    greeting:"Olá! Vamos aprender?", start:"Começar a estudar →",
-    ask:"Pergunta o que quiseres…", save:"Guardar definições",
-    search:"⌕ Procurar aulas"
-  },
-  en: {
-    home:"Home", study:"Study", videos:"Video lessons",
-    exercises:"Exercises", professor:"AI Tutor",
-    images:"AI Images", music:"Music", progress:"Progress",
-    favorites:"Favorites", settings:"Settings",
-    greeting:"Hello! Ready to learn?", start:"Start studying →",
-    ask:"Ask anything…", save:"Save settings",
-    search:"⌕ Search lessons"
-  },
-  es: {
-    home:"Inicio", study:"Estudiar", videos:"Videoclases",
-    exercises:"Ejercicios", professor:"Profesor IA",
-    images:"Imágenes IA", music:"Música", progress:"Progreso",
-    favorites:"Favoritos", settings:"Ajustes",
-    greeting:"¡Hola! ¿Aprendemos?", start:"Empezar a estudiar →",
-    ask:"Pregunta lo que quieras…", save:"Guardar ajustes",
-    search:"⌕ Buscar clases"
-  },
-  fr: {
-    home:"Accueil", study:"Étudier", videos:"Cours vidéo",
-    exercises:"Exercices", professor:"Professeur IA",
-    images:"Images IA", music:"Musique", progress:"Progression",
-    favorites:"Favoris", settings:"Paramètres",
-    greeting:"Bonjour ! Prêt à apprendre ?", start:"Commencer →",
-    ask:"Pose ta question…", save:"Enregistrer",
-    search:"⌕ Rechercher des cours"
-  }
-};
-
-function applyLanguage() {
-  const t = dictionaries[profile.language] || dictionaries["pt-PT"];
-  document.documentElement.lang = profile.language || "pt-PT";
-
-  document.querySelectorAll(".nav-btn").forEach(button => {
-    const icon = button.querySelector(".nav-icon");
-    const label = t[button.dataset.page] || pageNames[button.dataset.page];
-    button.replaceChildren();
-    if (icon) button.appendChild(icon);
-    button.appendChild(document.createTextNode(label));
-  });
-
-  $("topTitle").textContent = t[
-    document.querySelector(".nav-btn.active")?.dataset.page || "home"
-  ] || "Study AI";
-
-  $("greeting").textContent = t.greeting;
-  $("chatInput").placeholder = t.ask;
-  $("saveSettings").textContent = t.save;
-  $("searchVideos").textContent = t.search;
-
-  $("topUser").textContent = profile.name || "Estudante";
-  $("avatar").textContent = (profile.name || "E").trim().charAt(0).toUpperCase();
-
-  $("profileSummary").textContent = profile.year
-    ? `${profile.name || "Estudante"} · ${profile.year}` +
-      (profile.target ? ` · Meta: ${profile.target}` : "")
-    : "Configura o teu ano escolar nas Definições.";
-}
-
-function fillSettings() {
-  $("userName").value = profile.name || "";
-  $("userEmail").value = profile.email || "";
-  $("userYear").value = profile.year || "";
-  $("targetGrade").value = profile.target || "";
-  $("language").value = profile.language || "pt-PT";
-  $("backendUrl").value = profile.backend || DEFAULT_BACKEND;
-  $("prefNotifications").checked = !!profile.notifications;
-  $("prefUpdates").checked = profile.updates !== false;
-}
-
-$("language").addEventListener("change", () => {
-  profile.language = $("language").value;
-  applyLanguage();
-  saveData();
-});
-
-$("saveSettings").addEventListener("click", () => {
-  profile.name = $("userName").value.trim();
-  profile.email = $("userEmail").value.trim();
-  profile.year = $("userYear").value;
-  profile.target = $("targetGrade").value;
-  profile.language = $("language").value;
-  profile.backend = $("backendUrl").value.trim() || DEFAULT_BACKEND;
-  profile.notifications = $("prefNotifications").checked;
-  profile.updates = $("prefUpdates").checked;
-
-  saveData();
-  applyLanguage();
-  renderStats();
-  status("settingsStatus", "Definições guardadas.", "success");
-  showToast("Definições guardadas.");
-});
-
-$("resetData").addEventListener("click", () => {
-  if (!confirm("Queres apagar o perfil, o progresso, as notas e os favoritos deste navegador?")) return;
-
-  localStorage.removeItem("studyAI_profile");
-  localStorage.removeItem("studyAI_data");
-  location.reload();
-});
-
-/* TESTE DE LIGAÇÃO */
-
-$("testBackend").addEventListener("click", async () => {
-  status("settingsStatus", "A testar a ligação ao servidor…");
-
-  try {
-    const response = await fetch(backend() + "/health", {
-      signal: AbortSignal.timeout(12000)
-    });
-
-    if (!response.ok) throw new Error("Resposta HTTP " + response.status);
-
-    status("settingsStatus", "O servidor respondeu. A disponibilidade dos serviços deve ser testada separadamente.", "success");
-  } catch (error) {
-    status("settingsStatus", "Não foi possível testar o servidor: " + error.message, "error");
-  }
-});
-
-/* PROFESSOR IA */
-
-function addMessage(role, text) {
-  $("chatWelcome")?.remove();
-
-  const row = document.createElement("div");
-  row.className = "message " + (role === "user" ? "user" : "assistant");
-
-  const avatar = document.createElement("div");
-  avatar.className = "message-avatar";
-  avatar.textContent = role === "user"
-    ? (profile.name || "E").charAt(0).toUpperCase()
-    : "✦";
-
-  const bubble = document.createElement("div");
-  bubble.className = "bubble";
-  bubble.textContent = text;
-
-  row.append(avatar, bubble);
-  $("chatMessages").appendChild(row);
-  $("chatMessages").scrollTop = $("chatMessages").scrollHeight;
-}
-
-function setChatBusy(busy) {
-  chatBusy = busy;
-  $("sendChat").disabled = busy;
-  $("chatInput").disabled = busy;
-  $("sendChat").textContent = busy ? "…" : "↑";
-}
-
-function responseText(json) {
-  if (typeof json === "string") return json;
-  if (typeof json?.reply === "string") return json.reply;
-  if (typeof json?.answer === "string") return json.answer;
-  if (typeof json?.output_text === "string") return json.output_text;
-  if (typeof json?.message === "string") return json.message;
-
-  const content = json?.choices?.[0]?.message?.content;
-  if (typeof content === "string") return content;
-  if (Array.isArray(content)) {
-    return content.map(part => part.text || "").join("\n");
-  }
-  return "";
-}
-
-async function sendChat(text) {
-  text = text.trim();
-  if (!text || chatBusy) return;
-
-  addMessage("user", text);
-  chatHistory.push({ role: "user", content: text });
-
-  $("chatInput").value = "";
-  $("chatInput").style.height = "auto";
-  setChatBusy(true);
-  status("chatStatus", "O Professor IA está a preparar a resposta…");
-
-  try {
-    const response = await fetch(backend() + "/api/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        messages: chatHistory,
-        year: profile.year || $("studyYear").value || "Não indicado",
-        language: profile.language || "pt-PT"
-      }),
-      signal: AbortSignal.timeout(90000)
-    });
-
-    const json = await response.json().catch(() => ({}));
-    if (!response.ok) {
-      throw new Error(json.error || json.message || "Erro HTTP " + response.status);
-    }
-
-    const answer = responseText(json);
-    if (!answer) throw new Error("O servidor não devolveu uma resposta reconhecível.");
-
-    addMessage("assistant", answer);
-    chatHistory.push({ role: "assistant", content: answer });
-
-    if (chatHistory.length > 30) chatHistory = chatHistory.slice(-30);
-    clearStatus("chatStatus");
-  } catch (error) {
-    const message = "Não foi possível obter uma resposta real do Professor IA. " +
-      error.message +
-      "\nConfirma o endpoint /api/chat, a configuração do modelo e o CORS do servidor.";
-    addMessage("assistant", message);
-    status("chatStatus", message, "error");
-  } finally {
-    setChatBusy(false);
-    $("chatInput").focus();
-  }
-}
-
-$("chatForm").addEventListener("submit", event => {
-  event.preventDefault();
-  sendChat($("chatInput").value);
-});
-
-$("chatInput").addEventListener("input", () => {
-  const el = $("chatInput");
-  el.style.height = "auto";
-  el.style.height = Math.min(el.scrollHeight, 140) + "px";
-});
-
-$("chatInput").addEventListener("keydown", event => {
-  if (event.key === "Enter" && !event.shiftKey) {
+  const button = event.target.closest("[data-page]");
+  if (button) {
     event.preventDefault();
-    $("chatForm").requestSubmit();
+    go(button.dataset.page);
   }
 });
 
-document.querySelectorAll("[data-prompt]").forEach(button => {
-  button.addEventListener("click", () => {
-    goTo("professor");
-    sendChat(button.dataset.prompt);
+/* Perfil e ano escolar */
+function fillYearSelect(id) {
+  const select = $(id);
+  if (!select) return;
+
+  const previous = select.value;
+  select.replaceChildren();
+
+  for (let year = 1; year <= 12; year++) {
+    const option = document.createElement("option");
+    option.value = String(year);
+    option.textContent = year + ".º ano";
+    select.appendChild(option);
+  }
+
+  if (previous) select.value = previous;
+}
+
+function updateCourseVisibility() {
+  const year = Number(settings.year);
+  const isSecondary = year >= 10;
+  const row = $("settingsCourseRow");
+  const professionalRow = $("settingsProfessionalRow");
+
+  if (row) row.hidden = !isSecondary;
+  if (professionalRow) {
+    professionalRow.hidden =
+      !isSecondary || settings.course !== "Curso Profissional";
+  }
+}
+
+function loadSettingsIntoForm() {
+  if ($("settingsName")) $("settingsName").value = settings.name || "";
+  if ($("settingsEmail")) $("settingsEmail").value = settings.email || "";
+  if ($("settingsYear")) $("settingsYear").value = settings.year || "8";
+  if ($("settingsCourse")) $("settingsCourse").value = settings.course || "";
+  if ($("settingsProfessionalName")) {
+    $("settingsProfessionalName").value = settings.professionalName || "";
+  }
+  if ($("settingsLanguage")) $("settingsLanguage").value = settings.language || "pt-PT";
+  if ($("settingsNotifications")) {
+    $("settingsNotifications").checked = Boolean(settings.notifications);
+  }
+  if ($("textScale")) $("textScale").value = settings.textScale || "normal";
+
+  updateCourseVisibility();
+}
+
+if ($("settingsYear")) {
+  $("settingsYear").addEventListener("change", event => {
+    settings.year = event.target.value;
+    updateCourseVisibility();
   });
-});
-
-$("clearChat").addEventListener("click", () => {
-  if (chatBusy) return;
-  chatHistory = [];
-  $("chatMessages").replaceChildren();
-
-  const welcome = document.createElement("div");
-  welcome.className = "chat-welcome";
-  welcome.id = "chatWelcome";
-
-  const star = document.createElement("div");
-  star.className = "star";
-  star.textContent = "✦";
-
-  const heading = document.createElement("h2");
-  heading.textContent = "Em que posso ajudar?";
-
-  const paragraph = document.createElement("p");
-  paragraph.className = "muted";
-  paragraph.textContent = "Pede explicações, exemplos ou ajuda com exercícios.";
-
-  welcome.append(star, heading, paragraph);
-  $("chatMessages").appendChild(welcome);
-  clearStatus("chatStatus");
-});
-
-/* FIM DA PARTE 2 — CONTINUAR COM A PARTE 3 */
-
-/* VÍDEOS-AULA */
-
-function safeUrl(value) {
-  try {
-    const url = new URL(value);
-    return ["https:", "http:"].includes(url.protocol) ? url.href : "";
-  } catch {
-    return "";
-  }
 }
 
-function playableVideo(item) {
-  const raw = item.url || item.videoUrl || item.video_url ||
-              item.embedUrl || item.embed_url || "";
-  const value = safeUrl(raw);
-  if (!value) return null;
-
-  const url = new URL(value);
-  const host = url.hostname.toLowerCase();
-
-  if (host === "youtu.be" || host.endsWith("youtube.com")) {
-    let id = host === "youtu.be"
-      ? url.pathname.split("/").filter(Boolean)[0]
-      : url.searchParams.get("v");
-
-    if (!id) {
-      const parts = url.pathname.split("/").filter(Boolean);
-      const index = parts.findIndex(p => ["embed", "shorts", "live"].includes(p));
-      if (index >= 0) id = parts[index + 1];
-    }
-
-    if (!id || !/^[\w-]{6,20}$/.test(id)) return null;
-    return { type: "iframe", url: "https://www.youtube-nocookie.com/embed/" + id };
-  }
-
-  if (host === "vimeo.com" || host.endsWith(".vimeo.com")) {
-    const match = url.pathname.match(/\/(?:video\/)?(\d+)/);
-    if (match) {
-      return { type: "iframe", url: "https://player.vimeo.com/video/" + match[1] };
-    }
-  }
-
-  if (/\.(mp4|webm|ogg)(?:$|\?)/i.test(url.href)) {
-    return { type: "video", url };
-  }
-
-  if (item.embedUrl || item.embed_url) {
-    return { type: "iframe", url };
-  }
-
-  return null;
+if ($("settingsCourse")) {
+  $("settingsCourse").addEventListener("change", event => {
+    settings.course = event.target.value;
+    updateCourseVisibility();
+  });
 }
 
-function playVideo(item) {
-  const playable = playableVideo(item);
-  if (!playable) {
-    showToast("Este vídeo não tem um endereço compatível para reprodução.");
-    return;
-  }
+if ($("settingsForm")) {
+  $("settingsForm").addEventListener("submit", event => {
+    event.preventDefault();
 
-  const player = $("videoPlayer");
-  player.replaceChildren();
+    settings.name = $("settingsName")?.value.trim() || "";
+    settings.email = $("settingsEmail")?.value.trim() || "";
+    settings.year = $("settingsYear")?.value || "8";
+    settings.course = $("settingsCourse")?.value || "";
+    settings.professionalName = $("settingsProfessionalName")?.value.trim() || "";
+    settings.language = $("settingsLanguage")?.value || "pt-PT";
+    settings.notifications = Boolean($("settingsNotifications")?.checked);
 
-  if (playable.type === "video") {
-    const video = document.createElement("video");
-    video.controls = true;
-    video.playsInline = true;
-    video.preload = "metadata";
-    video.src = playable.url;
-    player.appendChild(video);
-  } else {
-    const iframe = document.createElement("iframe");
-    iframe.src = playable.url;
-    iframe.title = item.title || "Vídeo educativo";
-    iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-    iframe.allowFullscreen = true;
-    player.appendChild(iframe);
-  }
-
-  $("currentVideoTitle").textContent = item.title || "Vídeo-aula";
-  $("currentVideoDesc").textContent = item.description || item.subject || "Vídeo educativo";
-}
-
-$("searchVideos").addEventListener("click", async () => {
-  const query = $("videoQuery").value.trim();
-  if (!query) {
-    showToast("Escreve o tema que queres estudar.");
-    $("videoQuery").focus();
-    return;
-  }
-
-  const params = new URLSearchParams({ q: query });
-  if ($("videoSubject").value) params.set("subject", $("videoSubject").value);
-  if ($("studyYear").value || profile.year) {
-    params.set("year", $("studyYear").value || profile.year);
-  }
-
-  $("searchVideos").disabled = true;
-  status("videoStatus", "A procurar aulas…");
-
-  try {
-    const response = await fetch(backend() + "/api/videos?" + params.toString(), {
-      signal: AbortSignal.timeout(25000)
-    });
-    const json = await response.json().catch(() => ({}));
-
-    if (!response.ok) {
-      throw new Error(json.error || "Erro HTTP " + response.status);
-    }
-
-    const items = Array.isArray(json)
-      ? json
-      : json.videos || json.results || json.items || [];
-
-    const valid = items.filter(item => item && playableVideo(item));
-    const container = $("videoResults");
-    container.replaceChildren();
-
-    if (!valid.length) {
-      container.textContent = "Não foram encontrados vídeos reproduzíveis. Confirma se o servidor disponibiliza /api/videos.";
-      status("videoStatus", "Não foram devolvidos vídeos compatíveis.", "error");
+    if (Number(settings.year) >= 10 && !settings.course) {
+      setStatus("settingsStatus", "Seleciona o curso ou percurso do secundário.");
       return;
     }
 
-    valid.forEach(item => {
-      const button = document.createElement("button");
-      button.className = "btn";
-      button.style.justifyContent = "flex-start";
-      button.style.textAlign = "left";
-      button.style.width = "100%";
-      button.textContent = "▶ " + (item.title || "Vídeo educativo");
-      button.addEventListener("click", () => playVideo(item));
-      container.appendChild(button);
+    if (settings.course === "Curso Profissional" && !settings.professionalName) {
+      setStatus("settingsStatus", "Indica o nome do curso profissional.");
+      return;
+    }
+
+    saveAll();
+    setStatus("settingsStatus", "Definições guardadas neste dispositivo.");
+    updateCourseVisibility();
+  });
+}
+
+/* Acessibilidade: tamanho do texto */
+function applyTextScale(scale) {
+  document.documentElement.dataset.textScale = scale;
+  document.documentElement.style.fontSize =
+    scale === "large" ? "18px" :
+    scale === "larger" ? "20px" : "";
+  settings.textScale = scale;
+  writeStore(STORAGE_KEYS.settings, settings);
+}
+
+if ($("applyTextScale")) {
+  $("applyTextScale").addEventListener("click", () => {
+    applyTextScale($("textScale")?.value || "normal");
+  });
+}
+
+/* Pesquisas educativas.
+   Os resultados são pesquisas externas, não uma garantia de vídeos verificados. */
+function makeSearchURL(base, query) {
+  return base + encodeURIComponent(query);
+}
+
+if ($("searchVideos")) {
+  $("searchVideos").addEventListener("click", () => {
+    const year = $("videoYear")?.value || settings.year;
+    const subject = $("videoSubject")?.value || "Matéria escolar";
+    const topic = $("videoTopic")?.value.trim() || subject;
+    const query = `${year}.º ano ${subject} ${topic} explicação Portugal`;
+    const container = $("videoResults");
+    if (!container) return;
+
+    container.replaceChildren();
+
+    const sources = [
+      {
+        title: "Pesquisar no YouTube",
+        url: makeSearchURL("https://www.youtube.com/results?search_query=", query)
+      },
+      {
+        title: "Pesquisar na RTP Ensina",
+        url: makeSearchURL("https://www.google.com/search?q=site%3Artp.pt%2Fplay%2Festudo+", query)
+      }
+    ];
+
+    sources.forEach(source => {
+      const article = document.createElement("article");
+      article.className = "panel resource-card";
+      const heading = document.createElement("h2");
+      heading.textContent = source.title;
+      const link = document.createElement("a");
+      link.href = source.url;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.textContent = "Abrir pesquisa";
+      article.append(heading, link);
+      container.appendChild(article);
     });
+  });
+}
 
-    status("videoStatus", "Encontrados " + valid.length + " vídeos.", "success");
-  } catch (error) {
-    $("videoResults").textContent = "Não foi possível carregar vídeos. " + error.message;
-    status("videoStatus", "Confirma se o servidor tem o endpoint /api/videos e permite pedidos deste site.", "error");
-  } finally {
-    $("searchVideos").disabled = false;
-  }
-});
+/* Imagens: pesquisa Wikimedia Commons */
+if ($("searchImages")) {
+  $("searchImages").addEventListener("click", async () => {
+    const query = $("imageQuery")?.value.trim();
+    const container = $("imageResults");
+    if (!container || !query) {
+      setStatus("imageResults", "Escreve um tema para pesquisar.");
+      return;
+    }
 
-/* IMAGENS IA */
+    container.textContent = "A pesquisar imagens…";
 
-$("generateImage").addEventListener("click", async () => {
-  const prompt = $("imagePrompt").value.trim();
-  if (!prompt) {
-    showToast("Descreve primeiro a imagem que queres criar.");
-    $("imagePrompt").focus();
+    try {
+      const url = "https://commons.wikimedia.org/w/api.php?" +
+        new URLSearchParams({
+          action: "query",
+          generator: "search",
+          gsrsearch: query,
+          gsrnamespace: "6",
+          gsrlimit: "8",
+          prop: "imageinfo",
+          iiprop: "url",
+          iiurlwidth: "400",
+          format: "json",
+          origin: "*"
+        });
+
+      const response = await fetch(url);
+      if (!response.ok) throw new Error("A pesquisa não respondeu.");
+      const data = await response.json();
+      container.replaceChildren();
+
+      const pages = Object.values(data.query?.pages || {});
+      if (!pages.length) {
+        container.textContent = "Não foram encontradas imagens para esta pesquisa.";
+        return;
+      }
+
+      pages.forEach(page => {
+        const info = page.imageinfo?.[0];
+        if (!info?.thumburl || !info?.descriptionurl) return;
+
+        const card = document.createElement("article");
+        card.className = "panel resource-card";
+        const image = document.createElement("img");
+        image.src = info.thumburl;
+        image.alt = page.title.replace(/^File:/, "");
+        image.loading = "lazy";
+        image.style.maxWidth = "100%";
+
+        const title = document.createElement("p");
+        title.textContent = page.title.replace(/^File:/, "");
+
+        const link = document.createElement("a");
+        link.href = info.descriptionurl;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = "Ver imagem, licença e atribuição";
+
+        card.append(image, title, link);
+        container.appendChild(card);
+      });
+    } catch (error) {
+      container.textContent =
+        "Não foi possível pesquisar imagens agora. Verifica a ligação e tenta novamente.";
+    }
+  });
+}
+
+/* Desafios locais de exemplo.
+   Não substituem uma biblioteca completa e verificada para todos os anos. */
+const QUESTION_BANK = {
+  "Matemática": [
+    {
+      question: "Quanto é 3 × (4 + 2)?",
+      options: ["18", "14", "24", "10"],
+      answer: 0,
+      explanation: "Primeiro calcula-se o parêntesis: 4 + 2 = 6. Depois, 3 × 6 = 18.",
+      difficulty: "Fácil"
+    },
+    {
+      question: "Resolve a equação 2x + 4 = 12.",
+      options: ["x = 4", "x = 8", "x = 6", "x = 2"],
+      answer: 0,
+      explanation: "Subtrai 4 aos dois membros: 2x = 8. Divide por 2: x = 4.",
+      difficulty: "Média"
+    },
+    {
+      question: "Qual é a área de um retângulo de 7 cm por 3 cm?",
+      options: ["10 cm²", "21 cm²", "20 cm²", "14 cm²"],
+      answer: 1,
+      explanation: "Área = comprimento × largura = 7 × 3 = 21 cm².",
+      difficulty: "Fácil"
+    }
+  ],
+  "Português": [
+    {
+      question: "Qual destas palavras é um advérbio de tempo?",
+      options: ["Ontem", "Rapidamente", "Bonito", "Mesa"],
+      answer: 0,
+      explanation: "«Ontem» indica quando aconteceu uma ação.",
+      difficulty: "Fácil"
+    },
+    {
+      question: "Em «Fiquei em casa porque chovia», a oração introduzida por «porque» é:",
+      options: ["Causal", "Temporal", "Concessiva", "Final"],
+      answer: 0,
+      explanation: "A oração indica a causa de ter ficado em casa.",
+      difficulty: "Média"
+    }
+  ],
+  "Inglês": [
+    {
+      question: "Completa: She ___ to school every day.",
+      options: ["go", "goes", "going", "gone"],
+      answer: 1,
+      explanation: "No presente simples, usa-se «goes» com he, she e it.",
+      difficulty: "Fácil"
+    }
+  ],
+  "Ciências Naturais": [
+    {
+      question: "Qual é a unidade básica dos seres vivos?",
+      options: ["Célula", "Órgão", "Sistema", "Tecido"],
+      answer: 0,
+      explanation: "A célula é a unidade estrutural e funcional básica dos seres vivos.",
+      difficulty: "Fácil"
+    }
+  ],
+  "Físico-Química": [
+    {
+      question: "Numa reação química, num sistema fechado, a massa total:",
+      options: [
+        "Mantém-se",
+        "Duplica sempre",
+        "Desaparece",
+        "É sempre reduzida a metade"
+      ],
+      answer: 0,
+      explanation: "A massa total conserva-se num sistema fechado durante uma reação química.",
+      difficulty: "Média"
+    }
+  ],
+  "História": [
+    {
+      question: "O que é uma fonte histórica?",
+      options: [
+        "Um vestígio que ajuda a estudar o passado",
+        "Apenas um mapa atual",
+        "Uma previsão do futuro",
+        "Só uma notícia recente"
+      ],
+      answer: 0,
+      explanation: "As fontes históricas fornecem informação para estudar sociedades do passado.",
+      difficulty: "Fácil"
+    }
+  ],
+  "Geografia": [
+    {
+      question: "Qual é o principal objetivo de uma escala num mapa?",
+      options: [
+        "Relacionar a distância no mapa com a distância real",
+        "Indicar a temperatura",
+        "Mostrar apenas as capitais",
+        "Medir a população diretamente"
+      ],
+      answer: 0,
+      explanation: "A escala mostra a relação entre as dimensões representadas e as reais.",
+      difficulty: "Média"
+    }
+  ]
+};
+
+function startChallenge() {
+  const subject = $("exerciseSubject")?.value || "Matemática";
+  const difficulty = $("exerciseDifficulty")?.value || "Fácil";
+  const bank = QUESTION_BANK[subject] || QUESTION_BANK["Matemática"];
+
+  currentChallenge = bank.filter(q => q.difficulty === difficulty);
+  if (!currentChallenge.length) currentChallenge = bank.slice();
+
+  challengeIndex = 0;
+  challengeCorrect = 0;
+  challengeAnswered = false;
+  renderChallenge();
+}
+
+function renderChallenge() {
+  const area = $("challengeArea");
+  if (!area) return;
+
+  if (challengeIndex >= currentChallenge.length) {
+    area.replaceChildren();
+    const heading = document.createElement("h2");
+    heading.textContent = "Desafio concluído!";
+    const result = document.createElement("p");
+    result.textContent =
+      `Acertaste ${challengeCorrect} de ${currentChallenge.length} perguntas.`;
+    const restart = document.createElement("button");
+    restart.className = "primary-button";
+    restart.textContent = "Repetir desafio";
+    restart.addEventListener("click", startChallenge);
+    area.append(heading, result, restart);
     return;
   }
 
-  $("generateImage").disabled = true;
-  $("imageOutput").replaceChildren();
-  status("imageStatus", "A pedir a geração da imagem ao servidor…");
+  const item = currentChallenge[challengeIndex];
+  area.replaceChildren();
+
+  const heading = document.createElement("h2");
+  heading.textContent = `Pergunta ${challengeIndex + 1} de ${currentChallenge.length}`;
+  const question = document.createElement("p");
+  question.textContent = item.question;
+  area.append(heading, question);
+
+  item.options.forEach((option, index) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "answer-option";
+    button.textContent = option;
+    button.addEventListener("click", () => answerChallenge(index));
+    area.appendChild(button);
+  });
+
+  const feedback = document.createElement("p");
+  feedback.id = "challengeFeedback";
+  feedback.setAttribute("aria-live", "polite");
+  area.appendChild(feedback);
+}
+
+function answerChallenge(index) {
+  if (challengeAnswered) return;
+  challengeAnswered = true;
+
+  const item = currentChallenge[challengeIndex];
+  const correct = index === item.answer;
+  if (correct) challengeCorrect++;
+
+  progress.answered++;
+  if (correct) progress.correct++;
+
+  const subject = $("exerciseSubject")?.value || "Matemática";
+  progress.subjects[subject] = progress.subjects[subject] || {
+    answered: 0,
+    correct: 0
+  };
+  progress.subjects[subject].answered++;
+  if (correct) progress.subjects[subject].correct++;
+
+  progress.history.unshift({
+    date: new Date().toISOString(),
+    subject,
+    question: item.question,
+    correct
+  });
+  progress.history = progress.history.slice(0, 100);
+  saveAll();
+
+  const feedback = $("challengeFeedback");
+  if (feedback) {
+    feedback.textContent = (correct ? "Correto! " : "Ainda não. ") + item.explanation;
+  }
+
+  const area = $("challengeArea");
+  if (!area) return;
+
+  area.querySelectorAll(".answer-option").forEach((button, buttonIndex) => {
+    button.disabled = true;
+    if (buttonIndex === item.answer) button.classList.add("correct");
+    else if (buttonIndex === index) button.classList.add("incorrect");
+  });
+
+  const next = document.createElement("button");
+  next.className = "primary-button";
+  next.textContent = challengeIndex === currentChallenge.length - 1
+    ? "Ver resultado" : "Próxima pergunta";
+  next.addEventListener("click", () => {
+    challengeIndex++;
+    challengeAnswered = false;
+    renderChallenge();
+  });
+  area.appendChild(next);
+}
+
+if ($("startChallenge")) {
+  $("startChallenge").addEventListener("click", startChallenge);
+}
+
+/* Progresso */
+function renderProgress() {
+  const accuracy = progress.answered
+    ? Math.round(progress.correct / progress.answered * 100)
+    : 0;
+
+  setText("progressAnswered", progress.answered);
+  setText("progressCorrect", progress.correct);
+  setText("progressAccuracy", accuracy + "%");
+  setText("progressStudyTime", Math.floor(progress.studySeconds / 60) + " min");
+
+  const history = $("historyList");
+  if (history) {
+    history.replaceChildren();
+    if (!progress.history.length) {
+      history.textContent = "Ainda não existem atividades registadas.";
+    } else {
+      progress.history.slice(0, 15).forEach(item => {
+        const p = document.createElement("p");
+        p.textContent =
+          `${safeDate(item.date)} — ${item.subject}: ` +
+          (item.correct ? "resposta correta" : "resposta incorreta");
+        history.appendChild(p);
+      });
+    }
+  }
+
+  const subjects = $("progressSubjects");
+  if (subjects) {
+    subjects.replaceChildren();
+    const entries = Object.entries(progress.subjects || {});
+    if (!entries.length) {
+      subjects.textContent = "Ainda não há resultados por disciplina.";
+    }
+    entries.forEach(([name, data]) => {
+      const row = document.createElement("p");
+      const percent = data.answered
+        ? Math.round(data.correct / data.answered * 100) : 0;
+      row.textContent = `${name}: ${data.correct}/${data.answered} respostas corretas (${percent}%).`;
+      subjects.appendChild(row);
+    });
+  }
+}
+
+if ($("resetProgress")) {
+  $("resetProgress").addEventListener("click", () => {
+    if (!confirm("Queres mesmo apagar o progresso deste dispositivo?")) return;
+    progress = {
+      answered: 0,
+      correct: 0,
+      studySeconds: 0,
+      history: [],
+      subjects: {}
+    };
+    writeStore(STORAGE_KEYS.progress, progress);
+    renderProgress();
+  });
+}
+
+/* Favoritos */
+function renderFavorites() {
+  const container = $("favoritesList");
+  if (!container) return;
+  container.replaceChildren();
+
+  if (!favorites.length) {
+    container.textContent = "Ainda não guardaste matérias favoritas.";
+    return;
+  }
+
+  favorites.forEach((favorite, index) => {
+    const card = document.createElement("article");
+    card.className = "panel favorite-card";
+    const heading = document.createElement("h2");
+    heading.textContent = favorite.title;
+    const description = document.createElement("p");
+    description.textContent = favorite.description || favorite.subject || "";
+    const remove = document.createElement("button");
+    remove.type = "button";
+    remove.className = "secondary-button";
+    remove.textContent = "Remover dos favoritos";
+    remove.addEventListener("click", () => {
+      favorites.splice(index, 1);
+      writeStore(STORAGE_KEYS.favorites, favorites);
+      renderFavorites();
+    });
+    card.append(heading, description, remove);
+    container.appendChild(card);
+  });
+}
+
+/* Permite que outras partes da aplicação guardem uma matéria */
+window.StudyAI = window.StudyAI || {};
+window.StudyAI.addFavorite = function (favorite) {
+  if (!favorite || !favorite.title) return false;
+  const exists = favorites.some(item =>
+    item.title === favorite.title &&
+    item.subject === favorite.subject
+  );
+  if (exists) return false;
+  favorites.push({
+    title: String(favorite.title),
+    description: String(favorite.description || ""),
+    subject: String(favorite.subject || ""),
+    date: new Date().toISOString()
+  });
+  writeStore(STORAGE_KEYS.favorites, favorites);
+  renderFavorites();
+  return true;
+};
+
+/* Conversas do Professor IA */
+function createChat() {
+  const chat = {
+    id: String(Date.now()) + Math.random().toString(36).slice(2, 8),
+    title: "Nova conversa",
+    messages: [],
+    createdAt: new Date().toISOString()
+  };
+  chats.unshift(chat);
+  activeChatId = chat.id;
+  writeStore(STORAGE_KEYS.chats, chats);
+  renderChat();
+  return chat;
+}
+
+function getActiveChat() {
+  return chats.find(chat => chat.id === activeChatId) || null;
+}
+
+function renderChatHistory() {
+  const container = $("chatHistory");
+  if (!container) return;
+  container.replaceChildren();
+
+  chats.forEach(chat => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "chat-history-item";
+    button.textContent = chat.title;
+    button.addEventListener("click", () => {
+      activeChatId = chat.id;
+      renderChat();
+    });
+    container.appendChild(button);
+  });
+}
+
+function renderChat() {
+  const container = $("chatMessages");
+  if (!container) return;
+
+  let chat = getActiveChat();
+  if (!chat) chat = createChat();
+
+  container.replaceChildren();
+
+  if (!chat.messages.length) {
+    const welcome = document.createElement("p");
+    welcome.textContent = "Olá! Faz uma pergunta sobre a matéria que estás a estudar.";
+    container.appendChild(welcome);
+  }
+
+  chat.messages.forEach(message => {
+    const bubble = document.createElement("div");
+    bubble.className = "chat-message " +
+      (message.role === "user" ? "user" : "assistant");
+    const label = document.createElement("strong");
+    label.textContent = message.role === "user" ? "Tu" : "Professor IA";
+    const content = document.createElement("p");
+    content.textContent = message.content;
+    bubble.append(label, content);
+    container.appendChild(bubble);
+  });
+
+  renderChatHistory();
+  container.scrollTop = container.scrollHeight;
+}
+
+if ($("newChat")) {
+  $("newChat").addEventListener("click", createChat);
+}
+
+async function askProfessor(question) {
+  const chat = getActiveChat() || createChat();
+  chat.messages.push({ role: "user", content: question });
+
+  if (chat.messages.length === 1) {
+    chat.title = question.slice(0, 38) || "Nova conversa";
+  }
+
+  writeStore(STORAGE_KEYS.chats, chats);
+  renderChat();
+
+  const sendButton = $("sendChat");
+  if (sendButton) sendButton.disabled = true;
 
   try {
-    const response = await fetch(backend() + "/api/images/generate", {
+    const response = await fetch(API_BASE_URL + "/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        prompt,
-        year: profile.year || "",
-        language: profile.language || "pt-PT"
-      }),
-      signal: AbortSignal.timeout(90000)
+        message: question,
+        messages: chat.messages,
+        year: settings.year,
+        course: settings.course,
+        language: settings.language
+      })
     });
 
-    const json = await response.json().catch(() => ({}));
+    const data = await response.json().catch(() => ({}));
     if (!response.ok) {
-      throw new Error(json.error || json.message || "Erro HTTP " + response.status);
+      throw new Error(data.error || "O servidor não conseguiu responder.");
     }
 
-    let src = json.url || json.imageUrl || json.image_url ||
-              json.data?.[0]?.url || "";
-
-    if (!src && (json.b64_json || json.data?.[0]?.b64_json)) {
-      src = "data:image/png;base64," +
-        (json.b64_json || json.data[0].b64_json);
+    const answer = data.reply || data.response || data.message;
+    if (typeof answer !== "string" || !answer.trim()) {
+      throw new Error("O servidor não devolveu uma resposta de texto válida.");
     }
 
-    if (typeof src !== "string" ||
-        !/^(https?:\/\/|data:image\/)/i.test(src)) {
-      throw new Error("O serviço não devolveu uma imagem válida.");
-    }
-
-    const image = document.createElement("img");
-    image.src = src;
-    image.alt = prompt;
-    image.style.cssText = "display:block;max-width:100%;max-height:600px;border-radius:16px;margin:15px auto;";
-
-    const link = document.createElement("a");
-    link.href = src;
-    link.target = "_blank";
-    link.rel = "noopener noreferrer";
-    link.className = "btn";
-    link.textContent = "Abrir ou guardar imagem";
-
-    $("imageOutput").append(image, link);
-    status("imageStatus", "Imagem recebida do serviço de IA.", "success");
+    chat.messages.push({ role: "assistant", content: answer });
   } catch (error) {
-    status("imageStatus", "Não foi possível gerar a imagem: " + error.message +
-      ". O servidor precisa do endpoint /api/images/generate e de um serviço de geração configurado.", "error");
+    chat.messages.push({
+      role: "assistant",
+      content:
+        "Não consegui obter uma resposta do Professor IA neste momento. " +
+        "Confirma se o backend está ativo e se o endpoint /api/chat está configurado. " +
+        "Detalhe: " + error.message
+    });
   } finally {
-    $("generateImage").disabled = false;
+    writeStore(STORAGE_KEYS.chats, chats);
+    renderChat();
+    if (sendButton) sendButton.disabled = false;
   }
-});
-
-/* EXERCÍCIOS */
-
-const quizBank = [
-  {
-    subject: "Matemática",
-    question: "Quanto é 3/4 + 1/4?",
-    options: ["1/2", "1", "4/8", "2"],
-    answer: 1,
-    explanation: "3/4 + 1/4 = 4/4 = 1."
-  },
-  {
-    subject: "Matemática",
-    question: "Quanto é 15% de 200?",
-    options: ["15", "20", "30", "45"],
-    answer: 2,
-    explanation: "0,15 × 200 = 30."
-  },
-  {
-    subject: "Português",
-    question: "Qual destas conjunções pode introduzir uma oração causal?",
-    options: ["Embora", "Porque", "Quando", "Enquanto"],
-    answer: 1,
-    explanation: "«Porque» pode introduzir uma oração subordinada causal."
-  },
-  {
-    subject: "Ciências Naturais",
-    question: "Qual é uma função das raízes das plantas?",
-    options: [
-      "Produzir luz",
-      "Absorver água e sais minerais",
-      "Polinizar as flores",
-      "Produzir sementes"
-    ],
-    answer: 1,
-    explanation: "As raízes absorvem água e sais minerais e ajudam a fixar a planta."
-  },
-  {
-    subject: "Físico-Química",
-    question: "Num sistema fechado, durante uma reação química, a massa total…",
-    options: [
-      "Aumenta sempre",
-      "Desaparece",
-      "Conserva-se",
-      "Diminui sempre"
-    ],
-    answer: 2,
-    explanation: "A massa total conserva-se num sistema fechado."
-  },
-  {
-    subject: "Geografia",
-    question: "Qual é a estrela do Sistema Solar?",
-    options: ["Lua", "Marte", "Terra", "Sol"],
-    answer: 3,
-    explanation: "O Sol é a estrela do Sistema Solar."
-  },
-  {
-    subject: "Matemática",
-    question: "Qual é o resultado de 2³?",
-    options: ["5", "6", "8", "9"],
-    answer: 2,
-    explanation: "2³ = 2 × 2 × 2 = 8."
-  },
-  {
-    subject: "Português",
-    question: "Uma oração introduzida por «embora» exprime normalmente…",
-    options: ["Causa", "Concessão", "Tempo", "Finalidade"],
-    answer: 1,
-    explanation: "«Embora» introduz normalmente uma oração subordinada concessiva."
-  }
-];
-
-function startQuiz() {
-  quizQuestions = [...quizBank].sort(() => Math.random() - 0.5);
-  quizIndex = 0;
-  quizScore = 0;
-  quizAnswered = false;
-  renderQuestion();
 }
 
-function renderQuestion() {
-  const item = quizQuestions[quizIndex];
-  if (!item) return;
-
-  $("quizCounter").textContent =
-    `Pergunta ${quizIndex + 1} de ${quizQuestions.length} · ${item.subject}`;
-  $("quizScore").textContent = "Pontuação: " + quizScore;
-  $("quizFeedback").classList.add("hidden");
-  $("checkAnswer").classList.remove("hidden");
-  $("nextQuestion").classList.add("hidden");
-
-  const container = $("quizContent");
-  container.replaceChildren();
-
-  const title = document.createElement("h3");
-  title.textContent = item.question;
-  container.appendChild(title);
-
-  item.options.forEach((option, index) => {
-    const label = document.createElement("label");
-    label.className = "quiz-option";
-
-    const input = document.createElement("input");
-    input.type = "radio";
-    input.name = "quizAnswer";
-    input.value = String(index);
-
-    const text = document.createElement("span");
-    text.textContent = option;
-
-    label.append(input, text);
-    container.appendChild(label);
+if ($("chatForm")) {
+  $("chatForm").addEventListener("submit", async event => {
+    event.preventDefault();
+    const input = $("chatInput");
+    const question = input?.value.trim();
+    if (!question) return;
+    input.value = "";
+    await askProfessor(question);
   });
 }
 
-$("checkAnswer").addEventListener("click", () => {
-  if (quizAnswered) return;
+/* Pedidos de geração: dependem de rotas reais e de um serviço configurado
+   no backend. A interface não finge que cria imagens ou vídeos localmente. */
+if ($("generateContent")) {
+  $("generateContent").addEventListener("click", async () => {
+    const type = $("generationType")?.value || "image";
+    const prompt = $("generationPrompt")?.value.trim();
+    const result = $("generationResult");
+    if (!result) return;
 
-  const selected = document.querySelector('input[name="quizAnswer"]:checked');
-  if (!selected) {
-    showToast("Seleciona uma resposta primeiro.");
-    return;
-  }
-
-  const item = quizQuestions[quizIndex];
-  const correct = Number(selected.value) === item.answer;
-  quizAnswered = true;
-  data.answers++;
-
-  if (correct) {
-    quizScore++;
-    data.correct++;
-  }
-
-  data.history.push({
-    date: new Date().toISOString(),
-    subject: item.subject,
-    correct
-  });
-
-  data.history = data.history.slice(-100);
-  saveData();
-
-  document.querySelectorAll('input[name="quizAnswer"]').forEach(input => {
-    input.disabled = true;
-  });
-
-  status(
-    "quizFeedback",
-    (correct ? "Correto! " : "Resposta correta: " + item.options[item.answer] + ". ") +
-      item.explanation,
-    correct ? "success" : "error"
-  );
-
-  $("quizScore").textContent = "Pontuação: " + quizScore;
-  $("checkAnswer").classList.add("hidden");
-  $("nextQuestion").classList.remove("hidden");
-  renderStats();
-});
-
-$("nextQuestion").addEventListener("click", () => {
-  quizIndex++;
-  quizAnswered = false;
-
-  if (quizIndex >= quizQuestions.length) {
-    $("quizContent").replaceChildren();
-
-    const result = document.createElement("h3");
-    result.textContent = "Conjunto concluído!";
-    const score = document.createElement("p");
-    score.textContent = `Acertaste ${quizScore} em ${quizQuestions.length} perguntas.`;
-
-    $("quizContent").append(result, score);
-    $("quizCounter").textContent = "Concluído";
-    $("nextQuestion").classList.add("hidden");
-    showToast("Exercícios concluídos!");
-    return;
-  }
-
-  renderQuestion();
-});
-
-$("newQuiz").addEventListener("click", startQuiz);
-
-/* TEMPORIZADOR */
-
-function updateTimer() {
-  const minutes = Math.floor(timerRemaining / 60);
-  const seconds = timerRemaining % 60;
-
-  $("timerDisplay").textContent =
-    String(minutes).padStart(2, "0") + ":" +
-    String(seconds).padStart(2, "0");
-
-  const percent = timerTotal
-    ? 100 * (timerTotal - timerRemaining) / timerTotal
-    : 0;
-
-  $("timerProgress").style.width = Math.max(0, Math.min(100, percent)) + "%";
-}
-
-function stopTimer() {
-  clearInterval(timerInterval);
-  timerInterval = null;
-  timerRunning = false;
-  $("timerStart").disabled = false;
-  $("timerPause").disabled = true;
-}
-
-function finishSession() {
-  stopTimer();
-
-  if (!sessionCounted) {
-    data.sessions++;
-    sessionCounted = true;
-
-    const today = new Date().toISOString().slice(0, 10);
-    if (!data.days.includes(today)) data.days.push(today);
-
-    data.minutes += Math.round(timerTotal / 60);
-    saveData();
-  }
-
-  $("timerLabel").textContent = "Sessão concluída!";
-  renderStats();
-  showToast("Parabéns! Concluíste a sessão.");
-}
-
-$("timerStart").addEventListener("click", () => {
-  if (timerRunning) return;
-
-  if (timerRemaining <= 0) {
-    timerRemaining = timerTotal;
-    sessionCounted = false;
-  }
-
-  timerRunning = true;
-  $("timerStart").disabled = true;
-  $("timerPause").disabled = false;
-  $("timerLabel").textContent = "Sessão em curso…";
-
-  timerInterval = setInterval(() => {
-    if (timerRemaining > 0) {
-      timerRemaining--;
-      updateTimer();
+    if (!prompt) {
+      result.textContent = "Escreve primeiro uma descrição.";
+      return;
     }
 
-    if (timerRemaining <= 0) finishSession();
-  }, 1000);
-});
+    result.textContent = "A verificar o serviço de geração…";
 
-$("timerPause").addEventListener("click", () => {
-  if (!timerRunning) return;
-  stopTimer();
-  $("timerLabel").textContent = "Sessão pausada.";
-});
-
-$("timerReset").addEventListener("click", () => {
-  stopTimer();
-  timerRemaining = timerTotal;
-  sessionCounted = false;
-  $("timerLabel").textContent = "Temporizador reiniciado.";
-  updateTimer();
-});
-
-$("duration").addEventListener("change", () => {
-  if (timerRunning) return;
-  timerTotal = Number($("duration").value) * 60;
-  timerRemaining = timerTotal;
-  sessionCounted = false;
-  updateTimer();
-});
-
-$("saveNotes").addEventListener("click", () => {
-  data.notes = $("studyNotes").value;
-  saveData();
-  showToast("Notas guardadas.");
-});
-
-/* PROGRESSO */
-
-function renderStats() {
-  $("statMinutes").textContent = data.minutes + " min";
-  $("statQuizzes").textContent = String(data.answers);
-
-  const accuracy = data.answers
-    ? Math.round(100 * data.correct / data.answers)
-    : null;
-
-  $("statAccuracy").textContent = accuracy === null ? "—" : accuracy + "%";
-  $("statDays").textContent = String(data.days.length);
-
-  $("progressMinutes").textContent = data.minutes + " min";
-  $("progressCompleted").textContent = String(data.answers);
-  $("progressAccuracy").textContent = accuracy === null ? "—" : accuracy + "%";
-  $("accuracyBar").style.width = (accuracy || 0) + "%";
-  $("correctSummary").textContent = data.correct + " respostas corretas";
-  $("sessionSummary").textContent = String(data.sessions);
-
-  $("topUser").textContent = profile.name || "Estudante";
-  $("avatar").textContent = (profile.name || "E").trim().charAt(0).toUpperCase();
-  $("profileSummary").textContent = profile.year
-    ? `${profile.name || "Estudante"} · ${profile.year}` +
-      (profile.target ? ` · Meta: ${profile.target}` : "")
-    : "Configura o teu ano escolar nas Definições.";
-}
-
-function renderProgress() {
-  renderStats();
-
-  const container = $("activityHistory");
-  container.replaceChildren();
-
-  const heading = document.createElement("h3");
-  heading.textContent = "Atividade recente";
-  container.appendChild(heading);
-
-  const recent = data.history.slice(-10).reverse();
-
-  if (!recent.length) {
-    const p = document.createElement("p");
-    p.className = "muted";
-    p.textContent = "Ainda não tens respostas registadas.";
-    container.appendChild(p);
-    return;
-  }
-
-  recent.forEach(item => {
-    const row = document.createElement("div");
-    row.className = "list-item";
-
-    const subject = document.createElement("span");
-    subject.textContent = item.subject || "Exercício";
-
-    const result = document.createElement("span");
-    result.textContent = item.correct ? "Correto" : "Incorreto";
-    result.style.color = item.correct ? "var(--green)" : "var(--red)";
-
-    const date = document.createElement("span");
-    date.className = "muted small";
-    date.textContent = new Date(item.date).toLocaleDateString("pt-PT");
-
-    row.append(subject, date, result);
-    container.appendChild(row);
-  });
-}
-
-/* FAVORITOS */
-
-function renderFavorites() {
-  const container = $("favoritesList");
-  container.replaceChildren();
-
-  if (!data.favorites.length) {
-    const p = document.createElement("p");
-    p.className = "muted";
-    p.textContent = "Ainda não guardaste favoritos.";
-    container.appendChild(p);
-    return;
-  }
-
-  data.favorites.forEach(item => {
-    const row = document.createElement("div");
-    row.className = "list-item";
-
-    const title = document.createElement("strong");
-    title.textContent = item.title;
-
-    const remove = document.createElement("button");
-    remove.className = "btn";
-    remove.textContent = "Remover";
-    remove.addEventListener("click", () => {
-      data.favorites = data.favorites.filter(f => f.id !== item.id);
-      saveData();
-      renderFavorites();
-    });
-
-    row.append(title, remove);
-    container.appendChild(row);
-  });
-}
-
-/* MÚSICA */
-
-async function loadMusic() {
-  if (musicLoaded) return;
-
-  const list = $("musicList");
-  list.replaceChildren();
-
-  const message = document.createElement("p");
-  message.className = "muted small";
-  message.textContent = "A procurar música disponível…";
-  list.appendChild(message);
-
-  try {
-    const response = await fetch(backend() + "/api/music", {
-      signal: AbortSignal.timeout(15000)
-    });
-
-    if (!response.ok) throw new Error("Catálogo indisponível.");
-
-    const json = await response.json();
-    const tracks = Array.isArray(json)
-      ? json
-      : json.tracks || json.results || json.items || [];
-
-    const valid = tracks.filter(track =>
-      safeUrl(track.url || track.audioUrl || track.audio_url)
-    );
-
-    list.replaceChildren();
-
-    if (!valid.length) throw new Error("Não existem faixas reproduzíveis.");
-
-    valid.forEach(track => {
-      const url = safeUrl(track.url || track.audioUrl || track.audio_url);
-
-      const row = document.createElement("div");
-      row.className = "list-item";
-
-      const title = document.createElement("strong");
-      title.textContent = track.title || "Música de estudo";
-
-      const play = document.createElement("button");
-      play.className = "btn primary";
-      play.textContent = "▶ Ouvir";
-      play.addEventListener("click", () => {
-        $("musicPlayer").src = url;
-        $("musicNow").textContent = track.title || "A reproduzir";
-        $("musicPlayer").play().catch(() => {
-          showToast("Carrega no botão de reprodução do leitor.");
-        });
+    try {
+      const response = await fetch(API_BASE_URL + "/api/generate", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type, prompt })
       });
 
-      const open = document.createElement("a");
-      open.className = "btn";
-      open.href = url;
-      open.target = "_blank";
-      open.rel = "noopener noreferrer";
-      open.textContent = "Abrir faixa";
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(data.error || "O serviço de geração não está disponível.");
+      }
 
-      const controls = document.createElement("div");
-      controls.className = "row wrap";
-      controls.append(play, open);
+      result.replaceChildren();
+      if (data.url) {
+        const link = document.createElement("a");
+        link.href = data.url;
+        link.target = "_blank";
+        link.rel = "noopener noreferrer";
+        link.textContent = "Abrir conteúdo gerado";
+        result.appendChild(link);
+      } else {
+        result.textContent = data.message ||
+          "O servidor respondeu, mas não devolveu um endereço de conteúdo.";
+      }
+    } catch (error) {
+      result.textContent =
+        "A geração não foi concluída. O backend precisa de disponibilizar " +
+        "uma rota /api/generate ligada a um serviço real. " + error.message;
+    }
+  });
+}
 
-      row.append(title, controls);
-      list.appendChild(row);
-    });
+/* Reprodução de áudio através de URL direta */
+if ($("loadMusic")) {
+  $("loadMusic").addEventListener("click", () => {
+    const input = $("musicUrl");
+    const player = $("musicPlayer");
+    const status = $("musicStatus");
+    if (!input || !player || !status) return;
 
-    musicLoaded = true;
-  } catch (error) {
-    list.replaceChildren();
+    let url;
+    try {
+      url = new URL(input.value.trim());
+    } catch {
+      status.textContent = "Introduz um endereço válido.";
+      return;
+    }
 
-    const p = document.createElement("p");
-    p.className = "muted";
-    p.textContent = "O catálogo do servidor ainda não está disponível. Podes explorar música gratuita, verificando a licença de cada faixa.";
+    if (url.protocol !== "https:" && url.protocol !== "http:") {
+      status.textContent = "O endereço tem de começar por HTTP ou HTTPS.";
+      return;
+    }
 
+    player.src = url.href;
+    player.load();
+    status.textContent =
+      "Áudio carregado. Carrega no botão de reprodução; alguns servidores podem bloquear o acesso.";
+  });
+}
+
+/* Exportar dados guardados no navegador */
+if ($("exportData")) {
+  $("exportData").addEventListener("click", () => {
+    const data = {
+      exportedAt: new Date().toISOString(),
+      settings,
+      progress,
+      favorites,
+      chats
+    };
+
+    const blob = new Blob(
+      [JSON.stringify(data, null, 2)],
+      { type: "application/json" }
+    );
+    const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
-    link.className = "btn";
-    link.href = "https://pixabay.com/music/";
-    link.target = "_blank";
-    link.rel = "noopener noreferrer";
-    link.textContent = "Explorar música gratuita";
+    link.href = url;
+    link.download = "study-ai-dados.json";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(url);
+  });
+}
 
-    const retry = document.createElement("button");
-    retry.className = "btn";
-    retry.textContent = "Tentar novamente";
-    retry.addEventListener("click", () => {
-      musicLoaded = false;
-      loadMusic();
+/* Temporizador simples de estudo */
+function startStudyTimer() {
+  if (studyTimerStart !== null) return;
+  studyTimerStart = Date.now();
+}
+
+function stopStudyTimer() {
+  if (studyTimerStart === null) return;
+  const elapsed = Math.max(0, Math.floor((Date.now() - studyTimerStart) / 1000));
+  progress.studySeconds += elapsed;
+  studyTimerStart = null;
+  writeStore(STORAGE_KEYS.progress, progress);
+  renderProgress();
+}
+
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) stopStudyTimer();
+});
+
+/* Verificação opcional do estado do backend */
+async function checkBackend() {
+  try {
+    const response = await fetch(API_BASE_URL + "/api/health", {
+      method: "GET"
     });
-
-    list.append(p, link, retry);
+    if (!response.ok) throw new Error("Resposta HTTP " + response.status);
+    return await response.json();
+  } catch (error) {
+    console.warn("Backend indisponível ou inacessível:", error.message);
+    return null;
   }
 }
 
-/* INICIALIZAÇÃO */
+/* Inicialização */
+function initStudyAI() {
+  fillYearSelect("settingsYear");
+  fillYearSelect("videoYear");
+  fillYearSelect("exerciseYear");
+  loadSettingsIntoForm();
+  applyTextScale(settings.textScale || "normal");
 
-function initializeApp() {
-  loadData();
-  fillSettings();
+  if ($("videoYear")) $("videoYear").value = settings.year || "8";
+  if ($("exerciseYear")) $("exerciseYear").value = settings.year || "8";
 
-  $("studyNotes").value = data.notes || "";
-
-  if (profile.year) $("studyYear").value = profile.year;
-
-  timerTotal = Number($("duration").value) * 60;
-  timerRemaining = timerTotal;
-
-  applyLanguage();
-  renderStats();
   renderProgress();
   renderFavorites();
-  updateTimer();
-  startQuiz();
+
+  if (chats.length) {
+    activeChatId = chats[0].id;
+  }
+
+  renderChatHistory();
+
+  /* O temporizador começa quando o utilizador entra numa página de estudo. */
+  document.querySelectorAll("[data-page]").forEach(button => {
+    button.addEventListener("click", () => {
+      const page = button.dataset.page;
+      if (["study", "estudar", "professor", "exercises"].includes(page)) {
+        startStudyTimer();
+      } else {
+        stopStudyTimer();
+      }
+    });
+  });
+
+  checkBackend();
 }
 
-initializeApp();
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initStudyAI);
+} else {
+  initStudyAI();
+}
 </script>
 </body>
 </html>
