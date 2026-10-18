@@ -4,7 +4,7 @@ import express from "express";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(express.json());
+app.use(express.json({ limit: "1mb" }));
 
 app.get("/", (req, res) => {
   res.json({ message: "Study AI Professor API is running." });
@@ -15,60 +15,55 @@ app.get("/api/health", (req, res) => {
 });
 
 app.get("/api/videos", async (req, res) => {
-  try {
-    const query = String(req.query.q || "aulas escolares Portugal")
-      .slice(0, 150);
+  const query = String(req.query.q || "aulas escolares Portugal")
+    .slice(0, 150);
 
-    const apiKey = process.env.YOUTUBE_API_KEY;
+  const instances = [
+    "https://invidious.nerdvpn.de",
+    "https://inv.nadeko.net",
+    "https://invidious.privacyredirect.com"
+  ];
 
-    if (!apiKey) {
-      return res.status(503).json({
-        error: "Falta configurar a chave da YouTube Data API.",
-        setup: "Adiciona YOUTUBE_API_KEY nas variáveis de ambiente do Render."
+  for (const instance of instances) {
+    try {
+      const url = new URL("/api/v1/search", instance);
+      url.searchParams.set("q", query);
+      url.searchParams.set("type", "video");
+
+      const response = await fetch(url, {
+        signal: AbortSignal.timeout(7000),
+        headers: { Accept: "application/json" }
       });
+
+      if (!response.ok) continue;
+
+      const data = await response.json();
+
+      const videos = data
+        .filter(item => item.type === "video" && item.videoId)
+        .slice(0, 12)
+        .map(item => ({
+          id: item.videoId,
+          title: item.title || "Vídeo educativo",
+          description: item.description || "",
+          thumbnail: item.videoThumbnails?.find(
+            image => image.quality === "medium"
+          )?.url || "",
+          url: `https://www.youtube.com/watch?v=${item.videoId}`,
+          embedUrl: `https://www.youtube.com/embed/${item.videoId}`,
+          channel: item.author || ""
+        }));
+
+      return res.json({ videos });
+    } catch (error) {
+      console.error(`Instância indisponível: ${instance}`);
     }
-
-    const params = new URLSearchParams({
-      part: "snippet",
-      type: "video",
-      maxResults: "12",
-      q: query,
-      relevanceLanguage: "pt",
-      regionCode: "PT",
-      safeSearch: "strict",
-      key: apiKey
-    });
-
-    const response = await fetch(
-      `https://www.googleapis.com/youtube/v3/search?${params}`
-    );
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      console.error("YouTube API:", data);
-      return res.status(502).json({
-        error: "Não foi possível obter vídeos do YouTube."
-      });
-    }
-
-    const videos = (data.items || []).map(item => ({
-      id: item.id.videoId,
-      title: item.snippet.title,
-      description: item.snippet.description,
-      thumbnail: item.snippet.thumbnails?.medium?.url || "",
-      url: `https://www.youtube.com/watch?v=${item.id.videoId}`,
-      embedUrl: `https://www.youtube.com/embed/${item.id.videoId}`,
-      channel: item.snippet.channelTitle
-    }));
-
-    res.json({ videos });
-  } catch (error) {
-    console.error("Erro ao procurar vídeos:", error);
-    res.status(500).json({
-      error: "Erro interno ao procurar vídeos."
-    });
   }
+
+  res.status(502).json({
+    error: "A pesquisa pública de vídeos está temporariamente indisponível.",
+    videos: []
+  });
 });
 
 app.listen(PORT, "0.0.0.0", () => {
