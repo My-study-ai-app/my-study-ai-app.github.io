@@ -3,1313 +3,2702 @@
 <html lang="pt-PT">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#1769e0">
-<meta name="description" content="Study AI — aprende, pratica e melhora os teus resultados.">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#2563eb">
+<meta name="description" content="Study AI — aprende, pratica e acompanha o teu progresso escolar gratuitamente.">
 <title>Study AI — Aprende ao teu ritmo</title>
 
 <style>
 :root {
-  --blue: #1769e0;
-  --blue-dark: #104eae;
-  --blue-light: #eaf2ff;
-  --background: #f5f7fb;
+  --blue: #2563eb;
+  --blue-dark: #1d4ed8;
+  --blue-light: #eff6ff;
+  --blue-soft: #dbeafe;
+  --bg: #f5f8ff;
   --surface: #ffffff;
-  --text: #182338;
-  --muted: #69758a;
-  --border: #e3e9f2;
-  --radius: 17px;
-  --shadow: 0 5px 20px rgba(25, 60, 110, .06);
+  --text: #172033;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --green: #16a34a;
+  --red: #dc2626;
+  --shadow: 0 8px 28px rgba(37, 99, 235, .08);
+  --radius: 18px;
 }
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
-  background: var(--background);
+  background: var(--bg);
   color: var(--text);
   font-family: Inter, "Segoe UI", Arial, sans-serif;
   font-size: 15px;
   line-height: 1.55;
 }
-button, input, select, textarea { font: inherit; }
-button { cursor: pointer; }
-button:focus-visible, input:focus-visible,
-select:focus-visible, a:focus-visible {
-  outline: 3px solid #8db9ff;
-  outline-offset: 3px;
+
+button, input, select, textarea {
+  font: inherit;
 }
-button:disabled { opacity: .55; cursor: not-allowed; }
-a { color: inherit; text-decoration: none; }
-.app-shell { min-height: 100vh; }
+
+button {
+  cursor: pointer;
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid #93c5fd;
+  outline-offset: 2px;
+}
+
+button:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+}
+
+.app {
+  min-height: 100vh;
+}
+
 .sidebar {
   position: fixed;
-  inset: 0 auto 0 0;
-  z-index: 100;
-  width: 250px;
+  z-index: 20;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 245px;
+  padding: 24px 16px;
+  background: var(--surface);
+  border-right: 1px solid var(--border);
   display: flex;
   flex-direction: column;
-  padding: 20px 15px;
   overflow-y: auto;
-  background: white;
-  border-right: 1px solid var(--border);
 }
+
 .brand {
   display: flex;
   align-items: center;
   gap: 11px;
-  padding: 5px 8px 25px;
+  padding: 3px 8px 27px;
 }
-.brand-symbol {
-  width: 45px;
-  height: 45px;
+
+.brand-logo {
+  width: 44px;
+  height: 44px;
+  border-radius: 14px;
   display: grid;
   place-items: center;
-  flex-shrink: 0;
-  border-radius: 14px;
-  background: linear-gradient(135deg, #1769e0, #65a5ff);
   color: white;
-  font-size: 25px;
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  font-size: 23px;
   font-weight: 900;
-  box-shadow: 0 5px 13px #1769e030;
+  box-shadow: 0 6px 15px #2563eb30;
 }
-.brand-name { font-size: 21px; font-weight: 850; letter-spacing: -.6px; }
-.brand-caption { display: block; color: var(--muted); font-size: 11px; }
+
+.brand-name {
+  font-size: 22px;
+  font-weight: 850;
+  letter-spacing: -.8px;
+}
+
+.brand-name span {
+  color: var(--blue);
+}
+
+.brand-subtitle {
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: -3px;
+}
+
 .nav-label {
   padding: 12px 10px 7px;
-  color: #8792a5;
+  color: #94a3b8;
   font-size: 10px;
   font-weight: 800;
-  letter-spacing: 1px;
+  letter-spacing: 1.2px;
   text-transform: uppercase;
 }
-.nav-list { display: grid; gap: 5px; }
+
 .nav-button {
+  width: 100%;
   display: flex;
   align-items: center;
   gap: 12px;
-  width: 100%;
-  min-height: 45px;
-  padding: 10px 12px;
   border: 0;
-  border-radius: 11px;
+  border-radius: 12px;
+  padding: 12px 13px;
+  margin: 3px 0;
   background: transparent;
-  color: #526078;
+  color: #475569;
   text-align: left;
-  transition: background .18s, color .18s;
+  font-weight: 650;
+  transition: background .18s, color .18s, transform .18s;
 }
-.nav-button:hover, .nav-button.active {
-  background: var(--blue-light);
-  color: var(--blue);
+
+.nav-button:hover {
+  background: #f1f5f9;
+  transform: translateX(2px);
 }
-.nav-button.active { font-weight: 800; }
-.nav-icon { width: 23px; text-align: center; font-size: 19px; }
-.sidebar-bottom { margin-top: auto; padding-top: 20px; }
-.profile-mini {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 13px 7px 3px;
-  border-top: 1px solid var(--border);
-}
-.avatar {
-  width: 39px;
-  height: 39px;
-  display: grid;
-  place-items: center;
-  flex-shrink: 0;
-  border-radius: 50%;
-  background: #dce9ff;
+
+.nav-button.active {
   color: var(--blue-dark);
-  font-weight: 850;
+  background: var(--blue-light);
 }
-.profile-name { font-size: 13px; font-weight: 800; }
-.profile-year { color: var(--muted); font-size: 11px; }
-.main-area { min-height: 100vh; margin-left: 250px; }
+
+.nav-icon {
+  width: 23px;
+  text-align: center;
+  font-size: 19px;
+}
+
+.sidebar-bottom {
+  margin-top: auto;
+  padding-top: 22px;
+}
+
+.free-card {
+  background: linear-gradient(145deg, #eff6ff, #f8fbff);
+  border: 1px solid #dbeafe;
+  border-radius: 15px;
+  padding: 15px;
+}
+
+.free-card strong {
+  display: block;
+  color: var(--blue-dark);
+  margin-bottom: 4px;
+}
+
+.free-card p {
+  color: var(--muted);
+  font-size: 12px;
+  margin: 0;
+}
+
+.main {
+  margin-left: 245px;
+  min-height: 100vh;
+}
+
 .topbar {
-  position: sticky;
-  top: 0;
-  z-index: 50;
+  height: 76px;
+  padding: 0 34px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 14px;
-  min-height: 72px;
-  padding: 13px 30px;
-  background: #ffffffed;
+  gap: 15px;
+  background: rgba(255,255,255,.92);
   border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
   backdrop-filter: blur(12px);
 }
-.topbar h1 { margin: 0; font-size: 20px; font-weight: 850; }
-.topbar-subtitle { color: var(--muted); font-size: 12px; }
-.topbar-actions { display: flex; gap: 9px; align-items: center; }
-.icon-button {
-  width: 41px;
-  height: 41px;
-  display: grid;
-  place-items: center;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: white;
-  color: var(--text);
+
+.topbar-title {
+  font-size: 18px;
+  font-weight: 800;
 }
-.mobile-menu { display: none; }
-.page-content {
-  width: 100%;
-  max-width: 1500px;
-  margin: auto;
-  padding: 28px 30px 55px;
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
-.page { display: none; animation: fade-in .2s ease; }
-.page.active { display: block; }
-@keyframes fade-in {
+
+.topbar-note {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--blue-soft);
+  color: var(--blue-dark);
+  font-weight: 850;
+  font-size: 16px;
+}
+
+.content {
+  width: min(1200px, 100%);
+  margin: 0 auto;
+  padding: 30px 34px 70px;
+}
+
+.page {
+  display: none;
+  animation: appear .25s ease;
+}
+
+.page.active {
+  display: block;
+}
+
+@keyframes appear {
   from { opacity: 0; transform: translateY(5px); }
   to { opacity: 1; transform: translateY(0); }
 }
-.welcome-banner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  min-height: 210px;
-  padding: 32px;
+
+.hero {
+  position: relative;
   overflow: hidden;
-  border-radius: 23px;
-  background: linear-gradient(120deg, #145ac4, #3988f6);
+  border-radius: 24px;
+  padding: 32px;
+  background: linear-gradient(120deg, #1d4ed8, #3b82f6 68%, #60a5fa);
   color: white;
-  box-shadow: 0 12px 30px #1769e026;
+  box-shadow: 0 12px 32px #2563eb20;
 }
-.welcome-copy { max-width: 650px; }
-.welcome-kicker {
-  margin-bottom: 8px;
-  font-size: 11px;
-  font-weight: 850;
-  letter-spacing: 1.3px;
+
+.hero::after {
+  content: "✦";
+  position: absolute;
+  right: 45px;
+  top: -35px;
+  font-size: 180px;
+  color: #ffffff17;
+  pointer-events: none;
+}
+
+.hero-kicker {
+  font-size: 12px;
   text-transform: uppercase;
+  letter-spacing: 1.3px;
+  font-weight: 800;
+  opacity: .85;
 }
-.welcome-banner h2 {
-  margin: 0 0 12px;
-  font-size: clamp(26px, 3vw, 36px);
-  line-height: 1.2;
+
+.hero h1 {
+  max-width: 600px;
+  margin: 9px 0;
+  font-size: clamp(27px, 4vw, 40px);
+  line-height: 1.15;
+  letter-spacing: -1px;
 }
-.welcome-banner p { max-width: 520px; color: #edf4ff; }
-.welcome-decoration { font-size: 90px; }
-.button {
+
+.hero p {
+  max-width: 570px;
+  margin: 12px 0 22px;
+  color: #eff6ff;
+}
+
+.hero .btn {
+  background: white;
+  color: var(--blue-dark);
+}
+
+.btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  min-height: 42px;
-  padding: 10px 15px;
   border: 1px solid transparent;
   border-radius: 11px;
+  padding: 10px 15px;
   background: var(--blue);
   color: white;
   font-weight: 750;
   transition: transform .15s, background .15s;
 }
-.button:hover { transform: translateY(-1px); background: var(--blue-dark); }
-.button-white { background: white; color: var(--blue-dark); }
-.button-outline { background: white; color: var(--text); border-color: var(--border); }
-.button-small { min-height: 35px; padding: 7px 11px; font-size: 12px; }
+
+.btn:hover {
+  transform: translateY(-1px);
+  background: var(--blue-dark);
+}
+
+.btn.secondary {
+  color: var(--blue-dark);
+  background: white;
+  border-color: #bfdbfe;
+}
+
+.btn.secondary:hover {
+  background: var(--blue-light);
+}
+
+.btn.ghost {
+  background: #f1f5f9;
+  color: #334155;
+  border-color: var(--border);
+}
+
+.btn.small {
+  padding: 7px 10px;
+  font-size: 12px;
+}
+
+.btn.full {
+  width: 100%;
+}
+
 .section-heading {
   display: flex;
-  align-items: end;
+  align-items: flex-end;
   justify-content: space-between;
-  gap: 14px;
-  margin: 28px 0 15px;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 29px 0 16px;
 }
-.section-heading h2 { margin: 0; font-size: 21px; }
-.section-heading p { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
-.panel {
-  padding: 21px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  background: white;
-  box-shadow: var(--shadow);
+
+.section-heading h2 {
+  margin: 0;
+  font-size: 21px;
+  letter-spacing: -.4px;
 }
-.panel h3 { margin: 0 0 5px; font-size: 17px; }
-.panel-description { margin: 0 0 17px; color: var(--muted); font-size: 13px; }
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 13px;
-  margin-top: 22px;
+
+.section-heading p {
+  margin: 3px 0 0;
+  color: var(--muted);
+  font-size: 13px;
 }
-.stat-card {
-  padding: 17px;
-  border: 1px solid var(--border);
-  border-radius: 15px;
-  background: white;
-  box-shadow: var(--shadow);
-}
-.stat-label { color: var(--muted); font-size: 12px; }
-.stat-value { margin-top: 8px; font-size: 27px; font-weight: 850; }
-.stat-foot { color: var(--muted); font-size: 11px; }
-.subjects-grid {
+
+.grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
+  gap: 17px;
 }
-.subject-card {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  min-height: 150px;
-  padding: 18px;
-  overflow: hidden;
+
+.grid.two {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.grid.four {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.card {
+  min-width: 0;
+  padding: 19px;
+  background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 16px;
-  background: white;
-  color: var(--text);
-  text-align: left;
-  box-shadow: var(--shadow);
-  transition: transform .18s, border-color .18s;
+  border-radius: var(--radius);
+  box-shadow: 0 3px 12px #0f172a05;
 }
-.subject-card:hover { transform: translateY(-3px); border-color: #aac9ff; }
-.subject-icon {
+
+.card h3 {
+  margin: 0 0 7px;
+  font-size: 16px;
+}
+
+.card p {
+  color: var(--muted);
+  font-size: 13px;
+  margin: 0 0 13px;
+}
+
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+
+.stat-icon {
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
   display: grid;
   place-items: center;
-  width: 44px;
-  height: 44px;
-  margin-bottom: 12px;
-  border-radius: 13px;
   background: var(--blue-light);
-  font-size: 23px;
+  border-radius: 14px;
+  font-size: 22px;
 }
-.subject-name { font-size: 15px; font-weight: 850; }
-.subject-detail { margin-top: 4px; color: var(--muted); font-size: 12px; }
-.field { display: grid; gap: 6px; min-width: 0; }
-.field label { font-size: 12px; font-weight: 800; }
-.field input, .field select, .field textarea, .search-input {
+
+.stat-value {
+  font-size: 25px;
+  line-height: 1.2;
+  font-weight: 850;
+}
+
+.stat-label {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.progress-track {
+  height: 8px;
+  overflow: hidden;
+  border-radius: 20px;
+  background: #e2e8f0;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #2563eb, #60a5fa);
+  transition: width .35s;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.field label {
+  color: #475569;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.field input,
+.field select,
+.search-input {
   width: 100%;
   min-height: 43px;
   padding: 10px 12px;
-  border: 1px solid #d6deeb;
+  border: 1px solid #cbd5e1;
   border-radius: 11px;
   background: white;
   color: var(--text);
 }
-.field textarea { min-height: 95px; resize: vertical; }
-.toolbar { display: flex; flex-wrap: wrap; align-items: end; gap: 12px; margin-bottom: 20px; }
-.page-heading { margin-bottom: 23px; }
-.page-heading h2 { margin: 0 0 7px; font-size: 27px; }
-.page-heading p { margin: 0; color: var(--muted); }
-.hidden { display: none !important; }
-.empty-state { padding: 24px 12px; color: var(--muted); text-align: center; }
-.progress-track { height: 8px; overflow: hidden; border-radius: 99px; background: #e9eef7; }
-.progress-fill { width: 0; height: 100%; border-radius: inherit; background: var(--blue); transition: width .3s; }
-.divider { height: 1px; margin: 18px 0; background: var(--border); }
-.toast-region { position: fixed; right: 18px; bottom: 18px; z-index: 300; display: grid; gap: 8px; }
-.toast { max-width: 350px; padding: 12px 16px; border: 1px solid var(--border); border-radius: 12px; background: white; box-shadow: var(--shadow); }
-.footer-note { margin-top: 28px; color: var(--muted); text-align: center; font-size: 11px; }
+
+.field input::placeholder,
+.search-input::placeholder {
+  color: #94a3b8;
+}
+
+.field input:focus,
+.field select:focus,
+.search-input:focus {
+  border-color: var(--blue);
+  outline: 3px solid #dbeafe;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 15px;
+}
+
+.subject-card {
+  text-align: left;
+  cursor: pointer;
+  transition: transform .18s, border-color .18s, box-shadow .18s;
+}
+
+.subject-card:hover {
+  transform: translateY(-3px);
+  border-color: #93c5fd;
+  box-shadow: var(--shadow);
+}
+
+.subject-icon {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  border-radius: 15px;
+  background: var(--blue-light);
+  font-size: 23px;
+  margin-bottom: 12px;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 30px;
+  padding: 4px 9px;
+  background: var(--blue-light);
+  color: var(--blue-dark);
+  font-size: 11px;
+  font-weight: 750;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.small-text {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.divider {
+  height: 1px;
+  margin: 17px 0;
+  background: var(--border);
+}
+
+.hidden {
+  display: none !important;
+}
+
+.empty-state {
+  padding: 28px 18px;
+  border: 1px dashed #cbd5e1;
+  border-radius: 15px;
+  color: var(--muted);
+  text-align: center;
+  background: #ffffffa8;
+}
+
+.empty-state .big-icon {
+  font-size: 30px;
+  margin-bottom: 8px;
+}
+
+.notice {
+  padding: 12px 14px;
+  border: 1px solid #bfdbfe;
+  border-radius: 12px;
+  background: #eff6ff;
+  color: #1e40af;
+  font-size: 12px;
+}
+
+.notice.error {
+  border-color: #fecaca;
+  background: #fef2f2;
+  color: #991b1b;
+}
+
+.notice.success {
+  border-color: #bbf7d0;
+  background: #f0fdf4;
+  color: #166534;
+}
+
+.mobile-menu {
+  display: none;
+}
+
+.bottom-nav {
+  display: none;
+}
+
+footer {
+  padding: 25px 0 0;
+  text-align: center;
+  color: #94a3b8;
+  font-size: 11px;
+}
+
 @media (max-width: 1050px) {
-  .sidebar { width: 220px; }
-  .main-area { margin-left: 220px; }
-  .subjects-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .page-content { padding: 23px; }
-}
-@media (max-width: 720px) {
-  .sidebar {
-    width: 260px;
-    transform: translateX(-105%);
-    transition: transform .2s ease;
-    box-shadow: none;
+  .grid.four {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
-  body.sidebar-open .sidebar { transform: translateX(0); box-shadow: 10px 0 35px #14285029; }
-  .main-area { margin-left: 0; }
-  .mobile-menu { display: grid; }
-  .topbar { min-height: 64px; padding: 10px 13px; }
-  .topbar h1 { font-size: 17px; }
-  .topbar-subtitle { display: none; }
-  .page-content { padding: 17px 13px 35px; }
-  .welcome-banner { min-height: 0; padding: 23px 19px; }
-  .welcome-decoration { display: none; }
-  .welcome-banner h2 { font-size: 27px; }
-  .subjects-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; }
-  .subject-card { min-height: 135px; padding: 13px; }
-  .subject-name { font-size: 14px; }
-  .stats-grid { gap: 9px; }
-  .stat-card { padding: 13px; }
-  .stat-value { font-size: 23px; }
-  .section-heading { align-items: flex-start; }
+
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .content {
+    padding: 25px 22px 55px;
+  }
+
+  .topbar {
+    padding: 0 22px;
+  }
 }
-@media (max-width: 380px) {
-  .subjects-grid { grid-template-columns: 1fr; }
-  .welcome-banner { padding: 20px 16px; }
-}
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    scroll-behavior: auto !important;
-    animation-duration: .01ms !important;
-    transition-duration: .01ms !important;
+
+@media (max-width: 720px) {
+  body {
+    font-size: 14px;
+  }
+
+  .sidebar {
+    display: none;
+  }
+
+  .main {
+    margin-left: 0;
+  }
+
+  .topbar {
+    height: 64px;
+    padding: 0 15px;
+  }
+
+  .topbar-title {
+    font-size: 16px;
+  }
+
+  .topbar-note {
+    display: none;
+  }
+
+  .content {
+    padding: 18px 14px 100px;
+  }
+
+  .hero {
+    padding: 24px 20px;
+    border-radius: 19px;
+  }
+
+  .hero::after {
+    right: 10px;
+    font-size: 100px;
+  }
+
+  .hero h1 {
+    font-size: 29px;
+  }
+
+  .grid,
+  .grid.two,
+  .grid.four {
+    grid-template-columns: 1fr;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section-heading {
+    margin-top: 24px;
+  }
+
+  .card {
+    padding: 16px;
+  }
+
+  .mobile-menu {
+    display: inline-flex;
+  }
+
+  .bottom-nav {
+    position: fixed;
+    z-index: 30;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2px;
+    padding: 8px 5px max(8px, env(safe-area-inset-bottom));
+    border-top: 1px solid var(--border);
+    background: #ffffffef;
+    backdrop-filter: blur(14px);
+  }
+
+  .bottom-nav button {
+    min-width: 0;
+    border: 0;
+    border-radius: 10px;
+    padding: 6px 1px;
+    background: transparent;
+    color: #64748b;
+    font-size: 10px;
+    font-weight: 700;
+  }
+
+  .bottom-nav button span {
+    display: block;
+    margin-bottom: 2px;
+    font-size: 19px;
+  }
+
+  .bottom-nav button.active {
+    color: var(--blue-dark);
+    background: var(--blue-light);
   }
 }
 </style>
 </head>
 <body>
-<div class="app-shell">
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-logo">S</div>
+      <div>
+        <div class="brand-name">Study <span>AI</span></div>
+        <div class="brand-subtitle">O teu espaço de aprendizagem</div>
+      </div>
+    </div>
 
-<aside class="sidebar" id="sidebar">
-  <a href="#" class="brand" data-page="inicio">
-    <span class="brand-symbol">S</span>
-    <span>
-      <span class="brand-name">Study AI</span>
-      <span class="brand-caption">A tua plataforma de estudo</span>
-    </span>
-  </a>
-
-  <div class="nav-label">Menu principal</div>
-  <nav class="nav-list" aria-label="Navegação principal">
-    <button class="nav-button active" data-page="inicio"><span class="nav-icon">⌂</span> Início</button>
+    <div class="nav-label">Menu principal</div>
+    <button class="nav-button active" data-page="inicio"><span class="nav-icon">🏠</span> Início</button>
     <button class="nav-button" data-page="estudar"><span class="nav-icon">📚</span> Estudar</button>
-    <button class="nav-button" data-page="desafios"><span class="nav-icon">🏆</span> Desafios</button>
+    <button class="nav-button" data-page="desafios"><span class="nav-icon">🎯</span> Desafios</button>
     <button class="nav-button" data-page="musica"><span class="nav-icon">🎵</span> Música</button>
-    <button class="nav-button" data-page="progresso"><span class="nav-icon">📈</span> O meu progresso</button>
-  </nav>
+    <button class="nav-button" data-page="progresso"><span class="nav-icon">📈</span> Progresso</button>
 
-  <div class="nav-label">A minha conta</div>
-  <nav class="nav-list">
+    <div class="nav-label">A tua conta</div>
     <button class="nav-button" data-page="definicoes"><span class="nav-icon">⚙️</span> Definições</button>
-  </nav>
 
-  <div class="sidebar-bottom">
-    <div class="profile-mini">
-      <div class="avatar" id="sidebarAvatar">A</div>
-      <div>
-        <div class="profile-name" id="sidebarName">Aluno</div>
-        <div class="profile-year" id="sidebarYear">9.º ano</div>
+    <div class="sidebar-bottom">
+      <div class="free-card">
+        <strong>✨ Sempre gratuito</strong>
+        <p>Aprende ao teu ritmo. Sem subscrições nem funcionalidades Premium.</p>
       </div>
     </div>
-  </div>
-</aside>
+  </aside>
 
-<main class="main-area">
-  <header class="topbar">
-    <div class="topbar-left" style="display:flex;align-items:center;gap:12px">
-      <button class="icon-button mobile-menu" id="menuToggle" aria-label="Abrir menu">☰</button>
-      <div>
-        <h1 id="pageTitle">Início</h1>
-        <div class="topbar-subtitle">Aprende ao teu ritmo</div>
+  <main class="main">
+    <header class="topbar">
+      <div style="display:flex;align-items:center;gap:10px">
+        <button class="btn ghost small mobile-menu" id="mobileMenuBtn" aria-label="Abrir menu">☰</button>
+        <div class="topbar-title" id="topbarTitle">O teu espaço de estudo</div>
       </div>
-    </div>
-    <div class="topbar-actions">
-      <button class="icon-button" data-page="definicoes" aria-label="Definições">⚙️</button>
-    </div>
-  </header>
+      <div class="topbar-right">
+        <span class="topbar-note">Um passo de cada vez. 💙</span>
+        <button class="avatar" id="avatarButton" title="Abrir definições">J</button>
+      </div>
+    </header>
 
-  <div class="page-content">
-
-    <section class="page active" id="page-inicio">
-      <div class="welcome-banner">
-        <div class="welcome-copy">
-          <div class="welcome-kicker">A tua aprendizagem começa aqui</div>
-          <h2>Olá, <span id="welcomeName">Aluno</span>! 👋</h2>
-          <p>Estuda as tuas disciplinas, pratica com exercícios e acompanha o teu progresso, tudo num só lugar.</p>
-          <button class="button button-white" data-page="estudar">Começar a estudar →</button>
+    <div class="content">
+      <!-- PÁGINA INICIAL -->
+      <section class="page active" id="page-inicio">
+        <div class="hero">
+          <div class="hero-kicker">Bem-vindo ao Study AI</div>
+          <h1 id="welcomeTitle">Aprende mais. Aprende melhor.</h1>
+          <p>Organiza as tuas disciplinas, pratica com desafios e descobre vídeos educativos sem sair do teu espaço de estudo.</p>
+          <button class="btn" data-goto="estudar">📚 Começar a estudar <span>→</span></button>
         </div>
-        <div class="welcome-decoration" aria-hidden="true">📘</div>
-      </div>
 
-      <div class="stats-grid">
-        <div class="stat-card"><div class="stat-label">Disciplinas</div><div class="stat-value" id="statSubjects">12</div><div class="stat-foot">Para explorar</div></div>
-        <div class="stat-card"><div class="stat-label">Exercícios concluídos</div><div class="stat-value" id="statExercises">0</div><div class="stat-foot">O teu trabalho conta</div></div>
-        <div class="stat-card"><div class="stat-label">Desafios concluídos</div><div class="stat-value" id="statChallenges">0</div><div class="stat-foot">Continua a praticar</div></div>
-        <div class="stat-card"><div class="stat-label">Progresso</div><div class="stat-value" id="statProgress">0%</div><div class="stat-foot">Passo a passo</div></div>
-      </div>
-
-      <div class="section-heading">
-        <div><h2>As tuas disciplinas</h2><p>Escolhe uma disciplina para começar.</p></div>
-        <button class="button button-outline button-small" data-page="estudar">Ver todas →</button>
-      </div>
-      <div class="subjects-grid" id="homeSubjects"></div>
-
-      <div class="section-heading"><div><h2>Continuar a aprender</h2><p>Retoma o teu percurso de estudo.</p></div></div>
-      <div class="panel">
-        <div id="recentActivity" class="empty-state">Ainda não tens atividade registada. Escolhe uma disciplina e começa a estudar!</div>
-      </div>
-    </section>
-
-<!-- A PARTE 2 CONTINUA AQUI -->
-
-    <section class="page" id="page-estudar">
-      <div class="page-heading">
-        <h2>📚 Estudar</h2>
-        <p>Escolhe o teu ano, a disciplina e a matéria.</p>
-      </div>
-
-      <div class="panel">
-        <div class="toolbar">
-          <div class="field" style="flex:1;min-width:135px">
-            <label for="studyYear">Ano de escolaridade</label>
-            <select id="studyYear">
-              <option value="1">1.º ano</option><option value="2">2.º ano</option>
-              <option value="3">3.º ano</option><option value="4">4.º ano</option>
-              <option value="5">5.º ano</option><option value="6">6.º ano</option>
-              <option value="7">7.º ano</option><option value="8">8.º ano</option>
-              <option value="9" selected>9.º ano</option><option value="10">10.º ano</option>
-              <option value="11">11.º ano</option><option value="12">12.º ano</option>
-            </select>
-          </div>
-          <div class="field" style="flex:1;min-width:135px">
-            <label for="studyCourse">Curso (secundário)</label>
-            <select id="studyCourse">
-              <option value="">Não aplicável</option>
-              <option value="ciencias">Ciências e Tecnologias</option>
-              <option value="humanidades">Línguas e Humanidades</option>
-              <option value="economia">Ciências Socioeconómicas</option>
-              <option value="artes">Artes Visuais</option>
-              <option value="profissional">Curso profissional</option>
-            </select>
-          </div>
-          <div class="field" style="flex:1;min-width:135px">
-            <label for="studyPeriod">Período letivo</label>
-            <select id="studyPeriod">
-              <option value="1">1.º período</option>
-              <option value="2">2.º período</option>
-              <option value="3">3.º período</option>
-              <option value="all">Todo o ano</option>
-            </select>
-          </div>
-        </div>
-        <div class="field">
-          <label for="subjectSearch">Pesquisar disciplina</label>
-          <input id="subjectSearch" placeholder="Ex.: Matemática, Português..." />
-        </div>
-      </div>
-
-      <div class="section-heading"><div><h2>Disciplinas</h2><p id="subjectCount">Seleciona a tua disciplina.</p></div></div>
-      <div class="subjects-grid" id="allSubjects"></div>
-
-      <div id="subjectWorkspace" class="hidden">
         <div class="section-heading">
-          <div><h2 id="selectedSubjectTitle">Disciplina</h2><p id="selectedSubjectSubtitle"></p></div>
-          <button class="button button-outline button-small" id="backToSubjects">← Disciplinas</button>
+          <div>
+            <h2>O teu resumo</h2>
+            <p>O teu progresso neste navegador.</p>
+          </div>
         </div>
 
-        <div class="panel">
-          <div class="toolbar">
-            <div class="field" style="flex:1;min-width:150px">
-              <label for="unitSelect">Unidade / tema</label>
-              <select id="unitSelect"></select>
+        <div class="grid four">
+          <div class="card stat-card">
+            <div class="stat-icon">📘</div>
+            <div><div class="stat-value" id="statTopics">0</div><div class="stat-label">Tópicos concluídos</div></div>
+          </div>
+          <div class="card stat-card">
+            <div class="stat-icon">🎯</div>
+            <div><div class="stat-value" id="statPoints">0</div><div class="stat-label">Pontos conquistados</div></div>
+          </div>
+          <div class="card stat-card">
+            <div class="stat-icon">🔥</div>
+            <div><div class="stat-value" id="statDays">0</div><div class="stat-label">Dias de estudo registados</div></div>
+          </div>
+          <div class="card stat-card">
+            <div class="stat-icon">⏱️</div>
+            <div><div class="stat-value" id="statMinutes">0</div><div class="stat-label">Minutos de estudo</div></div>
+          </div>
+        </div>
+
+        <div class="section-heading">
+          <div>
+            <h2>Acesso rápido</h2>
+            <p>Escolhe o que queres fazer agora.</p>
+          </div>
+        </div>
+
+        <div class="grid">
+          <button class="card subject-card" data-goto="estudar">
+            <div class="subject-icon">📚</div>
+            <h3>Estudar matérias</h3>
+            <p>Escolhe o ano, a disciplina e os conteúdos que queres rever.</p>
+            <span class="pill">Explorar matérias →</span>
+          </button>
+          <button class="card subject-card" data-goto="desafios">
+            <div class="subject-icon">🧠</div>
+            <h3>Treinar conhecimentos</h3>
+            <p>Responde a perguntas, testa o que sabes e ganha pontos.</p>
+            <span class="pill">Fazer desafios →</span>
+          </button>
+          <button class="card subject-card" data-goto="musica">
+            <div class="subject-icon">🎧</div>
+            <h3>Concentrar</h3>
+            <p>Experimenta sons ambientes para acompanhar o teu estudo.</p>
+            <span class="pill">Abrir música →</span>
+          </button>
+        </div>
+
+        <div class="section-heading">
+          <div>
+            <h2>Retomar o estudo</h2>
+            <p>Marca os tópicos à medida que os terminares.</p>
+          </div>
+          <button class="btn secondary small" data-goto="estudar">Ver disciplinas</button>
+        </div>
+        <div class="card" id="resumeCard">
+          <div class="empty-state">
+            <div class="big-icon">🌱</div>
+            <strong>O teu percurso começa aqui.</strong>
+            <p>Entra em Estudar e escolhe uma disciplina para começar.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- PÁGINA ESTUDAR -->
+      <section class="page" id="page-estudar">
+        <div class="section-heading" style="margin-top:0">
+          <div>
+            <h2>📚 Estudar</h2>
+            <p>Escolhe o teu ano e explora as matérias escolares.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="form-grid">
+            <div class="field">
+              <label for="schoolYear">Ano de escolaridade</label>
+              <select id="schoolYear">
+                <option value="1">1.º ano</option>
+                <option value="2">2.º ano</option>
+                <option value="3">3.º ano</option>
+                <option value="4">4.º ano</option>
+                <option value="5">5.º ano</option>
+                <option value="6">6.º ano</option>
+                <option value="7">7.º ano</option>
+                <option value="8">8.º ano</option>
+                <option value="9" selected>9.º ano</option>
+                <option value="10">10.º ano</option>
+                <option value="11">11.º ano</option>
+                <option value="12">12.º ano</option>
+              </select>
             </div>
-            <div class="field" style="flex:1;min-width:150px">
-              <label for="chapterSelect">Capítulo / subtema</label>
-              <select id="chapterSelect"></select>
+            <div class="field" id="courseField">
+              <label for="schoolCourse">Curso (quando aplicável)</label>
+              <select id="schoolCourse">
+                <option value="geral">Ensino geral / por definir</option>
+                <option value="ciencias">Ciências e Tecnologias</option>
+                <option value="humanidades">Línguas e Humanidades</option>
+                <option value="economia">Ciências Socioeconómicas</option>
+                <option value="artes">Artes Visuais</option>
+                <option value="profissional">Ensino profissional</option>
+              </select>
             </div>
           </div>
-          <div class="divider"></div>
-          <div id="lessonContent"></div>
+          <p class="small-text" style="margin:12px 0 0">Os conteúdos abaixo são uma base de estudo. Os programas e as matérias podem variar consoante a escola e o manual utilizado.</p>
         </div>
 
-        <div class="section-heading"><div><h2>🎬 Vídeos da matéria</h2><p>Pesquisa vídeos reais e abre-os através das miniaturas.</p></div></div>
-        <div class="panel">
-          <form id="videoSearchForm" class="toolbar">
-            <div class="field" style="flex:1;min-width:180px">
-              <label for="videoQuery">O que queres aprender?</label>
-              <input id="videoQuery" required placeholder="Ex.: orações subordinadas, 9.º ano" />
+        <div class="section-heading">
+          <div>
+            <h2>As tuas disciplinas</h2>
+            <p id="subjectSubtitle">Conteúdos organizados por disciplina.</p>
+          </div>
+        </div>
+
+        <div class="grid" id="subjectGrid"></div>
+
+        <div class="section-heading" id="unitsHeading">
+          <div>
+            <h2 id="selectedSubjectTitle">Escolhe uma disciplina</h2>
+            <p id="selectedSubjectDescription">As unidades e os tópicos aparecerão aqui.</p>
+          </div>
+        </div>
+        <div id="unitsContainer">
+          <div class="empty-state">
+            <div class="big-icon">📝</div>
+            Escolhe uma disciplina para ver os seus tópicos.
+          </div>
+        </div>
+
+        <div class="section-heading">
+          <div>
+            <h2>🎬 Academia Multimédia</h2>
+            <p>Pesquisa vídeos educativos por tema e tenta reproduzi-los dentro do Study AI.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <form id="videoSearchForm">
+            <div class="field">
+              <label for="videoQuery">Que tema queres aprender?</label>
+              <input id="videoQuery" class="search-input" type="search" maxlength="120" placeholder="Ex.: equações do 1.º grau, sistema respiratório…" required>
             </div>
-            <button class="button" type="submit">🔎 Pesquisar vídeos</button>
+            <div class="form-grid" style="margin-top:12px">
+              <div class="field">
+                <label for="videoYear">Ano</label>
+                <select id="videoYear">
+                  <option value="1">1.º ano</option>
+                  <option value="2">2.º ano</option>
+                  <option value="3">3.º ano</option>
+                  <option value="4">4.º ano</option>
+                  <option value="5">5.º ano</option>
+                  <option value="6">6.º ano</option>
+                  <option value="7">7.º ano</option>
+                  <option value="8">8.º ano</option>
+                  <option value="9" selected>9.º ano</option>
+                  <option value="10">10.º ano</option>
+                  <option value="11">11.º ano</option>
+                  <option value="12">12.º ano</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="videoSubject">Disciplina</label>
+                <select id="videoSubject">
+                  <option>Matemática</option>
+                  <option>Português</option>
+                  <option>Ciências Naturais</option>
+                  <option>Físico-Química</option>
+                  <option>História</option>
+                  <option>Geografia</option>
+                  <option>Inglês</option>
+                  <option>Outra disciplina</option>
+                </select>
+              </div>
+            </div>
+            <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px">
+              <button class="btn" type="submit" id="videoSearchBtn">🔎 Pesquisar vídeos</button>
+              <button class="btn ghost" type="button" id="clearVideosBtn">Limpar</button>
+            </div>
           </form>
-          <div class="field" style="margin-bottom:12px">
-            <label for="youtubeApiKey">Chave da API do YouTube (opcional)</label>
-            <input id="youtubeApiKey" type="password" autocomplete="off" placeholder="Configura uma chave da YouTube Data API v3" />
-          </div>
-          <p class="panel-description">A pesquisa real por miniaturas requer uma chave da YouTube Data API v3. A chave é usada neste navegador; para um site público, configura restrições de domínio na Google Cloud.</p>
-          <div id="videoStatus" role="status" aria-live="polite"></div>
-          <div id="videoResults" class="video-grid"></div>
-        </div>
-
-        <div class="section-heading"><div><h2>📚 Os meus livros</h2><p>Aula Digital e Escola Virtual na mesma área.</p></div></div>
-        <div class="panel">
-          <p class="panel-description">Escolhe a plataforma utilizada pelo teu professor. O acesso aos manuais depende da tua conta e da licença da escola.</p>
-          <div class="field" style="margin-bottom:16px">
-            <label for="bookPlatform">Plataforma usada pelo professor</label>
-            <select id="bookPlatform">
-              <option value="both">Mostrar as duas plataformas</option>
-              <option value="auladigital">Aula Digital</option>
-              <option value="escolavirtual">Escola Virtual</option>
-            </select>
-          </div>
-          <div class="book-grid" id="bookPlatforms">
-            <article class="book-card" data-platform="auladigital">
-              <div class="book-art book-art-one">📖</div>
-              <div><h3>Aula Digital</h3><p>Manuais e recursos digitais, de acordo com os acessos disponíveis.</p></div>
-              <a class="button button-outline" href="https://auladigital.leya.com/" target="_blank" rel="noopener noreferrer">Abrir Aula Digital ↗</a>
-            </article>
-            <article class="book-card" data-platform="escolavirtual">
-              <div class="book-art book-art-two">📚</div>
-              <div><h3>Escola Virtual</h3><p>Manuais e recursos educativos, de acordo com os acessos disponíveis.</p></div>
-              <a class="button button-outline" href="https://www.escolavirtual.pt/" target="_blank" rel="noopener noreferrer">Abrir Escola Virtual ↗</a>
-            </article>
+          <div class="divider"></div>
+          <div id="videoStatus" class="small-text" aria-live="polite">Escreve um tema para procurar vídeos educativos. A disponibilidade depende dos serviços públicos de pesquisa.</div>
+          <div class="grid" id="videoResults" style="margin-top:16px"></div>
+          <div id="videoPlayerArea" class="hidden" style="margin-top:22px">
+            <div class="section-heading">
+              <div>
+                <h3 id="videoPlayerTitle">Vídeo selecionado</h3>
+                <p id="videoPlayerMeta" class="small-text">Reprodução incorporada</p>
+              </div>
+              <button type="button" class="btn ghost small" id="closeVideoBtn">Fechar vídeo</button>
+            </div>
+            <div id="videoFrameWrap" style="position:relative;width:100%;aspect-ratio:16/9;background:#0f172a;border-radius:15px;overflow:hidden">
+              <iframe id="videoFrame" title="Reprodutor de vídeo educativo" src="about:blank" style="position:absolute;inset:0;width:100%;height:100%;border:0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>
+            </div>
+            <p class="small-text">Se o vídeo não puder ser reproduzido aqui, o serviço que o disponibiliza poderá bloquear a reprodução incorporada.</p>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section class="page" id="page-desafios">
-      <div class="page-heading"><h2>🏆 Desafios</h2><p>Testa os teus conhecimentos e acompanha os teus resultados.</p></div>
-      <div class="panel">
-        <div class="toolbar">
-          <div class="field" style="flex:1;min-width:150px">
-            <label for="challengeSubject">Disciplina</label>
-            <select id="challengeSubject"><option value="all">Todas as disciplinas</option></select>
+      <!-- PÁGINA DESAFIOS -->
+      <section class="page" id="page-desafios">
+        <div class="section-heading" style="margin-top:0">
+          <div>
+            <h2>🎯 Desafios</h2>
+            <p>Pratica, aprende com os erros e soma pontos.</p>
           </div>
-          <button class="button" id="newChallenge">Novo desafio</button>
         </div>
-        <div id="challengeArea"></div>
-      </div>
-    </section>
 
-    <section class="page" id="page-musica">
-      <div class="page-heading"><h2>🎵 Música para estudar</h2><p>Ouve sons de concentração gerados no próprio navegador.</p></div>
-      <div class="panel">
-        <h3>Ambiente de estudo</h3>
-        <p class="panel-description">Estes sons são gerados localmente. Não são músicas comerciais nem uma biblioteca de canções.</p>
-        <div class="subjects-grid">
-          <button class="subject-card sound-button" data-sound="rain"><span class="subject-icon">🌧️</span><span class="subject-name">Chuva suave</span><span class="subject-detail">Som ambiente</span></button>
-          <button class="subject-card sound-button" data-sound="tone"><span class="subject-icon">🎹</span><span class="subject-name">Tom de concentração</span><span class="subject-detail">Som contínuo suave</span></button>
-          <button class="subject-card sound-button" data-sound="stop"><span class="subject-icon">⏹️</span><span class="subject-name">Parar áudio</span><span class="subject-detail">Desligar os sons</span></button>
-        </div>
-        <div class="divider"></div>
-        <p id="musicStatus" role="status">Nenhum som está a tocar.</p>
-      </div>
-    </section>
-
-    <section class="page" id="page-progresso">
-      <div class="page-heading"><h2>📈 O meu progresso</h2><p>Consulta a atividade guardada neste navegador.</p></div>
-      <div class="stats-grid">
-        <div class="stat-card"><div class="stat-label">Exercícios respondidos</div><div class="stat-value" id="progressExercises">0</div></div>
-        <div class="stat-card"><div class="stat-label">Desafios concluídos</div><div class="stat-value" id="progressChallenges">0</div></div>
-        <div class="stat-card"><div class="stat-label">Respostas certas</div><div class="stat-value" id="progressCorrect">0</div></div>
-        <div class="stat-card"><div class="stat-label">Taxa de acerto</div><div class="stat-value" id="progressAccuracy">0%</div></div>
-      </div>
-      <div class="section-heading"><div><h2>Atividade recente</h2><p>Os dados são guardados localmente.</p></div></div>
-      <div class="panel"><div id="activityList" class="empty-state">Ainda não existe atividade.</div></div>
-    </section>
-
-    <section class="page" id="page-definicoes">
-      <div class="page-heading"><h2>⚙️ Definições</h2><p>Personaliza a tua experiência de estudo.</p></div>
-      <form id="settingsForm" class="panel">
-        <div class="toolbar">
-          <div class="field" style="flex:1;min-width:180px"><label for="profileName">Nome</label><input id="profileName" maxlength="60" placeholder="O teu nome" /></div>
-          <div class="field" style="flex:1;min-width:180px"><label for="profileEmail">Email (opcional)</label><input id="profileEmail" type="email" placeholder="nome@exemplo.pt" /></div>
-        </div>
-        <div class="toolbar">
-          <div class="field" style="flex:1;min-width:150px"><label for="profileYear">Ano de escolaridade</label>
-            <select id="profileYear">
-              <option value="1">1.º ano</option><option value="2">2.º ano</option><option value="3">3.º ano</option><option value="4">4.º ano</option><option value="5">5.º ano</option><option value="6">6.º ano</option><option value="7">7.º ano</option><option value="8">8.º ano</option><option value="9">9.º ano</option><option value="10">10.º ano</option><option value="11">11.º ano</option><option value="12">12.º ano</option>
-            </select>
+        <div class="grid two">
+          <div class="card">
+            <div class="subject-icon">🧮</div>
+            <h3>Matemática</h3>
+            <p>Operações, frações, percentagens e raciocínio matemático.</p>
+            <button class="btn full" data-challenge="matematica">Começar desafio</button>
           </div>
-          <div class="field" style="flex:1;min-width:150px"><label for="languageSetting">Idioma</label><select id="languageSetting"><option value="pt-PT">Português (Portugal)</option></select></div>
+          <div class="card">
+            <div class="subject-icon">✍️</div>
+            <h3>Português</h3>
+            <p>Gramática, compreensão e conhecimento da língua.</p>
+            <button class="btn full" data-challenge="portugues">Começar desafio</button>
+          </div>
+          <div class="card">
+            <div class="subject-icon">🔬</div>
+            <h3>Ciências</h3>
+            <p>Seres vivos, corpo humano, matéria e energia.</p>
+            <button class="btn full" data-challenge="ciencias">Começar desafio</button>
+          </div>
+          <div class="card">
+            <div class="subject-icon">🌍</div>
+            <h3>Cultura geral</h3>
+            <p>Geografia, história e conhecimentos variados.</p>
+            <button class="btn full" data-challenge="geral">Começar desafio</button>
+          </div>
         </div>
-        <div class="field" style="margin-bottom:17px"><label><input id="updatesSetting" type="checkbox" style="width:auto;min-height:0" /> Quero ver avisos de novidades nesta aplicação.</label></div>
-        <button class="button" type="submit">Guardar definições</button>
-      </form>
-      <div class="section-heading"><div><h2>Dados neste dispositivo</h2><p>O progresso e as preferências ficam guardados neste navegador.</p></div></div>
-      <div class="panel">
-        <p class="panel-description">Apagar os dados locais remove o perfil e o progresso deste navegador. Esta ação não pode ser anulada.</p>
-        <button class="button button-outline" id="exportData">Exportar os meus dados</button>
-        <button class="button" id="clearData" style="background:#b42318">Apagar os dados locais</button>
-      </div>
-    </section>
 
-    <div class="footer-note">Study AI · Plataforma educativa gratuita. Confirma sempre os conteúdos e os acessos das plataformas externas.</div>
-  </div>
-</main>
+        <div class="section-heading">
+          <div>
+            <h2 id="challengeTitle">Pronto para testar os teus conhecimentos?</h2>
+            <p id="challengeDescription">Escolhe um desafio acima para começar.</p>
+          </div>
+        </div>
+
+        <div class="card" id="challengeArea">
+          <div class="empty-state">
+            <div class="big-icon">🏆</div>
+            <strong>O teu próximo desafio espera por ti.</strong>
+            <p>Escolhe uma categoria para começar a responder.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- PÁGINA MÚSICA -->
+      <section class="page" id="page-musica">
+        <div class="section-heading" style="margin-top:0">
+          <div>
+            <h2>🎵 Música para estudar</h2>
+            <p>Sons ambientes simples para ajudar a criar uma rotina de concentração.</p>
+          </div>
+        </div>
+
+        <div class="hero">
+          <div class="hero-kicker">Modo de concentração</div>
+          <h1>Cria o teu ambiente de estudo.</h1>
+          <p>Experimenta sons ambientes gerados no próprio navegador. Não precisas de sair do Study AI nem de abrir outro site.</p>
+          <button class="btn" id="soundToggle">▶ Iniciar som ambiente</button>
+        </div>
+
+        <div class="section-heading">
+          <div>
+            <h2>Escolhe um ambiente</h2>
+            <p>O som é gerado localmente; não é uma biblioteca de canções gravadas.</p>
+          </div>
+        </div>
+
+        <div class="grid">
+          <button class="card subject-card sound-preset" data-sound="rain">
+            <div class="subject-icon">🌧️</div>
+            <h3>Chuva suave</h3>
+            <p>Ruído ambiente contínuo para acompanhar a leitura.</p>
+            <span class="pill">Som ambiente</span>
+          </button>
+          <button class="card subject-card sound-preset" data-sound="noise">
+            <div class="subject-icon">🌊</div>
+            <h3>Ruído suave</h3>
+            <p>Um som constante para reduzir distrações.</p>
+            <span class="pill">Concentração</span>
+          </button>
+          <button class="card subject-card sound-preset" data-sound="tone">
+            <div class="subject-icon">🎹</div>
+            <h3>Tom tranquilo</h3>
+            <p>Um tom contínuo e baixo, sem melodia complexa.</p>
+            <span class="pill">Som gerado</span>
+          </button>
+        </div>
+
+        <div class="card" style="margin-top:18px">
+          <div class="field">
+            <label for="soundVolume">Volume</label>
+            <input type="range" id="soundVolume" min="0" max="30" value="10" style="width:100%">
+          </div>
+          <p class="small-text" style="margin:8px 0 0">O som pode começar desligado até carregares num dos controlos. Podes pará-lo a qualquer momento.</p>
+        </div>
+      </section>
+
+      <!-- PÁGINA PROGRESSO -->
+      <section class="page" id="page-progresso">
+        <div class="section-heading" style="margin-top:0">
+          <div>
+            <h2>📈 O teu progresso</h2>
+            <p>Acompanha as atividades concluídas neste navegador.</p>
+          </div>
+        </div>
+
+        <div class="grid two">
+          <div class="card">
+            <div class="stat-label">Tópicos concluídos</div>
+            <div class="stat-value" id="progressTopics">0</div>
+            <div class="progress-track" style="margin-top:13px"><div class="progress-fill" id="topicProgressBar"></div></div>
+            <p style="margin-top:10px">Marca um tópico como concluído em Estudar para atualizar este valor.</p>
+          </div>
+          <div class="card">
+            <div class="stat-label">Pontos de desafios</div>
+            <div class="stat-value" id="progressPoints">0</div>
+            <div class="progress-track" style="margin-top:13px"><div class="progress-fill" id="pointsProgressBar"></div></div>
+            <p style="margin-top:10px">Responde corretamente aos desafios para ganhar pontos.</p>
+          </div>
+        </div>
+
+        <div class="section-heading">
+          <div>
+            <h2>Atividade recente</h2>
+            <p>Os registos guardados localmente aparecem aqui.</p>
+          </div>
+          <button class="btn ghost small" id="clearProgressBtn">Apagar progresso</button>
+        </div>
+        <div class="card" id="activityList">
+          <div class="empty-state">
+            <div class="big-icon">📊</div>
+            Ainda não há atividades registadas.
+          </div>
+        </div>
+      </section>
+
+      <!-- PÁGINA DEFINIÇÕES -->
+      <section class="page" id="page-definicoes">
+        <div class="section-heading" style="margin-top:0">
+          <div>
+            <h2>⚙️ Definições</h2>
+            <p>Personaliza o teu espaço de estudo.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>O teu perfil</h3>
+          <p>Estes dados são usados para personalizar o site neste navegador.</p>
+          <form id="profileForm">
+            <div class="form-grid">
+              <div class="field">
+                <label for="profileName">Nome</label>
+                <input id="profileName" maxlength="60" placeholder="Como te queres chamar?">
+              </div>
+              <div class="field">
+                <label for="profileEmail">E-mail (opcional)</label>
+                <input id="profileEmail" type="email" maxlength="120" placeholder="nome@exemplo.pt">
+              </div>
+              <div class="field">
+                <label for="profileYear">Ano de escolaridade</label>
+                <select id="profileYear">
+                  <option value="1">1.º ano</option><option value="2">2.º ano</option>
+                  <option value="3">3.º ano</option><option value="4">4.º ano</option>
+                  <option value="5">5.º ano</option><option value="6">6.º ano</option>
+                  <option value="7">7.º ano</option><option value="8">8.º ano</option>
+                  <option value="9">9.º ano</option><option value="10">10.º ano</option>
+                  <option value="11">11.º ano</option><option value="12">12.º ano</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="profileLanguage">Idioma</label>
+                <select id="profileLanguage">
+                  <option value="pt-PT">Português (Portugal)</option>
+                </select>
+              </div>
+            </div>
+            <div style="margin-top:16px">
+              <button class="btn" type="submit">Guardar definições</button>
+            </div>
+            <div id="profileStatus" style="margin-top:12px" aria-live="polite"></div>
+          </form>
+        </div>
+
+        <div class="card" style="margin-top:17px">
+          <h3>Preferências</h3>
+          <p>As opções são guardadas neste navegador. Não enviam notificações externas.</p>
+          <label style="display:flex;align-items:center;gap:10px;margin:12px 0">
+            <input type="checkbox" id="prefTips">
+            Mostrar sugestões de estudo na página inicial
+          </label>
+          <label style="display:flex;align-items:center;gap:10px;margin:12px 0">
+            <input type="checkbox" id="prefSound">
+            Permitir sons quando eu os iniciar manualmente
+          </label>
+          <button class="btn secondary" id="savePreferences">Guardar preferências</button>
+          <div id="preferencesStatus" class="small-text" style="margin-top:10px" aria-live="polite"></div>
+        </div>
+
+        <div class="card" style="margin-top:17px">
+          <h3>Dados e privacidade</h3>
+          <p>O progresso e o perfil deste exemplo ficam guardados localmente no navegador. Limpar os dados do navegador pode apagá-los.</p>
+          <button class="btn ghost" id="exportDataBtn">Exportar os meus dados</button>
+        </div>
+      </section>
+
+      <footer>Study AI · Aprender ao teu ritmo · 100% gratuito</footer>
+    </div>
+  </main>
+
+  <!-- Navegação móvel -->
+  <nav class="bottom-nav" aria-label="Navegação principal">
+    <button class="active" data-page="inicio"><span>🏠</span>Início</button>
+    <button data-page="estudar"><span>📚</span>Estudar</button>
+    <button data-page="desafios"><span>🎯</span>Desafios</button>
+    <button data-page="musica"><span>🎵</span>Música</button>
+    <button data-page="progresso"><span>📈</span>Progresso</button>
+  </nav>
 </div>
 
-<div class="toast-region" id="toastRegion" aria-live="polite"></div>
-
-<style>
-.video-grid {
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:16px;
-  margin-top:15px;
-}
-.video-card { min-width:0; overflow:hidden; border:1px solid var(--border); border-radius:14px; background:white; }
-.video-thumb { display:block; width:100%; aspect-ratio:16/9; object-fit:cover; background:#eaf2ff; }
-.video-open { display:block; padding:0; border:0; width:100%; background:transparent; text-align:left; }
-.video-meta { padding:12px; }
-.video-title { margin:0 0 5px; font-size:14px; font-weight:800; line-height:1.4; }
-.video-channel { color:var(--muted); font-size:12px; }
-.book-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; }
-.book-card { display:flex; flex-direction:column; gap:12px; min-width:0; padding:16px; border:1px solid var(--border); border-radius:15px; }
-.book-card h3 { margin:0 0 6px; }
-.book-card p { margin:0; color:var(--muted); font-size:13px; }
-.book-art { display:grid; place-items:center; min-height:100px; border-radius:12px; font-size:40px; }
-.book-art-one { background:linear-gradient(135deg,#e7f0ff,#d3e4ff); }
-.book-art-two { background:linear-gradient(135deg,#e8f7ff,#d8e9ff); }
-.lesson-section { margin:14px 0; padding:15px; border-radius:12px; background:#f5f8fe; }
-.lesson-section h3 { margin:0 0 8px; }
-.exercise-option { display:flex; gap:9px; align-items:flex-start; margin:8px 0; padding:10px; border:1px solid var(--border); border-radius:10px; cursor:pointer; }
-.exercise-option:hover { border-color:#9bbfff; }
-.answer-feedback { margin-top:12px; padding:12px; border-radius:10px; background:#eef5ff; }
-.challenge-question { padding:18px 0; border-top:1px solid var(--border); }
-@media(max-width:600px) {
-  .video-grid,.book-grid { grid-template-columns:1fr; }
-}
-</style>
-
-</body>
-</html>
-
-</html>
-      
 <script>
 "use strict";
 
-/* STUDY AI — funcionalidades do navegador */
+/* ==========================================
+   STUDY AI — FUNCIONALIDADES PRINCIPAIS
+   ========================================== */
 
-const $ = id => document.getElementById(id);
-const STORAGE_KEY = "studyAI_v3";
+const $ = (selector) => document.querySelector(selector);
+const $$ = (selector) => [...document.querySelectorAll(selector)];
+
+const STORAGE_KEY = "studyAIDataV2";
+
 const defaultData = {
-  name: "Aluno",
-  email: "",
-  year: "9",
-  updates: false,
-  exercises: 0,
-  correct: 0,
-  challenges: 0,
-  activity: []
+  profile: {
+    name: "",
+    email: "",
+    year: "9",
+    course: "geral"
+  },
+  preferences: {
+    tips: true,
+    sound: true
+  },
+  completed: [],
+  points: 0,
+  minutes: 0,
+  activities: [],
+  challengeAnswers: 0,
+  correctAnswers: 0
 };
-
-let appData = loadData();
-let currentSubject = null;
-let currentChallenge = null;
-let audioContext = null;
-let audioNodes = [];
-let noiseSource = null;
 
 function loadData() {
   try {
-    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
-    return { ...defaultData, ...saved,
-      activity: Array.isArray(saved.activity) ? saved.activity : [] };
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+    return {
+      ...structuredClone(defaultData),
+      ...(saved && typeof saved === "object" ? saved : {}),
+      profile: {
+        ...defaultData.profile,
+        ...(saved?.profile || {})
+      },
+      preferences: {
+        ...defaultData.preferences,
+        ...(saved?.preferences || {})
+      },
+      completed: Array.isArray(saved?.completed) ? saved.completed : [],
+      activities: Array.isArray(saved?.activities) ? saved.activities : []
+    };
   } catch {
-    return { ...defaultData };
+    return structuredClone(defaultData);
   }
 }
+
+let data = loadData();
 
 function saveData() {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(appData));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
   } catch {
-    toast("Não foi possível guardar os dados neste navegador.");
+    showToast("Não foi possível guardar os dados neste navegador.");
   }
 }
 
-function toast(message) {
-  const region = $("toastRegion");
-  if (!region) return;
-  const item = document.createElement("div");
-  item.className = "toast";
-  item.textContent = message;
-  region.appendChild(item);
-  setTimeout(() => item.remove(), 3500);
+function escapeHTML(value) {
+  return String(value ?? "").replace(/[&<>"']/g, char => ({
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
+  })[char]);
 }
 
-function recordActivity(message) {
-  appData.activity.unshift({
-    message,
-    date: new Date().toLocaleString("pt-PT")
+function showToast(message) {
+  let toast = $("#appToast");
+
+  if (!toast) {
+    toast = document.createElement("div");
+    toast.id = "appToast";
+    toast.setAttribute("role", "status");
+    toast.style.cssText =
+      "position:fixed;z-index:100;bottom:90px;left:50%;" +
+      "transform:translateX(-50%);max-width:90%;padding:12px 17px;" +
+      "border-radius:12px;background:#172033;color:white;" +
+      "box-shadow:0 6px 25px #0002;font-size:13px;text-align:center";
+    document.body.appendChild(toast);
+  }
+
+  toast.textContent = message;
+  toast.classList.remove("hidden");
+
+  clearTimeout(showToast.timer);
+  showToast.timer = setTimeout(() => toast.classList.add("hidden"), 3000);
+}
+
+function addActivity(title, detail = "") {
+  data.activities.unshift({
+    title,
+    detail,
+    date: new Date().toLocaleString("pt-PT", {
+      dateStyle: "short",
+      timeStyle: "short"
+    })
   });
-  appData.activity = appData.activity.slice(0, 30);
+
+  data.activities = data.activities.slice(0, 50);
   saveData();
-  renderActivity();
-  renderStats();
+  renderProgress();
 }
 
-const subjects = [
-  { id:"matematica", name:"Matemática", icon:"➗", detail:"Números, álgebra e geometria" },
-  { id:"portugues", name:"Português", icon:"📖", detail:"Gramática, leitura e escrita" },
-  { id:"ciencias", name:"Ciências Naturais", icon:"🧬", detail:"Vida, Terra e ambiente" },
-  { id:"fisica", name:"Físico-Química", icon:"⚗️", detail:"Matéria, energia e reações" },
-  { id:"historia", name:"História", icon:"🏛️", detail:"Povos, épocas e acontecimentos" },
-  { id:"geografia", name:"Geografia", icon:"🌍", detail:"Território e população" },
-  { id:"ingles", name:"Inglês", icon:"🇬🇧", detail:"Vocabulary, grammar and reading" },
-  { id:"frances", name:"Francês", icon:"🇫🇷", detail:"Vocabulaire et grammaire" },
-  { id:"educacaovisual", name:"Educação Visual", icon:"🎨", detail:"Imagem, desenho e composição" },
-  { id:"tic", name:"TIC", icon:"💻", detail:"Tecnologia e competências digitais" },
-  { id:"educacaofisica", name:"Educação Física", icon:"⚽", detail:"Movimento e saúde" },
-  { id:"cidadania", name:"Cidadania", icon:"🤝", detail:"Participação e sociedade" }
-];
+/* ==========================================
+   NAVEGAÇÃO
+   ========================================== */
 
-const lessons = {
-  matematica: {
+const pageTitles = {
+  inicio: "O teu espaço de estudo",
+  estudar: "Estudar",
+  desafios: "Desafios",
+  musica: "Música para estudar",
+  progresso: "O teu progresso",
+  definicoes: "Definições"
+};
+
+function navigateTo(pageName) {
+  const page = $("#page-" + pageName);
+  if (!page) return;
+
+  $$(".page").forEach(item => item.classList.remove("active"));
+  page.classList.add("active");
+
+  $$("[data-page]").forEach(button => {
+    button.classList.toggle("active", button.dataset.page === pageName);
+  });
+
+  $("#topbarTitle").textContent = pageTitles[pageName] || "Study AI";
+
+  window.scrollTo({ top: 0, behavior: "smooth" });
+
+  if (pageName === "progresso") renderProgress();
+}
+
+$$("[data-page]").forEach(button => {
+  button.addEventListener("click", () => navigateTo(button.dataset.page));
+});
+
+$$("[data-goto]").forEach(button => {
+  button.addEventListener("click", () => navigateTo(button.dataset.goto));
+});
+
+$("#avatarButton").addEventListener("click", () => navigateTo("definicoes"));
+
+$("#mobileMenuBtn").addEventListener("click", () => {
+  showToast("Usa a barra inferior para navegar pelas áreas do Study AI.");
+});
+
+/* ==========================================
+   CONTEÚDOS DE ESTUDO
+   ========================================== */
+
+const subjectCatalog = {
+  "Matemática": {
+    icon: "🧮",
+    description: "Números, álgebra, geometria e resolução de problemas.",
     units: [
-      { name:"Números e operações", chapters:[
-        { name:"Números racionais", explanation:"Os números racionais podem escrever-se como uma fração a/b, em que a e b são inteiros e b é diferente de zero.", example:"Para calcular 3/4 + 1/2, usamos o mesmo denominador: 3/4 + 2/4 = 5/4.", question:"Quanto é 1/2 + 1/4?", options:["2/6","3/4","1/8"], answer:1, explanationAnswer:"1/2 = 2/4. Logo, 2/4 + 1/4 = 3/4." },
-        { name:"Percentagens", explanation:"Uma percentagem representa uma quantidade em cada 100. Para calcular 20% de 50, multiplicamos 50 por 0,20.", example:"20% de 50 = 50 × 0,20 = 10.", question:"Quanto é 25% de 80?", options:["15","20","25"], answer:1, explanationAnswer:"80 × 0,25 = 20." }
-      ]},
-      { name:"Álgebra", chapters:[
-        { name:"Equações simples", explanation:"Uma equação é uma igualdade com uma incógnita. O objetivo é descobrir o valor que torna a igualdade verdadeira.", example:"x + 5 = 12. Subtraímos 5 aos dois membros: x = 7.", question:"Se x + 8 = 15, quanto vale x?", options:["5","7","8"], answer:1, explanationAnswer:"x = 15 − 8 = 7." }
-      ]}
+      {
+        title: "Números e operações",
+        topics: [
+          "Números racionais",
+          "Frações e operações",
+          "Potências e regras",
+          "Notação científica",
+          "Percentagens e proporcionalidade"
+        ]
+      },
+      {
+        title: "Álgebra",
+        topics: [
+          "Expressões algébricas",
+          "Equações do 1.º grau",
+          "Sistemas de equações",
+          "Sequências e regularidades",
+          "Funções e gráficos"
+        ]
+      },
+      {
+        title: "Geometria",
+        topics: [
+          "Teorema de Pitágoras",
+          "Áreas e perímetros",
+          "Volumes de sólidos",
+          "Semelhança de figuras",
+          "Circunferência e círculo"
+        ]
+      },
+      {
+        title: "Estatística e probabilidade",
+        topics: [
+          "Média, moda e mediana",
+          "Tabelas e gráficos",
+          "Experiências aleatórias",
+          "Probabilidade simples"
+        ]
+      }
     ]
   },
-  portugues: {
+  "Português": {
+    icon: "✍️",
+    description: "Gramática, leitura, escrita e educação literária.",
     units: [
-      { name:"Gramática", chapters:[
-        { name:"Orações subordinadas", explanation:"Uma oração subordinada depende de outra oração. As adverbiais podem exprimir, por exemplo, causa, tempo, condição ou concessão.", example:"«Fiquei em casa porque estava a chover.» A oração «porque estava a chover» indica causa.", question:"Em «Quando cheguei, a aula começou», a oração inicial indica…", options:["Causa","Tempo","Concessão"], answer:1, explanationAnswer:"«Quando cheguei» indica o momento em que a aula começou." },
-        { name:"Conjunções", explanation:"As conjunções ligam palavras ou orações e ajudam a identificar a relação entre as ideias.", example:"«Estudei porque tinha teste.» A palavra «porque» introduz uma causa.", question:"Qual destas palavras pode introduzir uma causa?", options:["Porque","Embora","Quando"], answer:0, explanationAnswer:"«Porque» pode introduzir uma oração subordinada causal." }
-      ]},
-      { name:"Leitura e escrita", chapters:[
-        { name:"Compreensão de textos", explanation:"Para compreender um texto, identifica o tema, as ideias principais, as informações explícitas e as inferências.", example:"Sublinha a ideia principal de cada parágrafo antes de escrever um resumo.", question:"Um resumo deve…", options:["Copiar todo o texto","Apresentar as ideias principais","Acrescentar opiniões sem relação"], answer:1, explanationAnswer:"Um resumo apresenta as ideias essenciais de forma breve." }
-      ]}
+      {
+        title: "Gramática",
+        topics: [
+          "Classes de palavras",
+          "Funções sintáticas",
+          "Orações coordenadas e subordinadas",
+          "Orações subordinadas adverbiais",
+          "Orações subordinadas adjetivas relativas",
+          "Conjunções e locuções conjuncionais"
+        ]
+      },
+      {
+        title: "Leitura e educação literária",
+        topics: [
+          "Compreensão de textos",
+          "Texto narrativo",
+          "Texto poético",
+          "Recursos expressivos",
+          "Personagens, espaço e tempo"
+        ]
+      },
+      {
+        title: "Escrita e oralidade",
+        topics: [
+          "Texto de opinião",
+          "Texto expositivo",
+          "Resumo",
+          "Planificação e revisão",
+          "Apresentação oral"
+        ]
+      }
     ]
   },
-  ciencias: {
-    units: [{ name:"Seres vivos e ambiente", chapters:[
-      { name:"Ecossistemas", explanation:"Um ecossistema inclui os seres vivos e os fatores não vivos que interagem num local.", example:"Num lago, os peixes, as plantas, a água e a luz fazem parte do ecossistema.", question:"Qual é um fator abiótico?", options:["Peixe","Fungo","Luz solar"], answer:2, explanationAnswer:"A luz solar é um fator não vivo." }
-    ]}]
+  "Ciências Naturais": {
+    icon: "🔬",
+    description: "Vida, ambiente, Terra e funcionamento do corpo humano.",
+    units: [
+      {
+        title: "Terra e ambiente",
+        topics: [
+          "Sustentabilidade",
+          "Ecossistemas",
+          "Biodiversidade",
+          "Recursos naturais",
+          "Alterações ambientais"
+        ]
+      },
+      {
+        title: "Corpo humano",
+        topics: [
+          "Sistema digestivo",
+          "Sistema respiratório",
+          "Sistema circulatório",
+          "Sistema excretor",
+          "Saúde e prevenção"
+        ]
+      },
+      {
+        title: "Ciência e investigação",
+        topics: [
+          "Observação e hipóteses",
+          "Variáveis experimentais",
+          "Interpretação de resultados",
+          "Conclusões científicas"
+        ]
+      }
+    ]
   },
-  fisica: {
-    units: [{ name:"Matéria e energia", chapters:[
-      { name:"Transformações químicas", explanation:"Numa transformação química formam-se substâncias novas. Os átomos reorganizam-se, conservando-se o número de átomos de cada elemento.", example:"A formação de ferrugem é uma transformação química.", question:"Numa reação química, num sistema fechado, a massa total…", options:["Conserva-se","Desaparece sempre","Duplica sempre"], answer:0, explanationAnswer:"A massa total dos reagentes é igual à massa total dos produtos." }
-    ]}]
+  "Físico-Química": {
+    icon: "⚗️",
+    description: "Matéria, energia, reações químicas e movimento.",
+    units: [
+      {
+        title: "Matéria e transformações",
+        topics: [
+          "Substâncias e misturas",
+          "Separação de misturas",
+          "Transformações químicas",
+          "Conservação da massa",
+          "Equações químicas"
+        ]
+      },
+      {
+        title: "Eletricidade e energia",
+        topics: [
+          "Circuitos elétricos",
+          "Corrente e tensão",
+          "Energia e potência",
+          "Segurança elétrica"
+        ]
+      },
+      {
+        title: "Movimento e forças",
+        topics: [
+          "Rapidez média",
+          "Trajetória e deslocamento",
+          "Forças e efeitos",
+          "Gráficos de movimento"
+        ]
+      }
+    ]
   },
-  historia: {
-    units: [{ name:"História contemporânea", chapters:[
-      { name:"Revoluções e sociedade", explanation:"As revoluções políticas e sociais alteram instituições, relações de poder e, muitas vezes, os direitos dos cidadãos.", example:"A Revolução Francesa começou em 1789 e questionou a monarquia absoluta e os privilégios sociais.", question:"Em que ano começou a Revolução Francesa?", options:["1640","1789","1910"], answer:1, explanationAnswer:"A Revolução Francesa começou em 1789." }
-    ]}]
+  "História": {
+    icon: "🏛️",
+    description: "Acontecimentos, sociedades e transformações históricas.",
+    units: [
+      {
+        title: "Mundo moderno",
+        topics: [
+          "Expansão marítima",
+          "Renascimento",
+          "Reforma e Contrarreforma",
+          "Monarquias europeias"
+        ]
+      },
+      {
+        title: "Portugal e a Europa",
+        topics: [
+          "Portugal nos séculos XVII e XVIII",
+          "O Marquês de Pombal",
+          "Revoluções liberais",
+          "Transformações políticas e sociais"
+        ]
+      },
+      {
+        title: "Mundo contemporâneo",
+        topics: [
+          "Revolução Industrial",
+          "Liberalismo",
+          "Democracia e cidadania",
+          "Cronologia e fontes históricas"
+        ]
+      }
+    ]
   },
-  ingles: {
-    units: [{ name:"Grammar", chapters:[
-      { name:"Present simple", explanation:"We use the present simple for routines, habits and facts.", example:"I study every day. She studies every day.", question:"Choose the correct sentence.", options:["She study every day.","She studies every day.","She studying every day."], answer:1, explanationAnswer:"With he, she or it, most present simple verbs take -s or -es." }
-    ]}]
+  "Geografia": {
+    icon: "🌍",
+    description: "Território, população, ambiente e atividades económicas.",
+    units: [
+      {
+        title: "População e território",
+        topics: [
+          "Distribuição da população",
+          "Migrações",
+          "Cidades e urbanização",
+          "Indicadores demográficos"
+        ]
+      },
+      {
+        title: "Ambiente e recursos",
+        topics: [
+          "Clima e fatores climáticos",
+          "Recursos naturais",
+          "Riscos naturais",
+          "Sustentabilidade"
+        ]
+      },
+      {
+        title: "Economia e globalização",
+        topics: [
+          "Transportes e comunicações",
+          "Atividades económicas",
+          "Comércio internacional",
+          "Globalização"
+        ]
+      }
+    ]
+  },
+  "Inglês": {
+    icon: "🇬🇧",
+    description: "Vocabulário, gramática, leitura e comunicação.",
+    units: [
+      {
+        title: "Grammar",
+        topics: [
+          "Present simple and continuous",
+          "Past simple and continuous",
+          "Present perfect",
+          "Future forms",
+          "Comparatives and superlatives"
+        ]
+      },
+      {
+        title: "Vocabulary",
+        topics: [
+          "School and education",
+          "Technology",
+          "Environment",
+          "Health and lifestyle",
+          "Travel and culture"
+        ]
+      },
+      {
+        title: "Communication",
+        topics: [
+          "Reading comprehension",
+          "Writing an email",
+          "Giving opinions",
+          "Speaking practice"
+        ]
+      }
+    ]
+  },
+  "Francês": {
+    icon: "🇫🇷",
+    description: "Vocabulário, estruturas e comunicação em francês.",
+    units: [
+      {
+        title: "Vocabulaire",
+        topics: [
+          "La famille",
+          "L'école",
+          "Les loisirs",
+          "La nourriture",
+          "Les voyages"
+        ]
+      },
+      {
+        title: "Grammaire",
+        topics: [
+          "Présent de l'indicatif",
+          "Articles et adjectifs",
+          "Passé composé",
+          "Futur proche"
+        ]
+      }
+    ]
+  },
+  "Educação Visual": {
+    icon: "🎨",
+    description: "Desenho, composição, cor e comunicação visual.",
+    units: [
+      {
+        title: "Linguagem visual",
+        topics: [
+          "Ponto e linha",
+          "Forma e volume",
+          "Cor e contraste",
+          "Composição visual"
+        ]
+      },
+      {
+        title: "Projeto",
+        topics: [
+          "Observação e esboço",
+          "Técnicas de representação",
+          "Comunicação gráfica",
+          "Análise de imagens"
+        ]
+      }
+    ]
+  },
+  "TIC": {
+    icon: "💻",
+    description: "Competências digitais, segurança e criação de conteúdos.",
+    units: [
+      {
+        title: "Literacia digital",
+        topics: [
+          "Pesquisa e avaliação de fontes",
+          "Segurança na Internet",
+          "Privacidade e dados",
+          "Cidadania digital"
+        ]
+      },
+      {
+        title: "Criação digital",
+        topics: [
+          "Documentos e apresentações",
+          "Folhas de cálculo",
+          "Imagem e multimédia",
+          "Pensamento computacional"
+        ]
+      }
+    ]
   }
 };
 
-function getLesson(subjectId, unitIndex, chapterIndex) {
-  const data = lessons[subjectId];
-  return data?.units?.[unitIndex]?.chapters?.[chapterIndex] || null;
-}
-
-function renderSubjectCards(containerId, searchText = "") {
-  const container = $(containerId);
-  if (!container) return;
-  container.replaceChildren();
-  const filtered = subjects.filter(s => s.name.toLowerCase().includes(searchText.toLowerCase()));
-  $("subjectCount").textContent = `${filtered.length} disciplinas disponíveis`;
-  filtered.forEach(s => {
-    const button = document.createElement("button");
-    button.className = "subject-card";
-    button.innerHTML = `<span class="subject-icon"></span><span class="subject-name"></span><span class="subject-detail"></span>`;
-    button.querySelector(".subject-icon").textContent = s.icon;
-    button.querySelector(".subject-name").textContent = s.name;
-    button.querySelector(".subject-detail").textContent = s.detail;
-    button.addEventListener("click", () => openSubject(s.id));
-    container.appendChild(button);
-  });
-}
-
-function showPage(pageId) {
-  document.querySelectorAll(".page").forEach(p => p.classList.remove("active"));
-  const page = $("page-" + pageId);
-  if (!page) return;
-  page.classList.add("active");
-  document.querySelectorAll("[data-page]").forEach(b => {
-    b.classList.toggle("active", b.dataset.page === pageId);
-  });
-  const labels = {
-    inicio:"Início", estudar:"Estudar", desafios:"Desafios",
-    musica:"Música", progresso:"O meu progresso", definicoes:"Definições"
-  };
-  $("pageTitle").textContent = labels[pageId] || "Study AI";
-  document.body.classList.remove("sidebar-open");
-  if (pageId === "estudar") {
-    $("subjectWorkspace").classList.add("hidden");
-    $("allSubjects").classList.remove("hidden");
-  }
-  if (pageId === "desafios") renderChallenge();
-  if (pageId === "progresso") renderActivity();
-}
-
-document.querySelectorAll("[data-page]").forEach(el => {
-  el.addEventListener("click", event => {
-    event.preventDefault();
-    showPage(el.dataset.page);
-  });
-});
-
-$("menuToggle").addEventListener("click", () => {
-  document.body.classList.toggle("sidebar-open");
-});
-
-document.addEventListener("click", event => {
-  if (!document.body.classList.contains("sidebar-open")) return;
-  if (!event.target.closest(".sidebar") && !event.target.closest("#menuToggle")) {
-    document.body.classList.remove("sidebar-open");
-  }
-});
-
-function openSubject(id) {
-  currentSubject = subjects.find(s => s.id === id);
-  if (!currentSubject) return;
-  $("subjectWorkspace").classList.remove("hidden");
-  $("allSubjects").classList.add("hidden");
-  $("selectedSubjectTitle").textContent = currentSubject.icon + " " + currentSubject.name;
-  $("selectedSubjectSubtitle").textContent = `${$("studyYear").value}.º ano · Matéria e recursos`;
-  $("videoQuery").value = `${currentSubject.name} ${$("studyYear").value}.º ano`;
-  const data = lessons[id] || { units:[{ name:"Introdução à disciplina", chapters:[
-    { name:"Como começar", explanation:"Escolhe os temas trabalhados na tua aula e usa os materiais indicados pelo teu professor.", example:"Regista as palavras-chave e escreve um pequeno resumo da matéria.", question:"Qual é uma boa forma de estudar?", options:["Ler sem atenção","Rever e praticar","Não fazer exercícios"], answer:1, explanationAnswer:"Rever e praticar ajuda a consolidar o que aprendeste." }
-  ]}]};
-  $("unitSelect").replaceChildren();
-  data.units.forEach((unit,i) => {
-    const option = document.createElement("option");
-    option.value = i;
-    option.textContent = unit.name;
-    $("unitSelect").appendChild(option);
-  });
-  renderChapters();
-  $("videoResults").replaceChildren();
-  $("videoStatus").textContent = "Escreve a pesquisa e configura a API para encontrar vídeos reais.";
-  recordActivity("Abriu a disciplina " + currentSubject.name);
-}
-
-function renderChapters() {
-  if (!currentSubject) return;
-  const data = lessons[currentSubject.id] || { units:[{chapters:[{name:"Como começar"}]}] };
-  const unit = data.units[Number($("unitSelect").value)] || data.units[0];
-  $("chapterSelect").replaceChildren();
-  unit.chapters.forEach((chapter,i) => {
-    const option = document.createElement("option");
-    option.value = i;
-    option.textContent = chapter.name;
-    $("chapterSelect").appendChild(option);
-  });
-  renderLesson();
-}
-
-function renderLesson() {
-  if (!currentSubject) return;
-  const unitIndex = Number($("unitSelect").value);
-  const chapterIndex = Number($("chapterSelect").value);
-  const lesson = getLesson(currentSubject.id, unitIndex, chapterIndex);
-  const container = $("lessonContent");
-  container.replaceChildren();
-
-  if (!lesson) {
-    const note = document.createElement("p");
-    note.textContent = "Este tema ainda não tem uma explicação específica na versão inicial. Consulta os materiais do professor e acrescenta o conteúdo correspondente.";
-    container.appendChild(note);
-    return;
-  }
-
-  const heading = document.createElement("h2");
-  heading.textContent = lesson.name || $("chapterSelect").selectedOptions[0]?.textContent || "Matéria";
-  container.appendChild(heading);
-
-  const explanation = document.createElement("div");
-  explanation.className = "lesson-section";
-  const h3 = document.createElement("h3");
-  h3.textContent = "📘 Explicação";
-  const p = document.createElement("p");
-  p.textContent = lesson.explanation;
-  explanation.append(h3,p);
-  container.appendChild(explanation);
-
-  const example = document.createElement("div");
-  example.className = "lesson-section";
-  const eh = document.createElement("h3");
-  eh.textContent = "✏️ Exemplo resolvido";
-  const ep = document.createElement("p");
-  ep.textContent = lesson.example;
-  example.append(eh,ep);
-  container.appendChild(example);
-
-  const exercise = document.createElement("div");
-  exercise.className = "lesson-section";
-  const q = document.createElement("h3");
-  q.textContent = "📝 Experimenta responder";
-  const question = document.createElement("p");
-  question.textContent = lesson.question;
-  exercise.append(q,question);
-
-  const form = document.createElement("form");
-  lesson.options.forEach((text,i) => {
-    const label = document.createElement("label");
-    label.className = "exercise-option";
-    const radio = document.createElement("input");
-    radio.type = "radio";
-    radio.name = "lessonAnswer";
-    radio.value = i;
-    radio.required = true;
-    const span = document.createElement("span");
-    span.textContent = text;
-    label.append(radio,span);
-    form.appendChild(label);
-  });
-  const submit = document.createElement("button");
-  submit.className = "button";
-  submit.type = "submit";
-  submit.textContent = "Corrigir resposta";
-  form.appendChild(submit);
-  const feedback = document.createElement("div");
-  feedback.className = "answer-feedback hidden";
-  feedback.setAttribute("role","status");
-  form.appendChild(feedback);
-
-  form.addEventListener("submit", event => {
-    event.preventDefault();
-    if (form.dataset.answered === "yes") return;
-    const chosen = form.querySelector('input[name="lessonAnswer"]:checked');
-    if (!chosen) return;
-    form.dataset.answered = "yes";
-    const correct = Number(chosen.value) === lesson.answer;
-    appData.exercises++;
-    if (correct) appData.correct++;
-    saveData();
-    feedback.classList.remove("hidden");
-    feedback.textContent = (correct ? "✅ Correto! " : "❌ Ainda não. ") + lesson.explanationAnswer;
-    submit.disabled = true;
-    recordActivity((correct ? "Resposta certa: " : "Exercício praticado: ") + currentSubject.name);
-  });
-  exercise.appendChild(form);
-  container.appendChild(exercise);
-}
-
-$("unitSelect").addEventListener("change", renderChapters);
-$("chapterSelect").addEventListener("change", renderLesson);
-$("backToSubjects").addEventListener("click", () => {
-  $("subjectWorkspace").classList.add("hidden");
-  $("allSubjects").classList.remove("hidden");
-});
-$("subjectSearch").addEventListener("input", e => renderSubjectCards("allSubjects",e.target.value));
-$("studyYear").addEventListener("change", () => {
-  $("selectedSubjectSubtitle").textContent = `${$("studyYear").value}.º ano · Matéria e recursos`;
-});
-
-$("bookPlatform").addEventListener("change", e => {
-  document.querySelectorAll(".book-card").forEach(card => {
-    card.classList.toggle("hidden", e.target.value !== "both" && card.dataset.platform !== e.target.value);
-  });
-});
-
-/* Pesquisa de vídeos reais com a YouTube Data API v3 */
-$("videoSearchForm").addEventListener("submit", async event => {
-  event.preventDefault();
-  const query = $("videoQuery").value.trim();
-  const key = $("youtubeApiKey").value.trim();
-  const status = $("videoStatus");
-  const results = $("videoResults");
-  results.replaceChildren();
-
-  if (!query) {
-    status.textContent = "Escreve o tema que queres pesquisar.";
-    return;
-  }
-  if (!key) {
-    status.textContent = "Para mostrar resultados reais com miniaturas, configura uma chave da YouTube Data API v3. Ainda não foram carregados vídeos.";
-    return;
-  }
-
-  status.textContent = "A pesquisar vídeos…";
-  try {
-    const url = new URL("https://www.googleapis.com/youtube/v3/search");
-    url.search = new URLSearchParams({
-      part:"snippet", type:"video", maxResults:"12",
-      safeSearch:"strict", q:query, key
-    }).toString();
-
-    const response = await fetch(url);
-    if (!response.ok) throw new Error("A pesquisa falhou. Verifica a chave e as restrições da API.");
-    const data = await response.json();
-    if (!Array.isArray(data.items) || !data.items.length) {
-      status.textContent = "Não foram encontrados vídeos para esta pesquisa.";
-      return;
-    }
-
-    data.items.forEach(item => {
-      const id = item.id?.videoId;
-      if (!id) return;
-      const snippet = item.snippet || {};
-      const card = document.createElement("article");
-      card.className = "video-card";
-      const open = document.createElement("button");
-      open.type = "button";
-      open.className = "video-open";
-      open.setAttribute("aria-label","Reproduzir " + (snippet.title || "vídeo"));
-      const img = document.createElement("img");
-      img.className = "video-thumb";
-      img.loading = "lazy";
-      img.alt = "Miniatura do vídeo " + (snippet.title || "");
-      img.src = snippet.thumbnails?.medium?.url || snippet.thumbnails?.default?.url || "";
-      const meta = document.createElement("div");
-      meta.className = "video-meta";
-      const title = document.createElement("h3");
-      title.className = "video-title";
-      title.textContent = snippet.title || "Vídeo";
-      const channel = document.createElement("div");
-      channel.className = "video-channel";
-      channel.textContent = snippet.channelTitle || "YouTube";
-      meta.append(title,channel);
-      open.append(img,meta);
-      open.addEventListener("click", () => {
-        const player = document.createElement("div");
-        player.className = "video-player";
-        const iframe = document.createElement("iframe");
-        iframe.src = "https://www.youtube-nocookie.com/embed/" + encodeURIComponent(id) + "?autoplay=1";
-        iframe.title = snippet.title || "Vídeo educativo";
-        iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-        iframe.allowFullscreen = true;
-        iframe.style.cssText = "display:block;width:100%;aspect-ratio:16/9;border:0;border-radius:12px";
-        player.appendChild(iframe);
-        card.replaceChildren(player,meta);
-      });
-      card.appendChild(open);
-      results.appendChild(card);
-    });
-    status.textContent = `${data.items.length} vídeos encontrados. Clica numa miniatura para reproduzir.`;
-  } catch (error) {
-    status.textContent = error.message || "Não foi possível carregar os vídeos.";
-  }
-});
-
-/* Desafios: perguntas com correção */
-const challengeBank = [
-  { subject:"Matemática", q:"Quanto é 3/4 + 1/4?", options:["1/2","1","2"], answer:1, explain:"3/4 + 1/4 = 4/4 = 1." },
-  { subject:"Português", q:"Qual é a classe de «rapidamente»?", options:["Adjetivo","Advérbio","Nome"], answer:1, explain:"«Rapidamente» é um advérbio de modo." },
-  { subject:"Ciências Naturais", q:"Qual é um fator abiótico?", options:["Água","Bactéria","Árvore"], answer:0, explain:"A água é um componente não vivo do ecossistema." },
-  { subject:"Físico-Química", q:"Qual é o símbolo químico do oxigénio?", options:["Ox","O","Og"], answer:1, explain:"O símbolo químico do oxigénio é O." },
-  { subject:"História", q:"Em que ano começou a Revolução Francesa?", options:["1789","1820","1910"], answer:0, explain:"Começou em 1789." },
-  { subject:"Inglês", q:"Choose the correct option: «He ___ football». ", options:["play","plays","playing"], answer:1, explain:"In the present simple, we use plays with he." }
+const earlySubjects = [
+  "Português", "Matemática", "Estudo do Meio",
+  "Inglês", "Educação Artística", "Educação Física"
 ];
 
-function initChallenges() {
-  const select = $("challengeSubject");
-  subjects.forEach(s => {
-    const option = document.createElement("option");
-    option.value = s.name;
-    option.textContent = s.name;
-    select.appendChild(option);
+const middleSubjects = [
+  "Português", "Matemática", "Inglês", "História",
+  "Geografia", "Ciências Naturais", "Físico-Química",
+  "Francês", "Educação Visual", "TIC"
+];
+
+const secondarySubjects = [
+  "Português", "Matemática", "Inglês", "História",
+  "Geografia", "Físico-Química", "Ciências Naturais"
+];
+
+function subjectsForYear(year) {
+  year = Number(year);
+
+  if (year <= 4) return earlySubjects;
+  if (year <= 9) return middleSubjects;
+  return secondarySubjects;
+}
+
+function subjectInfo(name) {
+  if (subjectCatalog[name]) return subjectCatalog[name];
+
+  return {
+    icon: "📘",
+    description: "Conteúdos de aprendizagem e prática.",
+    units: [
+      {
+        title: "Conceitos essenciais",
+        topics: [
+          "Introdução à matéria",
+          "Conceitos fundamentais",
+          "Exemplos do dia a dia",
+          "Revisão dos conhecimentos"
+        ]
+      },
+      {
+        title: "Praticar",
+        topics: [
+          "Exercícios de aplicação",
+          "Resolução passo a passo",
+          "Perguntas de revisão"
+        ]
+      }
+    ]
+  };
+}
+
+let currentSubject = "";
+
+function renderSubjects() {
+  const year = Number($("#schoolYear").value);
+  data.profile.year = String(year);
+  saveData();
+
+  $("#subjectSubtitle").textContent =
+    `Disciplinas para o ${year}.º ano · seleciona uma para explorar.`;
+
+  $("#videoYear").value = String(year);
+
+  const list = subjectsForYear(year);
+
+  $("#subjectGrid").innerHTML = list.map(name => {
+    const info = subjectInfo(name);
+    const count = info.units.reduce((sum, unit) => sum + unit.topics.length, 0);
+
+    return `
+      <button class="card subject-card" data-subject="${escapeHTML(name)}">
+        <div class="subject-icon">${info.icon}</div>
+        <h3>${escapeHTML(name)}</h3>
+        <p>${escapeHTML(info.description)}</p>
+        <span class="pill">${count} tópicos de exemplo</span>
+      </button>
+    `;
+  }).join("");
+
+  $$("#subjectGrid [data-subject]").forEach(button => {
+    button.addEventListener("click", () => {
+      renderUnits(button.dataset.subject);
+      $("#unitsHeading").scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  });
+
+  if (currentSubject && !list.includes(currentSubject)) {
+    currentSubject = "";
+    $("#selectedSubjectTitle").textContent = "Escolhe uma disciplina";
+    $("#selectedSubjectDescription").textContent =
+      "As unidades e os tópicos aparecerão aqui.";
+    $("#unitsContainer").innerHTML = `
+      <div class="empty-state">
+        <div class="big-icon">📝</div>
+        Escolhe uma disciplina para ver os seus tópicos.
+      </div>`;
+  }
+}
+
+function topicKey(year, subject, topic) {
+  return `${year}|${subject}|${topic}`;
+}
+
+function renderUnits(subject) {
+  currentSubject = subject;
+
+  const year = Number($("#schoolYear").value);
+  const info = subjectInfo(subject);
+
+  $("#selectedSubjectTitle").textContent = `${info.icon} ${subject}`;
+  $("#selectedSubjectDescription").textContent =
+    `Unidades e tópicos de estudo para o ${year}.º ano.`;
+
+  $("#unitsContainer").innerHTML = info.units.map((unit, unitIndex) => `
+    <div class="card" style="margin-bottom:15px">
+      <h3>${unitIndex + 1}. ${escapeHTML(unit.title)}</h3>
+      <p>Explora os tópicos e marca os que já estudaste.</p>
+      <div class="divider"></div>
+      ${unit.topics.map((topic, topicIndex) => {
+        const key = topicKey(year, subject, topic);
+        const done = data.completed.includes(key);
+
+        return `
+          <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid #f1f5f9">
+            <div style="flex:1;min-width:0">
+              <strong style="font-size:14px">${escapeHTML(topic)}</strong>
+              <div class="small-text">Tópico ${topicIndex + 1} · ${escapeHTML(unit.title)}</div>
+            </div>
+            <button class="btn small ${done ? "secondary" : ""}"
+              data-topic="${escapeHTML(key)}"
+              aria-pressed="${done}">
+              ${done ? "✓ Concluído" : "Marcar"}
+            </button>
+          </div>
+        `;
+      }).join("")}
+    </div>
+  `).join("");
+
+  $$("[data-topic]").forEach(button => {
+    button.addEventListener("click", () => {
+      const key = button.dataset.topic;
+      const index = data.completed.indexOf(key);
+
+      if (index >= 0) {
+        data.completed.splice(index, 1);
+        showToast("Tópico retirado dos concluídos.");
+      } else {
+        data.completed.push(key);
+        data.points += 5;
+        addActivity("Tópico concluído", key.replaceAll("|", " · "));
+        showToast("Muito bem! Ganhaste 5 pontos. ⭐");
+      }
+
+      saveData();
+      renderUnits(subject);
+      renderStats();
+      renderProgress();
+    });
   });
 }
-function renderChallenge() {
-  const container = $("challengeArea");
-  const chosen = $("challengeSubject").value;
-  const list = challengeBank.filter(q => chosen === "all" || q.subject === chosen);
-  container.replaceChildren();
-  if (!list.length) {
-    container.textContent = "Ainda não há desafios preparados para esta disciplina.";
+
+$("#schoolYear").addEventListener("change", renderSubjects);
+
+$("#schoolCourse").addEventListener("change", () => {
+  data.profile.course = $("#schoolCourse").value;
+  saveData();
+});
+
+/* ==========================================
+   ACADEMIA MULTIMÉDIA
+   Pesquisa por API pública do Invidious.
+   Os resultados só são mostrados se chegarem
+   realmente do serviço consultado.
+   ========================================== */
+
+const videoInstances = [
+  "https://inv.nadeko.net",
+  "https://invidious.nerdvpn.de",
+  "https://invidious.privacyredirect.com",
+  "https://iv.melmac.space"
+];
+
+let videoSearchController = null;
+
+function setVideoStatus(message, isError = false) {
+  const element = $("#videoStatus");
+  element.textContent = message;
+  element.className = isError ? "notice error" : "small-text";
+}
+
+function cleanVideoResults() {
+  $("#videoResults").innerHTML = "";
+  $("#videoPlayerArea").classList.add("hidden");
+  $("#videoFrame").src = "about:blank";
+}
+
+function makeSearchTerm(query, subject, year) {
+  return `${query} ${subject} ${year}º ano Portugal`;
+}
+
+async function fetchVideoResults(query) {
+  let lastError = null;
+
+  for (const baseUrl of videoInstances) {
+    try {
+      const url = `${baseUrl}/api/v1/search?q=${encodeURIComponent(query)}&type=video&page=1`;
+
+      const response = await fetch(url, {
+        method: "GET",
+        headers: { "Accept": "application/json" },
+        signal: videoSearchController.signal
+      });
+
+      if (!response.ok) {
+        throw new Error(`Serviço respondeu com estado ${response.status}`);
+      }
+
+      const results = await response.json();
+
+      if (!Array.isArray(results)) {
+        throw new Error("Formato de resposta inesperado");
+      }
+
+      const videos = results.filter(item =>
+        item &&
+        typeof item.videoId === "string" &&
+        typeof item.title === "string" &&
+        item.videoId.length > 0
+      ).slice(0, 9);
+
+      return { videos, baseUrl };
+    } catch (error) {
+      if (error.name === "AbortError") throw error;
+      lastError = error;
+    }
+  }
+
+  throw lastError || new Error("Não foi possível consultar os serviços.");
+}
+
+function formatDuration(seconds) {
+  if (!Number.isFinite(Number(seconds)) || Number(seconds) < 0) {
+    return "Duração indisponível";
+  }
+
+  const total = Math.floor(Number(seconds));
+  const minutes = Math.floor(total / 60);
+  const remainder = total % 60;
+  const hours = Math.floor(minutes / 60);
+
+  if (hours > 0) {
+    return `${hours}:${String(minutes % 60).padStart(2, "0")}:${String(remainder).padStart(2, "0")}`;
+  }
+
+  return `${minutes}:${String(remainder).padStart(2, "0")}`;
+}
+
+function renderVideoResults(videos, baseUrl) {
+  const container = $("#videoResults");
+
+  if (!videos.length) {
+    container.innerHTML = `
+      <div class="empty-state" style="grid-column:1/-1">
+        <div class="big-icon">🔎</div>
+        <strong>Não foram encontrados vídeos nesta pesquisa.</strong>
+        <p>Tenta escrever o tema de outra maneira.</p>
+      </div>`;
     return;
   }
-  currentChallenge = list[Math.floor(Math.random() * list.length)];
-  const box = document.createElement("div");
-  box.className = "challenge-question";
-  const title = document.createElement("h3");
-  title.textContent = currentChallenge.subject;
-  const question = document.createElement("p");
-  question.textContent = currentChallenge.q;
-  box.append(title,question);
-  const form = document.createElement("form");
-  currentChallenge.options.forEach((answer,i) => {
-    const label = document.createElement("label");
-    label.className = "exercise-option";
-    const radio = document.createElement("input");
-    radio.type = "radio";
-    radio.name = "challengeAnswer";
-    radio.value = i;
-    radio.required = true;
-    const span = document.createElement("span");
-    span.textContent = answer;
-    label.append(radio,span);
-    form.appendChild(label);
-  });
-  const submit = document.createElement("button");
-  submit.type = "submit";
-  submit.className = "button";
-  submit.textContent = "Responder";
-  const feedback = document.createElement("div");
-  feedback.className = "answer-feedback hidden";
-  feedback.setAttribute("role","status");
-  form.append(submit,feedback);
-  form.addEventListener("submit", event => {
-    event.preventDefault();
-    if (form.dataset.done) return;
-    const selected = form.querySelector('input[name="challengeAnswer"]:checked');
-    if (!selected) return;
-    form.dataset.done = "yes";
-    const correct = Number(selected.value) === currentChallenge.answer;
-    appData.exercises++;
-    if (correct) {
-      appData.correct++;
-      appData.challenges++;
+
+  container.innerHTML = videos.map((video, index) => {
+    const title = escapeHTML(video.title);
+    const author = escapeHTML(video.author || "Canal não identificado");
+    const duration = formatDuration(video.lengthSeconds);
+    const videoId = escapeHTML(video.videoId);
+
+    let thumbnail = "";
+
+    if (Array.isArray(video.videoThumbnails) && video.videoThumbnails.length) {
+      const preferred =
+        video.videoThumbnails.find(item => item.quality === "medium") ||
+        video.videoThumbnails.find(item => item.quality === "high") ||
+        video.videoThumbnails[0];
+
+      if (preferred && typeof preferred.url === "string") {
+        try {
+          const parsed = new URL(preferred.url, baseUrl);
+          if (parsed.protocol === "https:" || parsed.protocol === "http:") {
+            thumbnail = parsed.href;
+          }
+        } catch {
+          thumbnail = "";
+        }
+      }
     }
-    saveData();
-    feedback.classList.remove("hidden");
-    feedback.textContent = (correct ? "✅ Correto! " : "❌ Não foi desta vez. ") + currentChallenge.explain;
-    submit.disabled = true;
-    recordActivity((correct ? "Desafio concluído: " : "Desafio praticado: ") + currentChallenge.subject);
+
+    const imageHTML = thumbnail
+      ? `<img src="${escapeHTML(thumbnail)}" alt="" loading="lazy"
+          style="width:100%;aspect-ratio:16/9;object-fit:cover;background:#dbeafe"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">
+         <div style="display:none;aspect-ratio:16/9;place-items:center;background:#dbeafe;font-size:34px">🎬</div>`
+      : `<div style="aspect-ratio:16/9;display:grid;place-items:center;background:#dbeafe;font-size:34px">🎬</div>`;
+
+    return `
+      <article class="card" style="padding:12px">
+        <button type="button" data-play-video="${videoId}" data-video-index="${index}"
+          style="display:block;width:100%;padding:0;border:0;border-radius:10px;overflow:hidden;background:#eff6ff;text-align:left">
+          ${imageHTML}
+        </button>
+        <div style="padding:11px 2px 2px">
+          <h3 style="font-size:14px;line-height:1.4">${title}</h3>
+          <p style="margin-bottom:7px">${author}</p>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+            <span class="small-text">${escapeHTML(duration)}</span>
+            <button class="btn small" type="button" data-play-video="${videoId}" data-video-index="${index}">
+              ▶ Reproduzir
+            </button>
+          </div>
+        </div>
+      </article>
+    `;
+  }).join("");
+
+  $$("[data-play-video]").forEach(button => {
+    button.addEventListener("click", () => {
+      const video = videos[Number(button.dataset.videoIndex)];
+      if (!video) return;
+
+      const id = video.videoId;
+      const safeTitle = video.title || "Vídeo educativo";
+
+      // O reprodutor fica dentro do Study AI.
+      // O serviço externo pode bloquear a incorporação.
+      $("#videoPlayerTitle").textContent = safeTitle;
+      $("#videoPlayerMeta").textContent =
+        `${video.author || "Canal não identificado"} · ${formatDuration(video.lengthSeconds)}`;
+
+      $("#videoFrame").src =
+        `${baseUrl}/embed/${encodeURIComponent(id)}?autoplay=0&local=true`;
+
+      $("#videoPlayerArea").classList.remove("hidden");
+      $("#videoPlayerArea").scrollIntoView({ behavior: "smooth", block: "start" });
+    });
   });
-  box.appendChild(form);
-  container.appendChild(box);
 }
-$("newChallenge").addEventListener("click", renderChallenge);
-$("challengeSubject").addEventListener("change", renderChallenge);
 
-/* Música ambiente gerada localmente */
-async function startSound(type) {
-  stopSound();
-  if (type === "stop") return;
-  try {
-    const AudioCtx = window.AudioContext || window.webkitAudioContext;
-    if (!AudioCtx) throw new Error("Este navegador não suporta áudio Web Audio.");
-    audioContext = new AudioCtx();
-    await audioContext.resume();
-
-    if (type === "tone") {
-      const osc = audioContext.createOscillator();
-      const gain = audioContext.createGain();
-      osc.type = "sine";
-      osc.frequency.value = 220;
-      gain.gain.value = 0.025;
-      osc.connect(gain);
-      gain.connect(audioContext.destination);
-      osc.start();
-      audioNodes.push(osc,gain);
-      $("musicStatus").textContent = "A tocar um tom suave gerado no navegador.";
-    } else if (type === "rain") {
-      const length = audioContext.sampleRate * 2;
-      const buffer = audioContext.createBuffer(1,length,audioContext.sampleRate);
-      const channel = buffer.getChannelData(0);
-      for (let i=0;i<length;i++) channel[i] = (Math.random()*2-1)*0.35;
-      noiseSource = audioContext.createBufferSource();
-      noiseSource.buffer = buffer;
-      noiseSource.loop = true;
-      const filter = audioContext.createBiquadFilter();
-      filter.type = "lowpass";
-      filter.frequency.value = 850;
-      const gain = audioContext.createGain();
-      gain.gain.value = 0.09;
-      noiseSource.connect(filter);
-      filter.connect(gain);
-      gain.connect(audioContext.destination);
-      noiseSource.start();
-      audioNodes.push(noiseSource,filter,gain);
-      $("musicStatus").textContent = "A tocar um som ambiente semelhante a chuva.";
-    }
-  } catch (error) {
-    $("musicStatus").textContent = error.message || "Não foi possível iniciar o áudio.";
-  }
-}
-function stopSound() {
-  audioNodes.forEach(node => {
-    try { if (typeof node.stop === "function") node.stop(); } catch {}
-    try { node.disconnect(); } catch {}
-  });
-  audioNodes = [];
-  if (audioContext) {
-    audioContext.close().catch(() => {});
-    audioContext = null;
-  }
-  noiseSource = null;
-  if ($("musicStatus")) $("musicStatus").textContent = "Áudio parado.";
-}
-document.querySelectorAll(".sound-button").forEach(button => {
-  button.addEventListener("click", () => startSound(button.dataset.sound));
-});
-
-/* Perfil e definições */
-function renderProfile() {
-  const name = appData.name || "Aluno";
-  $("welcomeName").textContent = name;
-  $("sidebarName").textContent = name;
-  $("sidebarYear").textContent = appData.year + ".º ano";
-  $("sidebarAvatar").textContent = name.trim().charAt(0).toUpperCase() || "A";
-  $("profileName").value = appData.name;
-  $("profileEmail").value = appData.email;
-  $("profileYear").value = appData.year;
-  $("studyYear").value = appData.year;
-  $("updatesSetting").checked = Boolean(appData.updates);
-}
-$("settingsForm").addEventListener("submit", event => {
+$("#videoSearchForm").addEventListener("submit", async event => {
   event.preventDefault();
-  appData.name = $("profileName").value.trim() || "Aluno";
-  appData.email = $("profileEmail").value.trim();
-  appData.year = $("profileYear").value;
-  appData.updates = $("updatesSetting").checked;
-  saveData();
-  renderProfile();
-  toast("Definições guardadas neste navegador.");
+
+  const query = $("#videoQuery").value.trim();
+  const year = $("#videoYear").value;
+  const subject = $("#videoSubject").value;
+
+  if (!query) {
+    setVideoStatus("Escreve um tema antes de pesquisar.", true);
+    return;
+  }
+
+  if (videoSearchController) videoSearchController.abort();
+  videoSearchController = new AbortController();
+
+  cleanVideoResults();
+  $("#videoSearchBtn").disabled = true;
+  $("#videoSearchBtn").textContent = "A pesquisar…";
+  setVideoStatus("A tentar encontrar vídeos reais. Isto pode demorar alguns segundos.");
+
+  try {
+    const searchTerm = makeSearchTerm(query, subject, year);
+    const result = await fetchVideoResults(searchTerm);
+
+    renderVideoResults(result.videos, result.baseUrl);
+
+    setVideoStatus(
+      result.videos.length
+        ? `Foram encontrados ${result.videos.length} resultados. Seleciona uma miniatura para tentar reproduzir o vídeo aqui.`
+        : "A pesquisa terminou, mas não foram encontrados vídeos para este tema."
+    );
+
+    addActivity("Pesquisa de vídeo", `${subject} · ${query}`);
+  } catch (error) {
+    if (error.name === "AbortError") return;
+
+    setVideoStatus(
+      "Não foi possível obter resultados dos serviços públicos. Pode ser um problema temporário de ligação, CORS ou disponibilidade. Não foram inventados resultados. Tenta novamente mais tarde.",
+      true
+    );
+  } finally {
+    $("#videoSearchBtn").disabled = false;
+    $("#videoSearchBtn").textContent = "🔎 Pesquisar vídeos";
+  }
 });
+
+$("#clearVideosBtn").addEventListener("click", () => {
+  $("#videoQuery").value = "";
+  cleanVideoResults();
+  setVideoStatus("Pesquisa limpa. Escreve um tema para procurar vídeos.");
+});
+
+$("#closeVideoBtn").addEventListener("click", () => {
+  $("#videoFrame").src = "about:blank";
+  $("#videoPlayerArea").classList.add("hidden");
+});
+
+/* ==========================================
+   DESAFIOS INTERATIVOS
+   ========================================== */
+
+const challengeSets = {
+  matematica: [
+    {
+      q: "Quanto é 25% de 80?",
+      answers: ["10", "20", "25", "40"],
+      correct: 1,
+      explanation: "25% é um quarto. 80 ÷ 4 = 20."
+    },
+    {
+      q: "Qual é o resultado de 3² + 4?",
+      answers: ["10", "12", "13", "16"],
+      correct: 2,
+      explanation: "3² = 9. Depois, 9 + 4 = 13."
+    },
+    {
+      q: "Resolve: 2x + 6 = 16.",
+      answers: ["x = 4", "x = 5", "x = 6", "x = 11"],
+      correct: 1,
+      explanation: "Subtrai 6 aos dois membros: 2x = 10. Divide por 2: x = 5."
+    },
+    {
+      q: "Qual é a forma decimal de 3/4?",
+      answers: ["0,25", "0,5", "0,75", "1,25"],
+      correct: 2,
+      explanation: "3 ÷ 4 = 0,75."
+    },
+    {
+      q: "Um artigo custa 50 € e tem 10% de desconto. Qual é o preço final?",
+      answers: ["40 €", "45 €", "48 €", "55 €"],
+      correct: 1,
+      explanation: "10% de 50 € são 5 €. Logo, 50 € − 5 € = 45 €."
+    }
+  ],
+  portugues: [
+    {
+      q: "Na frase «Fiquei em casa porque chovia», que relação exprime «porque chovia»?",
+      answers: ["Causa", "Tempo", "Condição", "Comparação"],
+      correct: 0,
+      explanation: "A oração indica a causa de ter ficado em casa."
+    },
+    {
+      q: "Qual destas palavras é um advérbio?",
+      answers: ["Bonito", "Rapidamente", "Mesa", "Cantar"],
+      correct: 1,
+      explanation: "«Rapidamente» é um advérbio de modo."
+    },
+    {
+      q: "Qual é o sujeito em «Os alunos resolveram o exercício»?",
+      answers: ["Resolveram", "O exercício", "Os alunos", "Exercício"],
+      correct: 2,
+      explanation: "Quem resolveu o exercício? Os alunos."
+    },
+    {
+      q: "Qual é o plural de «cidadão»?",
+      answers: ["Cidadões", "Cidadães", "Cidadãos", "Cidadans"],
+      correct: 2,
+      explanation: "A forma plural mais comum e correta é «cidadãos»."
+    }
+  ],
+  ciencias: [
+    {
+      q: "Qual é o gás que as plantas absorvem na fotossíntese?",
+      answers: ["Oxigénio", "Dióxido de carbono", "Hidrogénio", "Hélio"],
+      correct: 1,
+      explanation: "As plantas utilizam dióxido de carbono, água e energia luminosa para realizar a fotossíntese."
+    },
+    {
+      q: "Qual é a principal função dos pulmões?",
+      answers: ["Bombear sangue", "Filtrar alimentos", "Realizar trocas gasosas", "Produzir bílis"],
+      correct: 2,
+      explanation: "Nos pulmões, o oxigénio passa para o sangue e o dióxido de carbono é eliminado."
+    },
+    {
+      q: "Numa transformação química, o que acontece?",
+      answers: ["Formam-se substâncias novas", "A massa desaparece", "Nada se altera", "A matéria deixa de existir"],
+      correct: 0,
+      explanation: "Numa transformação química formam-se substâncias com propriedades diferentes das iniciais."
+    },
+    {
+      q: "Qual destes é um recurso renovável?",
+      answers: ["Carvão", "Petróleo", "Energia solar", "Gás natural"],
+      correct: 2,
+      explanation: "A energia solar provém do Sol e é considerada uma fonte renovável."
+    }
+  ],
+  geral: [
+    {
+      q: "Qual é a capital de Portugal?",
+      answers: ["Porto", "Coimbra", "Lisboa", "Faro"],
+      correct: 2,
+      explanation: "A capital de Portugal é Lisboa."
+    },
+    {
+      q: "Em que continente fica Portugal?",
+      answers: ["Ásia", "Europa", "África", "América"],
+      correct: 1,
+      explanation: "Portugal fica no sudoeste da Europa."
+    },
+    {
+      q: "Qual é a estrela do Sistema Solar?",
+      answers: ["A Lua", "Sirius", "O Sol", "Marte"],
+      correct: 2,
+      explanation: "O Sol é a estrela no centro do Sistema Solar."
+    },
+    {
+      q: "Quantos minutos tem uma hora e meia?",
+      answers: ["60", "75", "90", "120"],
+      correct: 2,
+      explanation: "Uma hora tem 60 minutos e meia hora tem 30. 60 + 30 = 90."
+    }
+  ]
+};
+
+let activeChallenge = null;
+let challengeIndex = 0;
+let challengeScore = 0;
+let challengeLocked = false;
+
+function startChallenge(category) {
+  activeChallenge = category;
+  challengeIndex = 0;
+  challengeScore = 0;
+  challengeLocked = false;
+
+  $("#challengeTitle").textContent =
+    `Desafio: ${category.charAt(0).toUpperCase() + category.slice(1)}`;
+
+  $("#challengeDescription").textContent =
+    "Escolhe uma resposta. No final, verás o resultado.";
+
+  renderChallengeQuestion();
+  navigateTo("desafios");
+}
+
+$$("[data-challenge]").forEach(button => {
+  button.addEventListener("click", () => startChallenge(button.dataset.challenge));
+});
+
+function renderChallengeQuestion() {
+  const questions = challengeSets[activeChallenge] || [];
+  const area = $("#challengeArea");
+
+  if (challengeIndex >= questions.length) {
+    finishChallenge();
+    return;
+  }
+
+  challengeLocked = false;
+  const question = questions[challengeIndex];
+
+  area.innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap">
+      <span class="pill">Pergunta ${challengeIndex + 1} de ${questions.length}</span>
+      <span class="small-text">Pontos nesta ronda: ${challengeScore}</span>
+    </div>
+    <h3 style="font-size:19px;margin-top:18px">${escapeHTML(question.q)}</h3>
+    <div id="answerOptions" style="display:grid;gap:10px;margin-top:17px">
+      ${question.answers.map((answer, index) => `
+        <button class="btn secondary" style="justify-content:flex-start;text-align:left;white-space:normal"
+          data-answer="${index}">
+          ${String.fromCharCode(65 + index)}. ${escapeHTML(answer)}
+        </button>
+      `).join("")}
+    </div>
+    <div id="answerFeedback" aria-live="polite" style="margin-top:15px"></div>
+    <button class="btn hidden" id="nextQuestionBtn" style="margin-top:14px">
+      ${challengeIndex === questions.length - 1 ? "Ver resultado" : "Próxima pergunta"} →
+    </button>
+  `;
+
+  $$("[data-answer]").forEach(button => {
+    button.addEventListener("click", () => answerChallenge(Number(button.dataset.answer)));
+  });
+}
+
+function answerChallenge(answerIndex) {
+  if (challengeLocked) return;
+  challengeLocked = true;
+
+  const questions = challengeSets[activeChallenge];
+  const question = questions[challengeIndex];
+  const isCorrect = answerIndex === question.correct;
+
+  data.challengeAnswers += 1;
+
+  if (isCorrect) {
+    challengeScore += 10;
+    data.points += 10;
+    data.correctAnswers += 1;
+  }
+
+  saveData();
+
+  $$("[data-answer]").forEach((button, index) => {
+    button.disabled = true;
+
+    if (index === question.correct) {
+      button.style.background = "#f0fdf4";
+      button.style.borderColor = "#86efac";
+      button.style.color = "#166534";
+    } else if (index === answerIndex && !isCorrect) {
+      button.style.background = "#fef2f2";
+      button.style.borderColor = "#fecaca";
+      button.style.color = "#991b1b";
+    }
+  });
+
+  $("#answerFeedback").innerHTML = `
+    <div class="notice ${isCorrect ? "success" : "error"}">
+      <strong>${isCorrect ? "Correto! +10 pontos 🎉" : "Ainda não é desta vez."}</strong>
+      <p style="margin:6px 0 0;color:inherit">${escapeHTML(question.explanation)}</p>
+    </div>
+  `;
+
+  $("#nextQuestionBtn").classList.remove("hidden");
+  renderStats();
+}
+
+$("#challengeArea").addEventListener("click", event => {
+  if (!event.target.closest("#nextQuestionBtn")) return;
+  challengeIndex += 1;
+  renderChallengeQuestion();
+});
+
+function finishChallenge() {
+  const total = (challengeSets[activeChallenge] || []).length;
+  const percent = total ? Math.round(challengeScore / (total * 10) * 100) : 0;
+
+  $("#challengeTitle").textContent = "Desafio concluído!";
+  $("#challengeDescription").textContent = "Continua a praticar para consolidar os teus conhecimentos.";
+
+  $("#challengeArea").innerHTML = `
+    <div style="text-align:center;padding:20px 5px">
+      <div style="font-size:48px">🏆</div>
+      <h2>${percent >= 70 ? "Muito bem!" : "Boa tentativa!"}</h2>
+      <p>Conseguiste ${challengeScore} pontos em ${total * 10} possíveis.</p>
+      <div class="progress-track" style="max-width:380px;margin:18px auto">
+        <div class="progress-fill" style="width:${percent}%"></div>
+      </div>
+      <p>${percent}% de aproveitamento nesta ronda.</p>
+      <button class="btn" id="repeatChallenge">Repetir desafio</button>
+    </div>
+  `;
+
+  addActivity("Desafio concluído", `${activeChallenge} · ${percent}%`);
+  renderStats();
+
+  $("#repeatChallenge").addEventListener("click", () => startChallenge(activeChallenge));
+}
+
+/* ==========================================
+   PROGRESSO E PÁGINA INICIAL
+   ========================================== */
 
 function renderStats() {
-  const exerciseCount = Number(appData.exercises) || 0;
-  const correctCount = Number(appData.correct) || 0;
-  const challengeCount = Number(appData.challenges) || 0;
-  const accuracy = exerciseCount ? Math.round(correctCount / exerciseCount * 100) : 0;
-  $("statExercises").textContent = exerciseCount;
-  $("statChallenges").textContent = challengeCount;
-  $("statProgress").textContent = accuracy + "%";
-  $("progressExercises").textContent = exerciseCount;
-  $("progressChallenges").textContent = challengeCount;
-  $("progressCorrect").textContent = correctCount;
-  $("progressAccuracy").textContent = accuracy + "%";
-}
-function renderActivity() {
-  const container = $("activityList");
-  const home = $("recentActivity");
-  const entries = appData.activity || [];
-  const build = target => {
-    target.replaceChildren();
-    if (!entries.length) {
-      target.className = "empty-state";
-      target.textContent = "Ainda não existe atividade registada.";
-      return;
-    }
-    target.className = "";
-    entries.slice(0,10).forEach(entry => {
-      const row = document.createElement("div");
-      row.style.cssText = "padding:12px 0;border-bottom:1px solid var(--border)";
-      const message = document.createElement("div");
-      message.style.fontWeight = "750";
-      message.textContent = entry.message;
-      const date = document.createElement("div");
-      date.style.cssText = "color:var(--muted);font-size:12px";
-      date.textContent = entry.date;
-      row.append(message,date);
-      target.appendChild(row);
+  $("#statTopics").textContent = data.completed.length;
+  $("#statPoints").textContent = data.points;
+  $("#statMinutes").textContent = data.minutes;
+
+  const uniqueDays = new Set(
+    data.activities.map(item => {
+      const parsed = new Date(item.date);
+      return Number.isNaN(parsed.getTime()) ? item.date : parsed.toDateString();
+    })
+  );
+
+  $("#statDays").textContent = uniqueDays.size;
+  $("#progressTopics").textContent = data.completed.length;
+  $("#progressPoints").textContent = data.points;
+
+  const topicPercent = Math.min(100, data.completed.length * 5);
+  const pointsPercent = Math.min(100, data.points / 5);
+
+  $("#topicProgressBar").style.width = topicPercent + "%";
+  $("#pointsProgressBar").style.width = pointsPercent + "%";
+
+  const name = data.profile.name.trim();
+  $("#welcomeTitle").textContent = name
+    ? `Olá, ${name}! Vamos aprender?`
+    : "Aprende mais. Aprende melhor.";
+
+  $("#avatarButton").textContent = name
+    ? name.charAt(0).toUpperCase()
+    : "J";
+
+  const resume = $("#resumeCard");
+
+  if (data.completed.length) {
+    const latest = data.completed[data.completed.length - 1].split("|");
+
+    resume.innerHTML = `
+      <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+        <div class="subject-icon">📖</div>
+        <div style="flex:1">
+          <h3>Continua o teu percurso</h3>
+          <p style="margin:0">${escapeHTML(latest.slice(1).join(" · "))}</p>
+        </div>
+        <button class="btn secondary" id="resumeStudy">Voltar a Estudar</button>
+      </div>
+    `;
+
+    $("#resumeStudy").addEventListener("click", () => {
+      $("#schoolYear").value = latest[0];
+      renderSubjects();
+      renderUnits(latest[1]);
+      navigateTo("estudar");
     });
-  };
-  if (container) build(container);
-  if (home) build(home);
+  } else {
+    resume.innerHTML = `
+      <div class="empty-state">
+        <div class="big-icon">🌱</div>
+        <strong>O teu percurso começa aqui.</strong>
+        <p>Entra em Estudar e escolhe uma disciplina para começar.</p>
+        <button class="btn" data-goto="estudar">Escolher disciplina</button>
+      </div>
+    `;
+
+    resume.querySelector("[data-goto]").addEventListener("click", () => navigateTo("estudar"));
+  }
+
+  if (data.preferences.tips) {
+    const tip = "Sugestão: estuda durante 25 minutos e faz uma pausa curta.";
+    const hero = $(".hero");
+    if (hero && !$("#studyTip")) {
+      const tipElement = document.createElement("p");
+      tipElement.id = "studyTip";
+      tipElement.className = "small-text";
+      tipElement.textContent = tip;
+      tipElement.style.marginTop = "12px";
+      $("#page-inicio").appendChild(tipElement);
+    }
+  } else {
+    $("#studyTip")?.remove();
+  }
 }
 
-$("exportData").addEventListener("click", () => {
-  const blob = new Blob([JSON.stringify(appData,null,2)],{type:"application/json"});
+function renderProgress() {
+  renderStats();
+
+  const container = $("#activityList");
+
+  if (!data.activities.length) {
+    container.innerHTML = `
+      <div class="empty-state">
+        <div class="big-icon">📊</div>
+        Ainda não há atividades registadas.
+      </div>`;
+    return;
+  }
+
+  container.innerHTML = data.activities.map(activity => `
+    <div style="padding:12px 0;border-bottom:1px solid #f1f5f9">
+      <strong>${escapeHTML(activity.title)}</strong>
+      <div class="small-text">${escapeHTML(activity.detail || "")}</div>
+      <div class="small-text">${escapeHTML(activity.date || "")}</div>
+    </div>
+  `).join("");
+}
+
+$("#clearProgressBtn").addEventListener("click", () => {
+  const confirmed = confirm("Queres mesmo apagar os tópicos concluídos, pontos e atividades?");
+
+  if (!confirmed) return;
+
+  data.completed = [];
+  data.points = 0;
+  data.minutes = 0;
+  data.activities = [];
+  data.challengeAnswers = 0;
+  data.correctAnswers = 0;
+
+  saveData();
+  renderStats();
+  renderProgress();
+  renderSubjects();
+
+  $("#activityList").innerHTML = `
+    <div class="empty-state">
+      <div class="big-icon">📊</div>
+      O progresso foi reiniciado.
+    </div>`;
+
+  showToast("Progresso apagado.");
+});
+
+/* ==========================================
+   PERFIL E PREFERÊNCIAS
+   ========================================== */
+
+function populateProfile() {
+  $("#profileName").value = data.profile.name || "";
+  $("#profileEmail").value = data.profile.email || "";
+  $("#profileYear").value = data.profile.year || "9";
+  $("#schoolYear").value = data.profile.year || "9";
+  $("#schoolCourse").value = data.profile.course || "geral";
+
+  $("#prefTips").checked = !!data.preferences.tips;
+  $("#prefSound").checked = !!data.preferences.sound;
+
+  $("#videoYear").value = data.profile.year || "9";
+}
+
+$("#profileForm").addEventListener("submit", event => {
+  event.preventDefault();
+
+  data.profile.name = $("#profileName").value.trim();
+  data.profile.email = $("#profileEmail").value.trim();
+  data.profile.year = $("#profileYear").value;
+  data.profile.course = $("#schoolCourse").value;
+
+  $("#schoolYear").value = data.profile.year;
+  saveData();
+  renderSubjects();
+  renderStats();
+
+  $("#profileStatus").innerHTML =
+    '<div class="notice success">Definições guardadas neste navegador.</div>';
+});
+
+$("#profileYear").addEventListener("change", () => {
+  $("#schoolYear").value = $("#profileYear").value;
+});
+
+$("#savePreferences").addEventListener("click", () => {
+  data.preferences.tips = $("#prefTips").checked;
+  data.preferences.sound = $("#prefSound").checked;
+
+  saveData();
+  renderStats();
+
+  $("#preferencesStatus").textContent = "Preferências guardadas.";
+});
+
+$("#exportDataBtn").addEventListener("click", () => {
+  const blob = new Blob(
+    [JSON.stringify(data, null, 2)],
+    { type: "application/json;charset=utf-8" }
+  );
+
   const url = URL.createObjectURL(blob);
   const link = document.createElement("a");
+
   link.href = url;
   link.download = "study-ai-dados.json";
+  document.body.appendChild(link);
   link.click();
-  URL.revokeObjectURL(url);
-  toast("Foi preparado o ficheiro dos teus dados.");
+  link.remove();
+
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  showToast("Exportação preparada.");
 });
 
-$("clearData").addEventListener("click", () => {
-  if (!confirm("Queres mesmo apagar o perfil, o progresso e a atividade guardados neste navegador?")) return;
-  stopSound();
-  localStorage.removeItem(STORAGE_KEY);
-  appData = { ...defaultData };
-  renderProfile();
+/* ==========================================
+   SONS AMBIENTES GERADOS NO NAVEGADOR
+   ========================================== */
+
+let audioContext = null;
+let audioNodes = [];
+let masterGain = null;
+let activeSound = "rain";
+let soundPlaying = false;
+
+function stopAmbientSound() {
+  soundPlaying = false;
+
+  audioNodes.forEach(node => {
+    try {
+      if (node.stop) node.stop();
+      if (node.disconnect) node.disconnect();
+    } catch {}
+  });
+
+  audioNodes = [];
+
+  if (masterGain) {
+    try { masterGain.disconnect(); } catch {}
+    masterGain = null;
+  }
+
+  $("#soundToggle").textContent = "▶ Iniciar som ambiente";
+}
+
+function startAmbientSound(type = activeSound) {
+  if (!data.preferences.sound) {
+    showToast("Ativa a opção de sons nas Definições primeiro.");
+    return;
+  }
+
+  stopAmbientSound();
+
+  const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+
+  if (!AudioContextClass) {
+    showToast("Este navegador não suporta a reprodução de som gerado.");
+    return;
+  }
+
+  try {
+    audioContext = audioContext || new AudioContextClass();
+
+    if (audioContext.state === "suspended") {
+      audioContext.resume();
+    }
+
+    masterGain = audioContext.createGain();
+    masterGain.gain.value = Number($("#soundVolume").value) / 100;
+    masterGain.connect(audioContext.destination);
+
+    if (type === "tone") {
+      const oscillator = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+
+      oscillator.type = "sine";
+      oscillator.frequency.value = 220;
+      gain.gain.value = 0.12;
+
+      oscillator.connect(gain);
+      gain.connect(masterGain);
+      oscillator.start();
+
+      audioNodes.push(oscillator, gain);
+    } else {
+      const bufferSize = audioContext.sampleRate * 2;
+      const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
+      const channel = buffer.getChannelData(0);
+
+      for (let i = 0; i < bufferSize; i++) {
+        channel[i] = Math.random() * 2 - 1;
+      }
+
+      const source = audioContext.createBufferSource();
+      const filter = audioContext.createBiquadFilter();
+      const gain = audioContext.createGain();
+
+      source.buffer = buffer;
+      source.loop = true;
+      filter.type = type === "rain" ? "lowpass" : "bandpass";
+      filter.frequency.value = type === "rain" ? 1300 : 850;
+      filter.Q.value = 0.4;
+      gain.gain.value = type === "rain" ? 0.3 : 0.12;
+
+      source.connect(filter);
+      filter.connect(gain);
+      gain.connect(masterGain);
+      source.start();
+
+      audioNodes.push(source, filter, gain);
+    }
+
+    activeSound = type;
+    soundPlaying = true;
+    $("#soundToggle").textContent = "⏸ Parar som ambiente";
+
+    addActivity("Sessão de concentração", type);
+  } catch {
+    stopAmbientSound();
+    showToast("Não foi possível iniciar o som neste navegador.");
+  }
+}
+
+$("#soundToggle").addEventListener("click", () => {
+  if (soundPlaying) {
+    stopAmbientSound();
+  } else {
+    startAmbientSound(activeSound);
+  }
+});
+
+$$(".sound-preset").forEach(button => {
+  button.addEventListener("click", () => {
+    startAmbientSound(button.dataset.sound);
+  });
+});
+
+$("#soundVolume").addEventListener("input", () => {
+  if (masterGain && audioContext) {
+    masterGain.gain.setTargetAtTime(
+      Number($("#soundVolume").value) / 100,
+      audioContext.currentTime,
+      0.04
+    );
+  }
+});
+
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden && soundPlaying) {
+    stopAmbientSound();
+  }
+});
+
+/* ==========================================
+   INICIALIZAÇÃO
+   ========================================== */
+
+function initializeApp() {
+  populateProfile();
+  renderSubjects();
   renderStats();
-  renderActivity();
-  toast("Os dados locais da Study AI foram apagados.");
-});
+  renderProgress();
 
-/* Inicialização */
-renderSubjectCards("homeSubjects");
-renderSubjectCards("allSubjects");
-initChallenges();
-renderProfile();
-renderStats();
-renderActivity();
-renderChallenge();
-showPage("inicio");
+  if (Number($("#schoolYear").value) >= 10) {
+    $("#courseField").classList.remove("hidden");
+  }
+
+  $("#schoolYear").addEventListener("change", () => {
+    const year = Number($("#schoolYear").value);
+    $("#courseField").classList.toggle("hidden", year < 10);
+  });
+
+  // Não iniciar áudio automaticamente.
+  // O utilizador decide quando quer ouvir sons.
+}
+
+initializeApp();
 </script>
 </body>
 </html>
-
